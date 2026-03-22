@@ -135,7 +135,7 @@
     const BANNER_H = 364;
     const tmp = new Image();
     tmp.onload = function () {
-      const tileW = Math.round(this.naturalWidth * (BANNER_H / this.naturalHeight));
+      const tileW = Math.ceil(this.naturalWidth * (BANNER_H / this.naturalHeight));
       const style = document.createElement('style');
       style.textContent = `
         @keyframes banner-scroll {
