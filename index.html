@@ -177,7 +177,7 @@
         if (inGap > 0) gapAdjust = leading + trailing - inGap;
       } catch(e) {}
 
-      const tileW = Math.ceil(W * (BANNER_H / H)) - gapAdjust;
+      const tileW = Math.ceil((W - gapAdjust) * (BANNER_H / H));
       const style = document.createElement('style');
       style.textContent = `
         @keyframes banner-scroll {
