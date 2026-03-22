@@ -164,16 +164,25 @@ html, body {
 .social-block:hover .social-handle { color: var(--text-bright); }
 
 /* ── Infinite Banner ────────────────────────────────── */
-/* JS calculates tile width and injects @keyframes banner-scroll */
 .banner-wrapper {
   width: 100%;
-  height: 364px;        /* 20% smaller than 455px */
+  height: 364px;
   flex-shrink: 0;
   overflow: hidden;
-  background-image: url('banner.png');
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  background-position: 0 0;
+  position: relative;
+}
+.banner-track {
+  display: flex;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.banner-track img {
+  height: 100%;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
 }
 
 /* ── CREDITS ────────────────────────────────────────── */

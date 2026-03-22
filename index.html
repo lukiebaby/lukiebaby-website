@@ -48,12 +48,22 @@
         </a>
       </div>
 
-      <div class="banner-wrapper"></div>
+      <div class="banner-wrapper">
+        <div class="banner-track">
+          <img src="banner.png" alt="">
+          <img src="banner.png" alt="">
+        </div>
+      </div>
     </section>
 
     <!-- SECTION 1: CREDITS -->
     <section class="section" id="credits">
-      <div class="banner-wrapper credits-banner"></div>
+      <div class="banner-wrapper credits-banner">
+        <div class="banner-track">
+          <img src="banner.png" alt="">
+          <img src="banner.png" alt="">
+        </div>
+      </div>
       <h2 class="section-title credits-title">CREDITS</h2>
       <div class="title-rule"></div>
       <div class="credits-list">
@@ -132,20 +142,25 @@
 
   <script>
     // ── Seamless Banner ───────────────────────────────
-    const BANNER_H = 364;
-    const tmp = new Image();
-    tmp.onload = function () {
-      const img = this;
-      const W = img.naturalWidth, H = img.naturalHeight;
+    (async function initBanner() {
+      const BANNER_H = 364;
 
-      // Measure column variance: high = content, low = separator/gap
-      let gapAdjust = 0;
-      try {
+      // Load image to get dimensions
+      const img = new Image();
+      await new Promise(resolve => { img.onload = resolve; img.onerror = resolve; img.src = 'banner.png'; });
+      if (!img.naturalWidth) return;
+
+      const W = img.naturalWidth, H = img.naturalHeight;
+      const scale = BANNER_H / H;
+      const imgW = Math.round(W * scale);
+
+      // Analyze pixel columns: high variance = content, low = gap
+      function analyzeGaps(sourceImg) {
         const c = document.createElement('canvas');
         c.width = W; c.height = H;
         const ctx = c.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        const d = ctx.getImageData(0, 0, W, H).data;
+        ctx.drawImage(sourceImg, 0, 0);
+        const d = ctx.getImageData(0, 0, W, H).data; // throws if canvas tainted
 
         function colVar(x) {
           let s = 0, p = [d[x*4], d[x*4+1], d[x*4+2]];
@@ -157,41 +172,61 @@
           return s / H;
         }
 
-        // Leading gap: low-variance columns at left edge
         let leading = 0;
-        for (let x = 0; x < 100; x++) { if (colVar(x) > 8) { leading = x; break; } }
+        for (let x = 0; x < 300; x++) { if (colVar(x) > 8) { leading = x; break; } }
 
-        // Trailing gap: low-variance columns at right edge
         let trailing = 0;
-        for (let x = W-1; x > W-300; x--) { if (colVar(x) > 8) { trailing = W-1-x; break; } }
+        for (let x = W-1; x > W-500; x--) { if (colVar(x) > 8) { trailing = W-1-x; break; } }
 
-        // First internal separator width
         let inGap = 0, inContent = false, sepStart = -1;
-        for (let x = 0; x < 800; x++) {
+        for (let x = 0; x < W; x++) {
           const v = colVar(x);
           if (v > 8 && !inContent) inContent = true;
           if (v < 5 && inContent && sepStart < 0) sepStart = x;
           if (v > 8 && sepStart >= 0) { inGap = x - sepStart; break; }
         }
+        return { leading, trailing, inGap };
+      }
 
-        if (inGap > 0) gapAdjust = leading + trailing - inGap;
-      } catch(e) {}
+      let seamOverlap = 0;
 
-      const tileW = Math.ceil((W - gapAdjust) * (BANNER_H / H));
+      // Try direct canvas (works on same-origin HTTP / Vercel)
+      try {
+        const { leading, trailing, inGap } = analyzeGaps(img);
+        if (inGap > 0 && (leading + trailing) > inGap)
+          seamOverlap = Math.round((leading + trailing - inGap) * scale);
+      } catch(e) {
+        // Canvas tainted (local file://) — try via blob URL
+        try {
+          const resp = await fetch('banner.png');
+          const blobURL = URL.createObjectURL(await resp.blob());
+          const blobImg = await new Promise((res, rej) => {
+            const bi = new Image(); bi.onload = () => res(bi); bi.onerror = rej; bi.src = blobURL;
+          });
+          const { leading, trailing, inGap } = analyzeGaps(blobImg);
+          URL.revokeObjectURL(blobURL);
+          if (inGap > 0 && (leading + trailing) > inGap)
+            seamOverlap = Math.round((leading + trailing - inGap) * scale);
+        } catch(e2) { /* no fix applied */ }
+      }
+
+      // Apply negative margin to second img in every track to close the seam
+      document.querySelectorAll('.banner-track img:last-child').forEach(el => {
+        el.style.marginLeft = `-${seamOverlap}px`;
+      });
+
+      // Animate: scroll one full image-width minus the overlap
+      const animDist = imgW - seamOverlap;
       const style = document.createElement('style');
       style.textContent = `
         @keyframes banner-scroll {
-          from { background-position-x: 0px; }
-          to   { background-position-x: -${tileW}px; }
+          from { transform: translateX(0px); }
+          to   { transform: translateX(-${animDist}px); }
         }
-        .banner-wrapper {
-          animation: banner-scroll 30s linear infinite;
-          background-size: ${tileW}px 100%;
-        }
+        .banner-track { animation: banner-scroll 30s linear infinite; }
       `;
       document.head.appendChild(style);
-    };
-    tmp.src = 'banner.png';
+    })();
 
     // ── Section Scroll ────────────────────────────────
     const container = document.getElementById('scroll-container');
