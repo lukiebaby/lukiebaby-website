@@ -102,11 +102,11 @@ html, body {
   align-items: center;
   justify-content: center;
   padding-top: 3rem;
-  gap: .3rem;
+  gap: .6rem;
 }
 
 .home-title {
-  font-size: clamp(4rem, 11vw, 11.5rem);
+  font-size: clamp(5rem, 14vw, 14rem);
   letter-spacing: .08em;
   color: var(--text-title);
   text-transform: uppercase;
@@ -114,7 +114,7 @@ html, body {
 }
 
 .home-role {
-  font-size: clamp(1.3rem, 3.4vw, 3.4rem);
+  font-size: clamp(1.6rem, 4.2vw, 4.2rem);
   letter-spacing: .28em;
   color: var(--text-body);
   text-transform: uppercase;
@@ -123,7 +123,7 @@ html, body {
 .home-socials {
   display: flex;
   justify-content: space-between;
-  padding: 0 4rem 1.4rem;
+  padding: 0 4rem 1.8rem;
 }
 
 .social-block {
@@ -137,13 +137,13 @@ html, body {
 .social-block.right { text-align: right; }
 
 .social-platform {
-  font-size: clamp(.9rem, 2vw, 1.7rem);
+  font-size: clamp(1.1rem, 2.5vw, 2.2rem);
   letter-spacing: .22em;
   color: var(--text-body);
   text-transform: uppercase;
 }
 .social-handle {
-  font-size: clamp(1.1rem, 2.8vw, 2.6rem);
+  font-size: clamp(1.4rem, 3.5vw, 3.2rem);
   letter-spacing: .1em;
   color: var(--text-body);
   text-transform: uppercase;
@@ -153,7 +153,7 @@ html, body {
 /* JS calculates tile width and injects @keyframes banner-scroll */
 .banner-wrapper {
   width: 100%;
-  height: 325px;        /* 25% larger than 260px */
+  height: 455px;        /* 40% larger than 325px */
   flex-shrink: 0;
   overflow: hidden;
   background-image: url('banner.png');
@@ -164,20 +164,29 @@ html, body {
 }
 
 /* ── CREDITS ────────────────────────────────────────── */
-#credits .section-title { padding-top: 4rem; }
+.credits-banner {
+  height: 455px;
+}
 
-.credits-spacer { flex: 1; }
+.credits-title {
+  padding-top: 1.5rem;
+}
 
-.credits-footer {
-  padding: 2rem 2rem 3.5rem;
-  text-align: center;
+.credits-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem 2.5rem;
+  gap: .8rem;
 }
 .credits-line {
-  font-size: clamp(1.1rem, 2.8vw, 2.5rem);
-  letter-spacing: .2em;
+  font-size: clamp(1.4rem, 3.2vw, 3rem);
+  letter-spacing: .22em;
   color: var(--text-body);
   text-transform: uppercase;
-  line-height: 2;
+  line-height: 1.8;
 }
 
 /* ── BEATS ──────────────────────────────────────────── */

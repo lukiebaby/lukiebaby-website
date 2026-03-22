@@ -55,9 +55,9 @@
 
     <!-- SECTION 1: CREDITS -->
     <section class="section" id="credits">
-      <h2 class="section-title">CREDITS</h2>
-      <div class="credits-spacer"></div>
-      <div class="credits-footer">
+      <div class="banner-wrapper credits-banner"></div>
+      <h2 class="section-title credits-title">CREDITS</h2>
+      <div class="credits-list">
         <p class="credits-line">RXKNEPHEW &nbsp;&nbsp;&nbsp; NATENUMBAEIGHT &nbsp;&nbsp;&nbsp; RETCH</p>
         <p class="credits-line">KENNYSSR &nbsp;&nbsp;&nbsp; DANNY G BEATS &nbsp;&nbsp;&nbsp; GEEOHHS</p>
         <p class="credits-line">THE LJ &nbsp;&nbsp;&nbsp; 'PNNY &nbsp;&nbsp;&nbsp; &amp; MANY MORE...</p>
@@ -92,7 +92,7 @@
     // Measures the image's natural dimensions, calculates the exact
     // tile width at the displayed height, then injects a pixel-perfect
     // @keyframes so background-repeat:repeat-x loops without any gap.
-    const BANNER_H = 325;
+    const BANNER_H = 455;
     const tmp = new Image();
     tmp.onload = function () {
       const tileW = Math.round(this.naturalWidth * (BANNER_H / this.naturalHeight));
