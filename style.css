@@ -91,7 +91,7 @@ html, body {
   font-family: inherit;
 }
 .nav-link:hover  { color: var(--text-bright); }
-.nav-link.active { color: var(--text-active); }
+.nav-link.active { color: var(--text-title); }
 
 /* ── HOME ──────────────────────────────────────────── */
 #home .home-main {
@@ -191,7 +191,7 @@ html, body {
   align-items: center;
   justify-content: flex-start;
   padding: .5rem 2rem .5rem;
-  gap: .2rem;
+  gap: .4rem;
 }
 .credits-line {
   font-size: clamp(1.8rem, 4vw, 3.8rem);
@@ -251,8 +251,8 @@ html, body {
   text-transform: uppercase;
 }
 .mixing-note {
-  font-size: clamp(.9rem, 2.2vw, 1.9rem);
-  letter-spacing: .07em;
+  font-size: clamp(1.2rem, 3.2vw, 3rem);
+  letter-spacing: .18em;
   color: var(--text-title);
   text-transform: uppercase;
   margin-top: .2rem;
