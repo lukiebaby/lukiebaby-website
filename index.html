@@ -27,20 +27,19 @@
     <section class="section" id="home">
       <div class="home-main">
         <h1 class="home-title">LUKIEBABY</h1>
+        <div class="title-rule"></div>
         <p class="home-role">TRACKING ENGINEER</p>
         <p class="home-role">MIX ENGINEER</p>
         <p class="home-role">PRODUCER</p>
       </div>
 
-      <div class="home-socials">
-        <!-- Instagram link -->
+      <div class="page-socials">
         <a class="social-block"
            href="https://www.instagram.com/lukiebabybeats/"
            target="_blank" rel="noopener noreferrer">
           <span class="social-platform">INSTAGRAM</span>
           <span class="social-handle">@LUKIEBABYBEATS</span>
         </a>
-        <!-- X / Twitter link -->
         <a class="social-block right"
            href="https://x.com/LukieMane"
            target="_blank" rel="noopener noreferrer">
@@ -49,7 +48,6 @@
         </a>
       </div>
 
-      <!-- Banner: background-image approach for seamless loop (no gaps) -->
       <div class="banner-wrapper"></div>
     </section>
 
@@ -57,18 +55,48 @@
     <section class="section" id="credits">
       <div class="banner-wrapper credits-banner"></div>
       <h2 class="section-title credits-title">CREDITS</h2>
+      <div class="title-rule"></div>
       <div class="credits-list">
         <p class="credits-line">RXKNEPHEW &nbsp;&nbsp;&nbsp; NATENUMBAEIGHT &nbsp;&nbsp;&nbsp; RETCH</p>
         <p class="credits-line">KENNYSSR &nbsp;&nbsp;&nbsp; DANNY G BEATS &nbsp;&nbsp;&nbsp; GEEOHHS</p>
         <p class="credits-line">THE LJ &nbsp;&nbsp;&nbsp; 'PNNY &nbsp;&nbsp;&nbsp; &amp; MANY MORE...</p>
+      </div>
+      <div class="page-socials">
+        <a class="social-block"
+           href="https://www.instagram.com/lukiebabybeats/"
+           target="_blank" rel="noopener noreferrer">
+          <span class="social-platform">INSTAGRAM</span>
+          <span class="social-handle">@LUKIEBABYBEATS</span>
+        </a>
+        <a class="social-block right"
+           href="https://x.com/LukieMane"
+           target="_blank" rel="noopener noreferrer">
+          <span class="social-platform">X.COM</span>
+          <span class="social-handle">@LUKIEMANE</span>
+        </a>
       </div>
     </section>
 
     <!-- SECTION 2: BEATS -->
     <section class="section" id="beats">
       <h2 class="section-title">BEATS</h2>
+      <div class="title-rule"></div>
       <div class="beats-body">
         <p class="beats-placeholder">COMING SOON</p>
+      </div>
+      <div class="page-socials">
+        <a class="social-block"
+           href="https://www.instagram.com/lukiebabybeats/"
+           target="_blank" rel="noopener noreferrer">
+          <span class="social-platform">INSTAGRAM</span>
+          <span class="social-handle">@LUKIEBABYBEATS</span>
+        </a>
+        <a class="social-block right"
+           href="https://x.com/LukieMane"
+           target="_blank" rel="noopener noreferrer">
+          <span class="social-platform">X.COM</span>
+          <span class="social-handle">@LUKIEMANE</span>
+        </a>
       </div>
     </section>
 
@@ -76,6 +104,7 @@
     <section class="section" id="mixing">
       <div class="mixing-body">
         <h2 class="mixing-title">MIXING &amp;<br>SERVICES</h2>
+        <div class="title-rule"></div>
         <p class="mixing-email">LUKIEBABY@CAVERECORDINGSTUDIOS.COM</p>
         <p class="mixing-price">$75 MIX &amp; MASTER</p>
         <p class="mixing-price">$50 LEASES</p>
@@ -83,16 +112,27 @@
         <p class="mixing-price">$40/HOUR REMOTE SESSIONS</p>
         <p class="mixing-note">*EMAIL FOR MIXING BUNDLES &amp; CUSTOM BEATS</p>
       </div>
+      <div class="page-socials">
+        <a class="social-block"
+           href="https://www.instagram.com/lukiebabybeats/"
+           target="_blank" rel="noopener noreferrer">
+          <span class="social-platform">INSTAGRAM</span>
+          <span class="social-handle">@LUKIEBABYBEATS</span>
+        </a>
+        <a class="social-block right"
+           href="https://x.com/LukieMane"
+           target="_blank" rel="noopener noreferrer">
+          <span class="social-platform">X.COM</span>
+          <span class="social-handle">@LUKIEMANE</span>
+        </a>
+      </div>
     </section>
 
   </div>
 
   <script>
     // ── Seamless Banner ───────────────────────────────
-    // Measures the image's natural dimensions, calculates the exact
-    // tile width at the displayed height, then injects a pixel-perfect
-    // @keyframes so background-repeat:repeat-x loops without any gap.
-    const BANNER_H = 455;
+    const BANNER_H = 364;
     const tmp = new Image();
     tmp.onload = function () {
       const tileW = Math.round(this.naturalWidth * (BANNER_H / this.naturalHeight));
@@ -115,7 +155,7 @@
 
     let current   = 0;
     let scrolling = false;
-    const DURATION = 950; // ms — raise to slow down further
+    const DURATION = 950;
 
     function ease(t) {
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
