@@ -143,9 +143,7 @@ html, body {
   flex-direction: column;
   gap: .15rem;
   text-decoration: none;
-  transition: opacity .2s;
 }
-.social-block:hover { opacity: .75; }
 .social-block.right { text-align: right; }
 
 .social-platform {
@@ -153,13 +151,17 @@ html, body {
   letter-spacing: .22em;
   color: var(--text-body);
   text-transform: uppercase;
+  transition: color .25s;
 }
 .social-handle {
   font-size: clamp(2rem, 5vw, 4.6rem);
   letter-spacing: .1em;
   color: var(--text-body);
   text-transform: uppercase;
+  transition: color .25s;
 }
+.social-block:hover .social-platform,
+.social-block:hover .social-handle { color: var(--text-bright); }
 
 /* ── Infinite Banner ────────────────────────────────── */
 /* JS calculates tile width and injects @keyframes banner-scroll */
@@ -189,9 +191,8 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   padding: .5rem 2rem .5rem;
-  gap: .4rem;
 }
 .credits-line {
   font-size: clamp(1.8rem, 4vw, 3.8rem);
