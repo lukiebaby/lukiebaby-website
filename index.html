@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUKIEBABY</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Fixed Navigation ── -->
+  <nav id="nav">
+    <a class="nav-logo" onclick="goTo(0)">LUKIEBABY</a>
+    <div class="nav-links">
+      <button class="nav-link" onclick="goTo(1)">CREDITS</button>
+      <span class="nav-sep">|</span>
+      <button class="nav-link" onclick="goTo(2)">BEATS</button>
+      <span class="nav-sep">|</span>
+      <button class="nav-link" onclick="goTo(3)">MIXING &amp; SERVICES</button>
+    </div>
+  </nav>
+
+  <!-- ── Scroll Container ── -->
+  <div id="scroll-container">
+
+    <!-- SECTION 0: HOME -->
+    <section class="section" id="home">
+      <div class="home-main">
+        <h1 class="home-title">LUKIEBABY</h1>
+        <p class="home-role">TRACKING ENGINEER</p>
+        <p class="home-role">MIX ENGINEER</p>
+        <p class="home-role">PRODUCER</p>
+      </div>
+
+      <div class="home-socials">
+        <!-- Instagram link -->
+        <a class="social-block"
+           href="https://www.instagram.com/lukiebabybeats/"
+           target="_blank" rel="noopener noreferrer">
+          <span class="social-platform">INSTAGRAM</span>
+          <span class="social-handle">@LUKIEBABYBEATS</span>
+        </a>
+        <!-- X / Twitter link -->
+        <a class="social-block right"
+           href="https://x.com/LukieMane"
+           target="_blank" rel="noopener noreferrer">
+          <span class="social-platform">X.COM</span>
+          <span class="social-handle">@LUKIEMANE</span>
+        </a>
+      </div>
+
+      <!-- Banner: background-image approach for seamless loop (no gaps) -->
+      <div class="banner-wrapper"></div>
+    </section>
+
+    <!-- SECTION 1: CREDITS -->
+    <section class="section" id="credits">
+      <h2 class="section-title">CREDITS</h2>
+      <div class="credits-spacer"></div>
+      <div class="credits-footer">
+        <p class="credits-line">RXKNEPHEW &nbsp;&nbsp;&nbsp; NATENUMBAEIGHT &nbsp;&nbsp;&nbsp; RETCH</p>
+        <p class="credits-line">KENNYSSR &nbsp;&nbsp;&nbsp; DANNY G BEATS &nbsp;&nbsp;&nbsp; GEEOHHS</p>
+        <p class="credits-line">THE LJ &nbsp;&nbsp;&nbsp; 'PNNY &nbsp;&nbsp;&nbsp; &amp; MANY MORE...</p>
+      </div>
+    </section>
+
+    <!-- SECTION 2: BEATS -->
+    <section class="section" id="beats">
+      <h2 class="section-title">BEATS</h2>
+      <div class="beats-body">
+        <p class="beats-placeholder">COMING SOON</p>
+      </div>
+    </section>
+
+    <!-- SECTION 3: MIXING & SERVICES -->
+    <section class="section" id="mixing">
+      <div class="mixing-body">
+        <h2 class="mixing-title">MIXING &amp;<br>SERVICES</h2>
+        <p class="mixing-email">LUKIEBABY@CAVERECORDINGSTUDIOS.COM</p>
+        <p class="mixing-price">$75 MIX &amp; MASTER</p>
+        <p class="mixing-price">$50 LEASES</p>
+        <p class="mixing-price">$40 SONG RESTORATION</p>
+        <p class="mixing-price">$40/HOUR REMOTE SESSIONS</p>
+        <p class="mixing-note">*EMAIL FOR MIXING BUNDLES &amp; CUSTOM BEATS</p>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // ── Seamless Banner ───────────────────────────────
+    // Measures the image's natural dimensions, calculates the exact
+    // tile width at the displayed height, then injects a pixel-perfect
+    // @keyframes so background-repeat:repeat-x loops without any gap.
+    const BANNER_H = 325;
+    const tmp = new Image();
+    tmp.onload = function () {
+      const tileW = Math.round(this.naturalWidth * (BANNER_H / this.naturalHeight));
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes banner-scroll {
+          from { background-position-x: 0px; }
+          to   { background-position-x: -${tileW}px; }
+        }
+        .banner-wrapper { animation: banner-scroll 30s linear infinite; }
+      `;
+      document.head.appendChild(style);
+    };
+    tmp.src = 'banner.png';
+
+    // ── Section Scroll ────────────────────────────────
+    const container = document.getElementById('scroll-container');
+    const sections  = Array.from(document.querySelectorAll('.section'));
+    const navLinks  = Array.from(document.querySelectorAll('.nav-link'));
+
+    let current   = 0;
+    let scrolling = false;
+    const DURATION = 950; // ms — raise to slow down further
+
+    function ease(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function goTo(index) {
+      if (index < 0 || index >= sections.length || scrolling) return;
+      scrolling = true;
+      current   = index;
+
+      const startY = container.scrollTop;
+      const endY   = index * container.clientHeight;
+      const diff   = endY - startY;
+      let   start  = null;
+
+      function step(ts) {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / DURATION, 1);
+        container.scrollTop = startY + diff * ease(progress);
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          scrolling = false;
+        }
+      }
+      requestAnimationFrame(step);
+
+      navLinks.forEach((link, i) => link.classList.toggle('active', i === index - 1));
+    }
+
+    // Mouse wheel
+    container.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      if (scrolling) return;
+      goTo(e.deltaY > 0 ? current + 1 : current - 1);
+    }, { passive: false });
+
+    // Touch swipe
+    let touchY = 0;
+    container.addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+    container.addEventListener('touchend',   (e) => {
+      const delta = touchY - e.changedTouches[0].clientY;
+      if (Math.abs(delta) > 50) goTo(delta > 0 ? current + 1 : current - 1);
+    }, { passive: true });
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') goTo(current + 1);
+      if (e.key === 'ArrowUp'   || e.key === 'PageUp'  ) goTo(current - 1);
+    });
+  </script>
+
+</body>
+</html>
