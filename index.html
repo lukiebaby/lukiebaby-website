@@ -136,17 +136,15 @@
     const tmp = new Image();
     tmp.onload = function () {
       const tileW = Math.ceil(this.naturalWidth * (BANNER_H / this.naturalHeight));
-      const GAP = 1; // ~0.015cm at 96dpi
-      const step = tileW + GAP;
       const style = document.createElement('style');
       style.textContent = `
         @keyframes banner-scroll {
           from { background-position-x: 0px; }
-          to   { background-position-x: -${step}px; }
+          to   { background-position-x: -${tileW}px; }
         }
         .banner-wrapper {
           animation: banner-scroll 30s linear infinite;
-          background-size: ${step}px 100%;
+          background-size: ${tileW}px 100%;
         }
       `;
       document.head.appendChild(style);
