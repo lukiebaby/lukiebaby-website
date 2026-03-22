@@ -135,7 +135,49 @@
     const BANNER_H = 364;
     const tmp = new Image();
     tmp.onload = function () {
-      const tileW = Math.ceil(this.naturalWidth * (BANNER_H / this.naturalHeight));
+      const img = this;
+      const W = img.naturalWidth, H = img.naturalHeight;
+
+      // Measure column variance: high = content, low = separator/gap
+      let gapAdjust = 0;
+      try {
+        const c = document.createElement('canvas');
+        c.width = W; c.height = H;
+        const ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const d = ctx.getImageData(0, 0, W, H).data;
+
+        function colVar(x) {
+          let s = 0, p = [d[x*4], d[x*4+1], d[x*4+2]];
+          for (let y = 1; y < H; y++) {
+            const i = (y*W+x)*4;
+            s += Math.abs(d[i]-p[0]) + Math.abs(d[i+1]-p[1]) + Math.abs(d[i+2]-p[2]);
+            p = [d[i], d[i+1], d[i+2]];
+          }
+          return s / H;
+        }
+
+        // Leading gap: low-variance columns at left edge
+        let leading = 0;
+        for (let x = 0; x < 100; x++) { if (colVar(x) > 8) { leading = x; break; } }
+
+        // Trailing gap: low-variance columns at right edge
+        let trailing = 0;
+        for (let x = W-1; x > W-300; x--) { if (colVar(x) > 8) { trailing = W-1-x; break; } }
+
+        // First internal separator width
+        let inGap = 0, inContent = false, sepStart = -1;
+        for (let x = 0; x < 800; x++) {
+          const v = colVar(x);
+          if (v > 8 && !inContent) inContent = true;
+          if (v < 5 && inContent && sepStart < 0) sepStart = x;
+          if (v > 8 && sepStart >= 0) { inGap = x - sepStart; break; }
+        }
+
+        if (inGap > 0) gapAdjust = leading + trailing - inGap;
+      } catch(e) {}
+
+      const tileW = Math.ceil(W * (BANNER_H / H)) - gapAdjust;
       const style = document.createElement('style');
       style.textContent = `
         @keyframes banner-scroll {
