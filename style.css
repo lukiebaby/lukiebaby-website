@@ -1,0 +1,248 @@
+/* ── Fonts ───────────────────────────────────────────── */
+@font-face {
+  font-family: 'ChunkFive Roman';
+  src: url('ChunkFive-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Reset & base ────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #79CE88;
+  --text-body:   #c2e1c2;   /* all non-title text */
+  --text-title:  #80ab82;   /* page title headings */
+  --text-active: #e8f5e8;   /* active nav tab */
+  --text-bright: #f5fdf5;   /* hover */
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  /* ChunkFive first (locally installed), Anton as web fallback */
+  font-family: 'ChunkFive Roman', serif;
+  color: var(--text-body);
+}
+
+/* ── Scroll container — JS controls scrollTop ───────── */
+#scroll-container {
+  height: 100vh;
+  overflow: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+#scroll-container::-webkit-scrollbar { display: none; }
+
+/* ── Sections ───────────────────────────────────────── */
+.section {
+  height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Fixed Navigation ───────────────────────────────── */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 1.7rem;
+  pointer-events: none;
+}
+#nav > * { pointer-events: all; }
+
+.nav-logo {
+  font-size: .7rem;
+  letter-spacing: .2em;
+  color: var(--text-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .25s;
+}
+.nav-logo:hover { color: var(--text-bright); }
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-sep {
+  font-size: .6rem;
+  color: var(--text-body);
+  opacity: .45;
+  user-select: none;
+}
+
+.nav-link {
+  font-size: .65rem;
+  letter-spacing: .18em;
+  color: var(--text-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .3s;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+.nav-link:hover  { color: var(--text-bright); }
+.nav-link.active { color: var(--text-active); }
+
+/* ── HOME ──────────────────────────────────────────── */
+#home .home-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 3rem;
+  gap: .3rem;
+}
+
+.home-title {
+  font-size: clamp(4rem, 11vw, 11.5rem);
+  letter-spacing: .08em;
+  color: var(--text-title);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.home-role {
+  font-size: clamp(1.3rem, 3.4vw, 3.4rem);
+  letter-spacing: .28em;
+  color: var(--text-body);
+  text-transform: uppercase;
+}
+
+.home-socials {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4rem 1.4rem;
+}
+
+.social-block {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+  text-decoration: none;
+  transition: opacity .2s;
+}
+.social-block:hover { opacity: .75; }
+.social-block.right { text-align: right; }
+
+.social-platform {
+  font-size: clamp(.9rem, 2vw, 1.7rem);
+  letter-spacing: .22em;
+  color: var(--text-body);
+  text-transform: uppercase;
+}
+.social-handle {
+  font-size: clamp(1.1rem, 2.8vw, 2.6rem);
+  letter-spacing: .1em;
+  color: var(--text-body);
+  text-transform: uppercase;
+}
+
+/* ── Infinite Banner ────────────────────────────────── */
+/* JS calculates tile width and injects @keyframes banner-scroll */
+.banner-wrapper {
+  width: 100%;
+  height: 325px;        /* 25% larger than 260px */
+  flex-shrink: 0;
+  overflow: hidden;
+  background-image: url('banner.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: 0 0;
+  /* animation injected by JS once tile width is known */
+}
+
+/* ── CREDITS ────────────────────────────────────────── */
+#credits .section-title { padding-top: 4rem; }
+
+.credits-spacer { flex: 1; }
+
+.credits-footer {
+  padding: 2rem 2rem 3.5rem;
+  text-align: center;
+}
+.credits-line {
+  font-size: clamp(1.1rem, 2.8vw, 2.5rem);
+  letter-spacing: .2em;
+  color: var(--text-body);
+  text-transform: uppercase;
+  line-height: 2;
+}
+
+/* ── BEATS ──────────────────────────────────────────── */
+#beats .section-title { padding-top: 4rem; }
+
+.beats-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.beats-placeholder {
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  letter-spacing: .35em;
+  color: var(--text-body);
+  text-transform: uppercase;
+  opacity: .6;
+}
+
+/* ── MIXING & SERVICES ──────────────────────────────── */
+#mixing .mixing-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem 2rem;
+  gap: 1rem;
+}
+
+.mixing-title {
+  font-size: clamp(3.5rem, 10vw, 11rem);
+  letter-spacing: .07em;
+  color: var(--text-title);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.02;
+}
+.mixing-email {
+  font-size: clamp(.9rem, 2.2vw, 1.9rem);
+  letter-spacing: .07em;
+  color: var(--text-body);
+  text-transform: uppercase;
+  margin-top: .3rem;
+}
+.mixing-price {
+  font-size: clamp(1.2rem, 3.2vw, 3rem);
+  letter-spacing: .18em;
+  color: var(--text-body);
+  text-transform: uppercase;
+}
+.mixing-note {
+  font-size: clamp(.9rem, 2.2vw, 1.9rem);
+  letter-spacing: .07em;
+  color: var(--text-body);
+  text-transform: uppercase;
+  margin-top: .2rem;
+}
+
+/* ── Shared section title ───────────────────────────── */
+.section-title {
+  font-size: clamp(5rem, 14vw, 16rem);
+  letter-spacing: .06em;
+  color: var(--text-title);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1;
+}
