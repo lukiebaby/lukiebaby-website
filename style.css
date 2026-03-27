@@ -230,6 +230,14 @@ html, body {
   overflow: hidden;
 }
 
+/* ── Grid container fills beats-body ── */
+.beats-grid {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 /* ── Window ── */
 .beats-window {
   width: 100%;
