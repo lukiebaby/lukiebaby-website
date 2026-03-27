@@ -15,11 +15,11 @@
 
 const BEATS = [
   {
-    id: 'beat-001',
-    title: 'BEAT TITLE',
-    bpm: 140,
-    genre: 'TRAP',
+    id: 'gig',
+    title: "GIG 155BPM",
+    bpm: 155,
+    genre: 'HARD TRAP',
     price: 50,
-    previewUrl: '', // paste Vercel Blob public preview URL here
+    previewUrl: '', // upload a PUBLIC preview clip to Vercel Blob and paste the URL here
   },
 ];

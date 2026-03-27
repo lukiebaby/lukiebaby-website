@@ -1,17 +1,16 @@
 const Stripe = require('stripe');
+const { head } = require('@vercel/blob');
 
 // ── Server-side beat registry ─────────────────────────────────────────────────
-// Maps beatId → full download URL and title.
-// fullUrl: the download URL for the purchased .wav file.
-//   Option A — Vercel Blob: upload full .wav to Blob storage, copy the URL here.
-//   Option B — Dropbox: use a direct download link (dl.dropboxusercontent.com/...).
-//   Option C — Any direct file URL that triggers a download.
-// This data lives only on the server — never sent to the browser.
+// Maps beatId → private Vercel Blob URL and title.
+// The blobUrl is the private blob URL — never sent to the browser directly.
+// After payment, the Vercel Blob SDK generates a signed download URL from it.
+// BLOB_READ_WRITE_TOKEN must be set in Vercel Environment Variables.
 
 const BEAT_REGISTRY = {
-  'beat-001': {
-    fullUrl: 'REPLACE_WITH_FULL_WAV_DOWNLOAD_URL',
-    title: 'BEAT TITLE',
+  'gig': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/09-01-22%20%27Gig%27%20155BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'GIG 155BPM',
   },
 };
 
@@ -122,6 +121,10 @@ module.exports = async function handler(req, res) {
     return res.status(400).send('Beat not found');
   }
 
+  // Generate a signed download URL from the private Vercel Blob
+  const blobInfo = await head(beat.blobUrl, { token: process.env.BLOB_READ_WRITE_TOKEN });
+  const downloadUrl = blobInfo.downloadUrl;
+
   res.setHeader('Content-Type', 'text/html');
-  res.send(downloadPage(beat.title, beat.fullUrl));
+  res.send(downloadPage(beat.title, downloadUrl));
 };
