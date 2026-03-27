@@ -258,12 +258,12 @@
       navLinks.forEach((link, i) => link.classList.toggle('active', i === index - 1));
     }
 
-    // Mouse wheel — allow internal scroll inside beats grid before switching sections
+    // Mouse wheel — allow internal scroll inside beats table before switching sections
     container.addEventListener('wheel', (e) => {
-      const beatsBody = document.querySelector('#beats .beats-body');
-      if (beatsBody && beatsBody.contains(e.target)) {
-        const atTop    = beatsBody.scrollTop === 0;
-        const atBottom = beatsBody.scrollTop + beatsBody.clientHeight >= beatsBody.scrollHeight - 1;
+      const tbl = document.getElementById('beats-table');
+      if (tbl && tbl.contains(e.target)) {
+        const atTop    = tbl.scrollTop === 0;
+        const atBottom = tbl.scrollTop + tbl.clientHeight >= tbl.scrollHeight - 1;
         if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) return;
       }
       e.preventDefault();
@@ -286,94 +286,163 @@
     });
 
     // ── Beat Store ────────────────────────────────────
-    const beatsGrid = document.getElementById('beats-grid');
-    const audioEl   = new Audio();
-    audioEl.preload = 'none';
-    let activeCard  = null;
+    const beatsGrid    = document.getElementById('beats-grid');
+    const audioEl      = new Audio();
+    audioEl.preload    = 'none';
+    let activeRow      = null;
+    const waveformPeaks = {};
+    let sharedAudioCtx = null;
+
+    function getAudioCtx() {
+      if (!sharedAudioCtx) sharedAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      return sharedAudioCtx;
+    }
 
     function renderBeats() {
       if (!beatsGrid || !BEATS || BEATS.length === 0) return;
-      beatsGrid.innerHTML = BEATS.map(beat => `
-        <div class="beat-card" data-id="${beat.id}">
-          <div class="beat-card-header">
-            <span class="beat-title">${beat.title}</span>
-            <span class="beat-meta">${beat.bpm} BPM &nbsp;·&nbsp; ${beat.genre}</span>
+      beatsGrid.innerHTML = `
+        <div class="beats-window">
+          <div class="beats-window-bar">
+            <span class="beats-window-title">BEAT STORE</span>
+            <span class="beats-window-count">${BEATS.length} BEAT${BEATS.length !== 1 ? 'S' : ''}</span>
           </div>
-          <div class="beat-player">
-            <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play preview">&#9654;</button>
-            <div class="progress-bar-wrapper" onclick="seekTo(event, '${beat.id}')">
-              <div class="progress-bar-fill" id="prog-${beat.id}"></div>
-            </div>
-          </div>
-          <div class="beat-footer">
-            <span class="beat-price">$${beat.price}</span>
-            <button class="buy-btn" onclick="buyBeat('${beat.id}')">BUY</button>
+          <div class="beats-table" id="beats-table">
+            ${BEATS.map(beat => `
+              <div class="beat-row" data-id="${beat.id}">
+                <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
+                <div class="beat-info">
+                  <span class="beat-title">${beat.title}</span>
+                  <span class="beat-meta">${beat.bpm} BPM &nbsp;·&nbsp; ${beat.genre}</span>
+                </div>
+                <div class="waveform-wrap" id="wave-wrap-${beat.id}" onclick="waveformSeek(event,'${beat.id}')">
+                  <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>
+                </div>
+                <span class="beat-price">$${beat.price}</span>
+                <button class="buy-btn" onclick="buyBeat('${beat.id}')">BUY</button>
+              </div>
+            `).join('')}
           </div>
         </div>
-      `).join('');
+      `;
+      requestAnimationFrame(() => {
+        BEATS.forEach(beat => { if (beat.previewUrl) loadWaveform(beat.id, beat.previewUrl); });
+      });
+    }
+
+    async function loadWaveform(beatId, url) {
+      const canvas = document.getElementById(`wave-${beatId}`);
+      const wrap   = document.getElementById(`wave-wrap-${beatId}`);
+      if (!canvas || !wrap) return;
+      const rect = wrap.getBoundingClientRect();
+      const dpr  = window.devicePixelRatio || 1;
+      const w    = Math.max(1, Math.floor(rect.width  * dpr));
+      const h    = Math.max(1, Math.floor(rect.height * dpr));
+      canvas.width  = w;
+      canvas.height = h;
+      try {
+        const res     = await fetch(url);
+        const buf     = await res.arrayBuffer();
+        const actx    = getAudioCtx();
+        const decoded = await actx.decodeAudioData(buf);
+        const data    = decoded.getChannelData(0);
+        const step    = Math.ceil(data.length / w);
+        const peaks   = [];
+        for (let i = 0; i < w; i++) {
+          let lo = 0, hi = 0;
+          for (let j = 0; j < step; j++) {
+            const v = data[i * step + j] || 0;
+            if (v < lo) lo = v;
+            if (v > hi) hi = v;
+          }
+          peaks.push([lo, hi]);
+        }
+        waveformPeaks[beatId] = peaks;
+        drawWaveform(beatId, 0);
+      } catch {
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'rgba(128,171,130,0.3)';
+        ctx.fillRect(0, Math.floor(h / 2), w, 1);
+      }
+    }
+
+    function drawWaveform(beatId, progress) {
+      const canvas = document.getElementById(`wave-${beatId}`);
+      const peaks  = waveformPeaks[beatId];
+      if (!canvas || !peaks) return;
+      const ctx = canvas.getContext('2d');
+      const w   = canvas.width;
+      const h   = canvas.height;
+      const amp = h / 2;
+      const px  = Math.floor(progress * w);
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < peaks.length; i++) {
+        const [lo, hi] = peaks[i];
+        const y    = Math.round((1 + lo) * amp);
+        const barH = Math.max(1, Math.round((hi - lo) * amp));
+        ctx.fillStyle = i <= px ? '#80ab82' : 'rgba(128,171,130,0.28)';
+        ctx.fillRect(i, y, 1, barH);
+      }
+      if (progress > 0 && progress < 1) {
+        ctx.fillStyle = 'rgba(245,253,245,0.9)';
+        ctx.fillRect(px, 0, 1, h);
+      }
     }
 
     function togglePlay(beatId) {
       const beat = BEATS.find(b => b.id === beatId);
       if (!beat || !beat.previewUrl) return;
-      const card = beatsGrid.querySelector(`[data-id="${beatId}"]`);
-      const btn  = card.querySelector('.play-btn');
-
-      if (activeCard && activeCard !== card) {
-        activeCard.querySelector('.play-btn').innerHTML = '&#9654;';
-        const prevId = activeCard.dataset.id;
-        document.getElementById(`prog-${prevId}`).style.width = '0%';
+      const row = beatsGrid.querySelector(`[data-id="${beatId}"]`);
+      const btn = row.querySelector('.play-btn');
+      if (activeRow && activeRow !== row) {
+        activeRow.querySelector('.play-btn').innerHTML = '&#9654;';
+        drawWaveform(activeRow.dataset.id, 0);
       }
-
-      if (activeCard === card && !audioEl.paused) {
+      if (activeRow === row && !audioEl.paused) {
         audioEl.pause();
         btn.innerHTML = '&#9654;';
-        activeCard = null;
+        activeRow = null;
       } else {
         if (audioEl.src !== beat.previewUrl) audioEl.src = beat.previewUrl;
         audioEl.play();
         btn.innerHTML = '&#9646;&#9646;';
-        activeCard = card;
+        activeRow = row;
       }
     }
 
     audioEl.addEventListener('timeupdate', () => {
-      if (!activeCard || !audioEl.duration) return;
-      const pct = (audioEl.currentTime / audioEl.duration) * 100;
-      document.getElementById(`prog-${activeCard.dataset.id}`).style.width = pct + '%';
+      if (!activeRow || !audioEl.duration) return;
+      drawWaveform(activeRow.dataset.id, audioEl.currentTime / audioEl.duration);
     });
 
     audioEl.addEventListener('ended', () => {
-      if (!activeCard) return;
-      activeCard.querySelector('.play-btn').innerHTML = '&#9654;';
-      document.getElementById(`prog-${activeCard.dataset.id}`).style.width = '0%';
-      activeCard = null;
+      if (!activeRow) return;
+      activeRow.querySelector('.play-btn').innerHTML = '&#9654;';
+      drawWaveform(activeRow.dataset.id, 0);
+      activeRow = null;
     });
 
-    function seekTo(e, beatId) {
-      if (!audioEl.duration) return;
-      const rect  = e.currentTarget.getBoundingClientRect();
-      const ratio = (e.clientX - rect.left) / rect.width;
-      audioEl.currentTime = Math.max(0, Math.min(1, ratio)) * audioEl.duration;
+    function waveformSeek(e, beatId) {
+      if (!activeRow || activeRow.dataset.id !== beatId || !audioEl.duration) return;
+      const wrap  = document.getElementById(`wave-wrap-${beatId}`);
+      const rect  = wrap.getBoundingClientRect();
+      const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      audioEl.currentTime = ratio * audioEl.duration;
     }
 
     async function buyBeat(beatId) {
-      const card = beatsGrid.querySelector(`[data-id="${beatId}"]`);
-      const btn  = card.querySelector('.buy-btn');
+      const row = beatsGrid.querySelector(`[data-id="${beatId}"]`);
+      const btn = row.querySelector('.buy-btn');
       btn.textContent = '...';
       btn.disabled = true;
       try {
         const res  = await fetch('/api/create-checkout-session', {
-          method: 'POST',
+          method:  'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ beatId }),
+          body:    JSON.stringify({ beatId }),
         });
         const data = await res.json();
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          throw new Error('No URL returned');
-        }
+        if (data.url) { window.location.href = data.url; return; }
+        throw new Error();
       } catch {
         btn.textContent = 'BUY';
         btn.disabled = false;
