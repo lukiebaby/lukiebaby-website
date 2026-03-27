@@ -292,7 +292,7 @@
     let activeCard  = null;
 
     function renderBeats() {
-      if (!beatsGrid || !window.BEATS || BEATS.length === 0) return;
+      if (!beatsGrid || !BEATS || BEATS.length === 0) return;
       beatsGrid.innerHTML = BEATS.map(beat => `
         <div class="beat-card" data-id="${beat.id}">
           <div class="beat-card-header">
