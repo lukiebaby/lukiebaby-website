@@ -222,16 +222,121 @@ html, body {
 
 .beats-body {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  padding: .5rem 2rem 1rem;
 }
-.beats-placeholder {
-  font-size: clamp(1rem, 2.5vw, 2rem);
-  letter-spacing: .35em;
+.beats-body::-webkit-scrollbar { display: none; }
+
+.beats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  padding-bottom: .5rem;
+}
+
+.beat-card {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  padding: 1rem 1.2rem;
+  background: rgba(0, 0, 0, .1);
+  border: 1px solid var(--text-title);
+}
+
+.beat-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+
+.beat-title {
+  font-size: clamp(1.1rem, 2vw, 1.7rem);
+  letter-spacing: .12em;
+  color: var(--text-title);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.beat-meta {
+  font-size: clamp(.85rem, 1.4vw, 1.2rem);
+  letter-spacing: .2em;
   color: var(--text-body);
   text-transform: uppercase;
-  opacity: .6;
+  opacity: .8;
+}
+
+.beat-player {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+
+.play-btn {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--text-title);
+  color: var(--text-title);
+  font-size: .95rem;
+  line-height: 1;
+  padding: .3rem .55rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color .2s, border-color .2s;
+}
+.play-btn:hover {
+  color: var(--text-bright);
+  border-color: var(--text-bright);
+}
+
+.progress-bar-wrapper {
+  flex: 1;
+  height: 3px;
+  background: rgba(128, 171, 130, .3);
+  cursor: pointer;
+  position: relative;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--text-title);
+  transition: width .1s linear;
+  pointer-events: none;
+}
+
+.beat-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.beat-price {
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  letter-spacing: .18em;
+  color: var(--text-body);
+  text-transform: uppercase;
+}
+
+.buy-btn {
+  background: none;
+  border: 1px solid var(--text-title);
+  color: var(--text-title);
+  font-family: inherit;
+  font-size: clamp(.9rem, 1.5vw, 1.3rem);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: .3rem 1.1rem;
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+.buy-btn:hover {
+  color: var(--text-bright);
+  border-color: var(--text-bright);
+}
+.buy-btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
 }
 
 /* ── MIXING & SERVICES ──────────────────────────────── */

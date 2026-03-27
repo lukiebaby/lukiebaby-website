@@ -1,0 +1,7 @@
+{
+  "name": "lukiebaby-website",
+  "private": true,
+  "dependencies": {
+    "stripe": "^14.21.0"
+  }
+}
