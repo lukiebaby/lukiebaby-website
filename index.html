@@ -309,18 +309,16 @@
           <div class="beats-table" id="beats-table">
             ${BEATS.map((beat, i) => `
               <div class="beat-row" data-id="${beat.id}">
-                <span class="beat-num">${i + 1}</span>
-                <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
-                <div class="beat-main">
-                  <span class="beat-title">${beat.title}</span>
-                  <div class="beat-waveform-row">
-                    <div class="waveform-wrap" id="wave-wrap-${beat.id}" onclick="waveformSeek(event,'${beat.id}')">
-                      <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>
-                    </div>
-                    <span class="beat-bpm">${beat.bpm} BPM</span>
-                  </div>
+                <div class="beat-row-top">
+                  <span class="beat-num">${i + 1}</span>
+                  <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
+                </div>
+                <span class="beat-title">${beat.title}</span>
+                <div class="waveform-wrap" id="wave-wrap-${beat.id}" onclick="waveformSeek(event,'${beat.id}')">
+                  <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>
                 </div>
                 <div class="beat-tags">
+                  <span class="beat-bpm">${beat.bpm} BPM</span>
                   ${beat.genre.split(',').map(g => `<span class="beat-tag">${g.trim()}</span>`).join('')}
                 </div>
                 <button class="buy-btn" onclick="buyBeat('${beat.id}')">$${beat.price}</button>
