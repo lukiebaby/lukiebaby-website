@@ -177,12 +177,18 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
+  gap: 20px;
 }
-.banner-track img {
+.banner-item {
+  height: 100%;
+  flex-shrink: 0;
+  display: block;
+  cursor: pointer;
+}
+.banner-item img {
   height: 100%;
   width: auto;
   display: block;
-  flex-shrink: 0;
 }
 
 /* ── CREDITS ────────────────────────────────────────── */
