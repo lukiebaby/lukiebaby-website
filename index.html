@@ -140,7 +140,7 @@
       <h2 class="section-title">BEATS</h2>
       <div class="title-rule"></div>
       <div class="beats-body">
-        <p class="beats-placeholder">COMING SOON</p>
+        <div class="beats-grid" id="beats-grid"></div>
       </div>
       <div class="page-socials">
         <a class="social-block"
@@ -188,6 +188,7 @@
 
   </div>
 
+  <script src="beats.js"></script>
   <script>
     // ── Seamless Banner ───────────────────────────────
     (async function initBanner() {
@@ -257,8 +258,14 @@
       navLinks.forEach((link, i) => link.classList.toggle('active', i === index - 1));
     }
 
-    // Mouse wheel
+    // Mouse wheel — allow internal scroll inside beats grid before switching sections
     container.addEventListener('wheel', (e) => {
+      const beatsBody = document.querySelector('#beats .beats-body');
+      if (beatsBody && beatsBody.contains(e.target)) {
+        const atTop    = beatsBody.scrollTop === 0;
+        const atBottom = beatsBody.scrollTop + beatsBody.clientHeight >= beatsBody.scrollHeight - 1;
+        if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) return;
+      }
       e.preventDefault();
       if (scrolling) return;
       goTo(e.deltaY > 0 ? current + 1 : current - 1);
@@ -277,6 +284,103 @@
       if (e.key === 'ArrowDown' || e.key === 'PageDown') goTo(current + 1);
       if (e.key === 'ArrowUp'   || e.key === 'PageUp'  ) goTo(current - 1);
     });
+
+    // ── Beat Store ────────────────────────────────────
+    const beatsGrid = document.getElementById('beats-grid');
+    const audioEl   = new Audio();
+    audioEl.preload = 'none';
+    let activeCard  = null;
+
+    function renderBeats() {
+      if (!beatsGrid || !window.BEATS || BEATS.length === 0) return;
+      beatsGrid.innerHTML = BEATS.map(beat => `
+        <div class="beat-card" data-id="${beat.id}">
+          <div class="beat-card-header">
+            <span class="beat-title">${beat.title}</span>
+            <span class="beat-meta">${beat.bpm} BPM &nbsp;·&nbsp; ${beat.genre}</span>
+          </div>
+          <div class="beat-player">
+            <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play preview">&#9654;</button>
+            <div class="progress-bar-wrapper" onclick="seekTo(event, '${beat.id}')">
+              <div class="progress-bar-fill" id="prog-${beat.id}"></div>
+            </div>
+          </div>
+          <div class="beat-footer">
+            <span class="beat-price">$${beat.price}</span>
+            <button class="buy-btn" onclick="buyBeat('${beat.id}')">BUY</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function togglePlay(beatId) {
+      const beat = BEATS.find(b => b.id === beatId);
+      if (!beat || !beat.previewUrl) return;
+      const card = beatsGrid.querySelector(`[data-id="${beatId}"]`);
+      const btn  = card.querySelector('.play-btn');
+
+      if (activeCard && activeCard !== card) {
+        activeCard.querySelector('.play-btn').innerHTML = '&#9654;';
+        const prevId = activeCard.dataset.id;
+        document.getElementById(`prog-${prevId}`).style.width = '0%';
+      }
+
+      if (activeCard === card && !audioEl.paused) {
+        audioEl.pause();
+        btn.innerHTML = '&#9654;';
+        activeCard = null;
+      } else {
+        if (audioEl.src !== beat.previewUrl) audioEl.src = beat.previewUrl;
+        audioEl.play();
+        btn.innerHTML = '&#9646;&#9646;';
+        activeCard = card;
+      }
+    }
+
+    audioEl.addEventListener('timeupdate', () => {
+      if (!activeCard || !audioEl.duration) return;
+      const pct = (audioEl.currentTime / audioEl.duration) * 100;
+      document.getElementById(`prog-${activeCard.dataset.id}`).style.width = pct + '%';
+    });
+
+    audioEl.addEventListener('ended', () => {
+      if (!activeCard) return;
+      activeCard.querySelector('.play-btn').innerHTML = '&#9654;';
+      document.getElementById(`prog-${activeCard.dataset.id}`).style.width = '0%';
+      activeCard = null;
+    });
+
+    function seekTo(e, beatId) {
+      if (!audioEl.duration) return;
+      const rect  = e.currentTarget.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+      audioEl.currentTime = Math.max(0, Math.min(1, ratio)) * audioEl.duration;
+    }
+
+    async function buyBeat(beatId) {
+      const card = beatsGrid.querySelector(`[data-id="${beatId}"]`);
+      const btn  = card.querySelector('.buy-btn');
+      btn.textContent = '...';
+      btn.disabled = true;
+      try {
+        const res  = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ beatId }),
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          throw new Error('No URL returned');
+        }
+      } catch {
+        btn.textContent = 'BUY';
+        btn.disabled = false;
+      }
+    }
+
+    renderBeats();
   </script>
 
 </body>
