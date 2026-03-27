@@ -20,6 +20,6 @@ const BEATS = [
     bpm: 155,
     genre: 'HARD TRAP',
     price: 50,
-    previewUrl: '', // upload a PUBLIC preview clip to Vercel Blob and paste the URL here
+    previewUrl: 'https://cxa7wmzv0q3bmgo7.public.blob.vercel-storage.com/09-01-22%20%27Gig%27%20155BPM%20%28Prod.%20Lukiebaby%29SNIPPET.wav',
   },
 ];
