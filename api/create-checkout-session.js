@@ -7,9 +7,9 @@ const Stripe = require('stripe');
 // This data lives only on the server — never sent to the browser.
 
 const BEAT_REGISTRY = {
-  'beat-001': {
-    priceId: 'price_REPLACE_WITH_STRIPE_PRICE_ID',
-    title: 'BEAT TITLE',
+  'gig': {
+    priceId: 'price_1TFSdWChI2JOxZ4RBGVBc9Wc',
+    title: 'GIG 155BPM',
   },
 };
 
