@@ -309,10 +309,8 @@
           <div class="beats-table" id="beats-table">
             ${BEATS.map((beat, i) => `
               <div class="beat-row" data-id="${beat.id}">
-                <div class="beat-row-top">
-                  <span class="beat-num">${i + 1}</span>
-                  <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
-                </div>
+                <span class="beat-num">${i + 1}</span>
+                <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
                 <span class="beat-title">${beat.title}</span>
                 <div class="waveform-wrap" id="wave-wrap-${beat.id}" onclick="waveformSeek(event,'${beat.id}')">
                   <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>

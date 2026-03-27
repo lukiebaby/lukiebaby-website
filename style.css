@@ -262,25 +262,25 @@ html, body {
   text-transform: uppercase;
 }
 
-/* ── 4-column grid ── */
+/* ── Beat list (one row per beat) ── */
 .beats-table {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   scrollbar-width: none;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 1px;
   background: rgba(255, 255, 255, .06);
-  align-content: start;
 }
 .beats-table::-webkit-scrollbar { display: none; }
 
 .beat-row {
   display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  padding: .9rem 1rem;
+  flex-direction: row;
+  align-items: center;
+  gap: .9rem;
+  padding: .6rem 1.2rem;
   background: #0d0d0d;
   transition: background .15s;
   cursor: default;
@@ -288,47 +288,45 @@ html, body {
 .beat-row:hover { background: #141414; }
 .beat-row.playing { background: #181818; }
 
-.beat-row-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .beat-num {
-  font-size: clamp(.65rem, .9vw, .8rem);
+  font-size: clamp(.6rem, .9vw, .8rem);
   letter-spacing: .05em;
   color: #444444;
+  width: 1.6em;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .play-btn {
   background: none;
   border: none;
   color: #666666;
-  font-size: .8rem;
+  font-size: .85rem;
   line-height: 1;
   padding: .2rem .3rem;
   cursor: pointer;
   font-family: inherit;
   transition: color .2s;
+  flex-shrink: 0;
 }
 .play-btn:hover { color: #ffffff; }
 .beat-row.playing .play-btn { color: #ffffff; }
 
-/* ── Card content ── */
 .beat-title {
-  font-size: clamp(.75rem, 1.1vw, 1rem);
+  font-size: clamp(.7rem, 1vw, .95rem);
   letter-spacing: .06em;
   color: #ffffff;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.1;
+  width: clamp(6rem, 14vw, 16rem);
+  flex-shrink: 0;
 }
 
 .waveform-wrap {
-  width: 100%;
-  height: 32px;
+  flex: 1;
+  height: 34px;
   cursor: pointer;
   overflow: hidden;
   position: relative;
@@ -339,44 +337,45 @@ html, body {
   height: 100%;
 }
 
-.beat-bpm {
-  font-size: clamp(.58rem, .85vw, .75rem);
-  letter-spacing: .12em;
-  color: #555555;
-  text-transform: uppercase;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
 /* ── Tags row (BPM + genre pills) ── */
 .beat-tags {
   display: flex;
   gap: .35rem;
-  flex-wrap: wrap;
   align-items: center;
+  flex-shrink: 0;
 }
-.beat-tag {
+
+.beat-bpm {
   font-size: clamp(.55rem, .8vw, .72rem);
+  letter-spacing: .12em;
+  color: #555555;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.beat-tag {
+  font-size: clamp(.52rem, .75vw, .68rem);
   letter-spacing: .1em;
   color: #aaaaaa;
   background: rgba(255, 255, 255, .09);
   border-radius: 2px;
-  padding: .18rem .5rem;
+  padding: .16rem .45rem;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 /* ── Buy button ── */
 .buy-btn {
-  width: 100%;
+  width: auto;
+  flex-shrink: 0;
   background: #1a6fff;
   border: none;
   color: #ffffff;
   font-family: inherit;
-  font-size: clamp(.62rem, .9vw, .85rem);
+  font-size: clamp(.6rem, .85vw, .8rem);
   letter-spacing: .12em;
   text-transform: uppercase;
-  padding: .42rem 0;
+  padding: .4rem 1rem;
   cursor: pointer;
   transition: background .2s;
   border-radius: 2px;
