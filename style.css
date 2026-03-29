@@ -168,30 +168,87 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .6rem;
+  gap: .55rem;
   flex-shrink: 0;
   background: #0d0d0d;
   border: 1px solid rgba(255, 255, 255, .08);
   border-radius: 6px;
-  padding: .8rem 1.4rem;
+  padding: .9rem 1.6rem 1rem;
+  min-width: clamp(200px, 26vw, 360px);
 }
 
 .player-title {
-  font-size: clamp(.6rem, 1vw, .85rem);
-  letter-spacing: .1em;
+  font-size: clamp(.55rem, .9vw, .78rem);
+  letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--text-body);
+  color: #888888;
   white-space: nowrap;
-  max-width: 20vw;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
   width: 100%;
 }
 
+.player-scrubber-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+}
+
+.player-time {
+  font-size: clamp(.48rem, .72vw, .62rem);
+  letter-spacing: .04em;
+  color: #555555;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 2.4em;
+}
+
+#player-remaining { text-align: right; }
+
+.player-scrubber {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 2px;
+  background: #2a2a2a;
+  border-radius: 1px;
+  cursor: pointer;
+  outline: none;
+  margin: 0;
+}
+.player-scrubber::-webkit-slider-runnable-track {
+  height: 2px;
+  background: #2a2a2a;
+  border-radius: 1px;
+}
+.player-scrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  margin-top: -4px;
+}
+.player-scrubber::-moz-range-track {
+  height: 2px;
+  background: #2a2a2a;
+  border-radius: 1px;
+}
+.player-scrubber::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
 .player-controls {
   display: flex;
-  gap: 1rem;
+  gap: 1.4rem;
   align-items: center;
 }
 
@@ -200,21 +257,19 @@ html, body {
   border: none;
   cursor: pointer;
   font-family: inherit;
-  font-size: clamp(1.2rem, 2.5vw, 2rem);
-  color: var(--text-body);
-  padding: .2rem .4rem;
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  color: #666666;
+  padding: .2rem .3rem;
   transition: color .2s;
   line-height: 1;
 }
 
-.player-btn:hover { color: var(--text-bright); }
+.player-btn:hover { color: #ffffff; }
 
 .player-btn-main {
-  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
   color: #ffffff;
 }
-
-.player-btn-main:hover { color: var(--text-bright); }
 
 .shuffle-active { color: #ffffff !important; }
 
