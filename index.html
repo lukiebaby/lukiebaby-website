@@ -323,11 +323,20 @@
       return sharedAudioCtx;
     }
 
-    let sortState = { col: null, dir: 'asc' };
+    let sortState  = { col: null, dir: 'asc' };
+    let filterStyle = null;
+
+    function filterByStyle(style) {
+      filterStyle = filterStyle === style ? null : style;
+      renderBeats();
+    }
 
     function getSortedBeats() {
-      if (!sortState.col) return BEATS;
-      return [...BEATS].sort((a, b) => {
+      let beats = filterStyle
+        ? BEATS.filter(b => b.genre.split(',').map(g => g.trim().toUpperCase()).includes(filterStyle.toUpperCase()))
+        : BEATS;
+      if (!sortState.col) return beats;
+      return [...beats].sort((a, b) => {
         const va = sortState.col === 'bpm' ? a.bpm : sortState.col === 'genre' ? a.genre : sortState.col === 'num' ? a.num : a.title;
         const vb = sortState.col === 'bpm' ? b.bpm : sortState.col === 'genre' ? b.genre : sortState.col === 'num' ? b.num : b.title;
         if (va < vb) return sortState.dir === 'asc' ? -1 : 1;
@@ -376,7 +385,7 @@
                   <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>
                 </div>
                 <div class="beat-tags">
-                  ${beat.genre.split(',').map(g => `<span class="beat-tag">${g.trim()}</span>`).join('')}
+                  ${beat.genre.split(',').map(g => { const s = g.trim(); return `<button class="beat-tag${filterStyle === s ? ' beat-tag-active' : ''}" onclick="filterByStyle('${s}')">${s}</button>`; }).join('')}
                 </div>
                 <button class="buy-btn" onclick="buyBeat('${beat.id}')">$${beat.price}</button>
               </div>

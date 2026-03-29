@@ -587,11 +587,17 @@ html, body {
   letter-spacing: .1em;
   color: #aaaaaa;
   background: rgba(255, 255, 255, .09);
+  border: none;
   border-radius: 2px;
   padding: .16rem .45rem;
   text-transform: uppercase;
   white-space: nowrap;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color .15s, background .15s;
 }
+.beat-tag:hover { color: #ffffff; background: rgba(255, 255, 255, .15); }
+.beat-tag-active { color: #ffffff !important; background: rgba(255, 255, 255, .22) !important; }
 
 /* ── Buy button ── */
 .buy-btn {
