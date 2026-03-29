@@ -36,6 +36,38 @@ const BEAT_REGISTRY = {
     blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/08-02-24%20%27Higha%27%20145BPM%20%28Prod%20Lukiebaby%29.wav',
     title: 'SLOWLANELARRY LEFTOVERS 6 145BPM',
   },
+  'residentevil': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/07-22-24%20%27re2%27%20158BPM%20%28Prod%20Lukiebaby%29.wav',
+    title: 'RESIDENT EVIL 158BPM',
+  },
+  'powder': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/06-14-25%20%27Powder%27%20130BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'POWDER 130BPM',
+  },
+  'benzo': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/06-14-25%20%27BENZO%27%20131BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'BENZO 131BPM',
+  },
+  'fthis': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/04-29-23%20%27f%27%20143BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'F THIS 143BPM',
+  },
+  'wicked': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/02-20-26%20%27Wicked%27%20151BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'WICKED 151BPM',
+  },
+  'finesse': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/02-05-25%20%27Finesse%27%20150BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'FINESSE 150BPM',
+  },
+  'poppin': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/01-11-23%20%27Poppin%27%20131BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'POPPIN 131BPM',
+  },
+  'slowlanelarry7': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/01-10-26%20%27Groovy%27%20118BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'SLOWLANELARRY LEFTOVERS 7 120BPM',
+  },
 };
 
 function downloadPage(title, downloadUrl) {

@@ -35,6 +35,38 @@ const BEAT_REGISTRY = {
     priceId: 'price_1TFlP2ChI2JOxZ4Rtkp3Bxxm',
     title: 'SLOWLANELARRY LEFTOVERS 6 145BPM',
   },
+  'residentevil': {
+    priceId: 'price_1TGBEjChI2JOxZ4RGRCPhTiS',
+    title: 'RESIDENT EVIL 158BPM',
+  },
+  'powder': {
+    priceId: 'price_1TGBIzChI2JOxZ4RERn6Cqwp',
+    title: 'POWDER 130BPM',
+  },
+  'benzo': {
+    priceId: 'price_1TGBMDChI2JOxZ4RoM8tnmtr',
+    title: 'BENZO 131BPM',
+  },
+  'fthis': {
+    priceId: 'price_1TGBOrChI2JOxZ4R3bzlFa0x',
+    title: 'F THIS 143BPM',
+  },
+  'wicked': {
+    priceId: 'price_1TGBQyChI2JOxZ4RXPlXSeah',
+    title: 'WICKED 151BPM',
+  },
+  'finesse': {
+    priceId: 'price_1TGBSKChI2JOxZ4RpRyPU2dx',
+    title: 'FINESSE 150BPM',
+  },
+  'poppin': {
+    priceId: 'price_1TGBVmChI2JOxZ4RysHFHEGg',
+    title: 'POPPIN 131BPM',
+  },
+  'slowlanelarry7': {
+    priceId: 'price_1TGBY6ChI2JOxZ4RbVkkv9gr',
+    title: 'SLOWLANELARRY LEFTOVERS 7 120BPM',
+  },
 };
 
 module.exports = async function handler(req, res) {
