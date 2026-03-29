@@ -160,6 +160,15 @@
           <span class="social-platform">INSTAGRAM</span>
           <span class="social-handle">@LUKIEBABYBEATS</span>
         </a>
+        <div id="beats-player" class="beats-player" hidden>
+          <span class="player-title" id="player-title">—</span>
+          <div class="player-controls">
+            <button class="player-btn" onclick="playerPrev()" aria-label="Previous">&#9198;</button>
+            <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" aria-label="Play">&#9654;</button>
+            <button class="player-btn" onclick="playerNext()" aria-label="Next">&#9197;</button>
+            <button class="player-btn" id="player-shuffle" onclick="playerShuffle()" aria-label="Shuffle">&#8652;</button>
+          </div>
+        </div>
         <a class="social-block right"
            href="https://x.com/LukieMane"
            target="_blank" rel="noopener noreferrer">
@@ -314,8 +323,8 @@
     function getSortedBeats() {
       if (!sortState.col) return BEATS;
       return [...BEATS].sort((a, b) => {
-        const va = sortState.col === 'bpm' ? a.bpm : sortState.col === 'genre' ? a.genre : sortState.col === 'date' ? a.date : a.title;
-        const vb = sortState.col === 'bpm' ? b.bpm : sortState.col === 'genre' ? b.genre : sortState.col === 'date' ? b.date : b.title;
+        const va = sortState.col === 'bpm' ? a.bpm : sortState.col === 'genre' ? a.genre : a.title;
+        const vb = sortState.col === 'bpm' ? b.bpm : sortState.col === 'genre' ? b.genre : b.title;
         if (va < vb) return sortState.dir === 'asc' ? -1 : 1;
         if (va > vb) return sortState.dir === 'asc' ? 1 : -1;
         return 0;
@@ -344,7 +353,6 @@
             <span class="beat-num sort-spc" aria-hidden="true"></span>
             <span class="sort-spc-play" aria-hidden="true">&#9654;</span>
             <button class="sort-col${active('title')}" data-sort="title" onclick="sortBy('title')">TITLE${arrow('title')}</button>
-            <button class="sort-col${active('date')}" data-sort="date" onclick="sortBy('date')">DATE${arrow('date')}</button>
             <button class="sort-col${active('bpm')}" data-sort="bpm" onclick="sortBy('bpm')">BPM${arrow('bpm')}</button>
             <span class="sort-spc-wave"></span>
             <div class="beat-tags">
@@ -358,7 +366,6 @@
                 <span class="beat-num">${i + 1}</span>
                 <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
                 <span class="beat-title">${beat.title}</span>
-                <span class="beat-date">${beat.date}</span>
                 <span class="beat-bpm">${beat.bpm} BPM</span>
                 <div class="waveform-wrap" id="wave-wrap-${beat.id}" onclick="waveformSeek(event,'${beat.id}')">
                   <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>
@@ -436,28 +443,89 @@
       }
     }
 
-    function togglePlay(beatId) {
+    let shuffleMode = false;
+
+    function playBeat(beatId) {
       const beat = BEATS.find(b => b.id === beatId);
       if (!beat || !beat.previewUrl) return;
-      const row = beatsGrid.querySelector(`[data-id="${beatId}"]`);
-      const btn = row.querySelector('.play-btn');
-      if (activeRow && activeRow !== row) {
+      if (activeRow) {
         activeRow.querySelector('.play-btn').innerHTML = '&#9654;';
         activeRow.classList.remove('playing');
         drawWaveform(activeRow.dataset.id, 0);
       }
-      if (activeRow === row && !audioEl.paused) {
-        audioEl.pause();
-        btn.innerHTML = '&#9654;';
-        row.classList.remove('playing');
+      const row = beatsGrid.querySelector(`[data-id="${beatId}"]`);
+      audioEl.src = beat.previewUrl;
+      audioEl.play();
+      if (row) {
+        row.querySelector('.play-btn').innerHTML = '&#9646;&#9646;';
+        row.classList.add('playing');
+      }
+      activeRow = row;
+      playerUpdateUI();
+    }
+
+    function togglePlay(beatId) {
+      const beat = BEATS.find(b => b.id === beatId);
+      if (!beat || !beat.previewUrl) return;
+      const row = beatsGrid.querySelector(`[data-id="${beatId}"]`);
+      const btn = row ? row.querySelector('.play-btn') : null;
+      if (activeRow && activeRow !== row) {
+        activeRow.querySelector('.play-btn').innerHTML = '&#9654;';
+        activeRow.classList.remove('playing');
+        drawWaveform(activeRow.dataset.id, 0);
         activeRow = null;
+      }
+      if (!audioEl.paused && activeRow === row) {
+        audioEl.pause();
+        if (btn) btn.innerHTML = '&#9654;';
+        if (row) row.classList.remove('playing');
       } else {
         if (audioEl.src !== beat.previewUrl) audioEl.src = beat.previewUrl;
         audioEl.play();
-        btn.innerHTML = '&#9646;&#9646;';
-        row.classList.add('playing');
+        if (btn) btn.innerHTML = '&#9646;&#9646;';
+        if (row) row.classList.add('playing');
         activeRow = row;
       }
+      playerUpdateUI();
+    }
+
+    function playerUpdateUI() {
+      const player  = document.getElementById('beats-player');
+      const titleEl = document.getElementById('player-title');
+      const ppBtn   = document.getElementById('player-playpause');
+      const shfBtn  = document.getElementById('player-shuffle');
+      if (!player) return;
+      player.hidden = false;
+      if (titleEl) {
+        const beat = activeRow ? BEATS.find(b => b.id === activeRow.dataset.id) : null;
+        titleEl.textContent = beat ? beat.title : '—';
+      }
+      if (ppBtn) ppBtn.innerHTML = (!audioEl.paused) ? '&#9646;&#9646;' : '&#9654;';
+      if (shfBtn) shfBtn.classList.toggle('shuffle-active', shuffleMode);
+    }
+
+    function playerToggle() {
+      if (activeRow) { togglePlay(activeRow.dataset.id); return; }
+    }
+
+    function playerPrev() {
+      const beats = getSortedBeats();
+      if (!activeRow) return;
+      const idx = beats.findIndex(b => b.id === activeRow.dataset.id);
+      if (idx > 0) playBeat(beats[idx - 1].id);
+    }
+
+    function playerNext() {
+      const beats = getSortedBeats();
+      if (shuffleMode) { playBeat(beats[Math.floor(Math.random() * beats.length)].id); return; }
+      if (!activeRow) return;
+      const idx = beats.findIndex(b => b.id === activeRow.dataset.id);
+      if (idx >= 0 && idx < beats.length - 1) playBeat(beats[idx + 1].id);
+    }
+
+    function playerShuffle() {
+      shuffleMode = !shuffleMode;
+      playerUpdateUI();
     }
 
     audioEl.addEventListener('timeupdate', () => {
@@ -470,7 +538,16 @@
       activeRow.querySelector('.play-btn').innerHTML = '&#9654;';
       activeRow.classList.remove('playing');
       drawWaveform(activeRow.dataset.id, 0);
+      const prevRow = activeRow;
       activeRow = null;
+      const beats = getSortedBeats();
+      if (shuffleMode) {
+        playBeat(beats[Math.floor(Math.random() * beats.length)].id);
+        return;
+      }
+      const idx = beats.findIndex(b => b.id === prevRow.dataset.id);
+      if (idx >= 0 && idx < beats.length - 1) { playBeat(beats[idx + 1].id); return; }
+      playerUpdateUI();
     });
 
     function waveformSeek(e, beatId) {

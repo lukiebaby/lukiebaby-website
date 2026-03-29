@@ -163,6 +163,56 @@ html, body {
 .social-block:hover .social-platform,
 .social-block:hover .social-handle { color: var(--text-bright); }
 
+/* ── Beats Page Player ───────────────────────────────── */
+.beats-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+  flex-shrink: 0;
+}
+
+.player-title {
+  font-size: clamp(.6rem, 1vw, .85rem);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-body);
+  white-space: nowrap;
+  max-width: 20vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.player-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.player-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  color: var(--text-body);
+  padding: .2rem .4rem;
+  transition: color .2s;
+  line-height: 1;
+}
+
+.player-btn:hover { color: var(--text-bright); }
+
+.player-btn-main {
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  color: #ffffff;
+}
+
+.player-btn-main:hover { color: var(--text-bright); }
+
+.shuffle-active { color: #ffffff !important; }
+
 /* ── Infinite Banner ────────────────────────────────── */
 .banner-wrapper {
   width: 100%;
@@ -449,16 +499,6 @@ html, body {
   gap: .35rem;
   align-items: center;
   flex-shrink: 0;
-}
-
-.beat-date {
-  font-size: clamp(.55rem, .8vw, .72rem);
-  letter-spacing: .08em;
-  color: #555555;
-  white-space: nowrap;
-  flex-shrink: 0;
-  width: 5.5rem;
-  text-align: center;
 }
 
 .beat-bpm {
