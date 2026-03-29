@@ -13,7 +13,7 @@
 :root {
   --bg:          #79CE88;
   --text-body:   #c2e1c2;   /* all non-title text */
-  --text-title:  #80ab82;   /* page title headings */
+  --text-title:  #2D2D2A;   /* page title headings */
   --text-active: #e8f5e8;   /* active nav tab */
   --text-bright: #f5fdf5;   /* hover */
 }
