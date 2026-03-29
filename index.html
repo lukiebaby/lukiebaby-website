@@ -333,9 +333,9 @@
             <span class="beat-num sort-spc" aria-hidden="true"></span>
             <span class="sort-spc-play" aria-hidden="true">&#9654;</span>
             <button class="sort-col${active('title')}" data-sort="title" onclick="sortBy('title')">TITLE${arrow('title')}</button>
+            <button class="sort-col${active('bpm')}" data-sort="bpm" onclick="sortBy('bpm')">BPM${arrow('bpm')}</button>
             <span class="sort-spc-wave"></span>
             <div class="beat-tags">
-              <button class="sort-col${active('bpm')}" data-sort="bpm" onclick="sortBy('bpm')">BPM${arrow('bpm')}</button>
               <button class="sort-col${active('genre')}" data-sort="genre" onclick="sortBy('genre')">GENRE${arrow('genre')}</button>
             </div>
             <span class="sort-spc-buy" aria-hidden="true">$50</span>
@@ -346,11 +346,11 @@
                 <span class="beat-num">${i + 1}</span>
                 <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
                 <span class="beat-title">${beat.title}</span>
+                <span class="beat-bpm">${beat.bpm} BPM</span>
                 <div class="waveform-wrap" id="wave-wrap-${beat.id}" onclick="waveformSeek(event,'${beat.id}')">
                   <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>
                 </div>
                 <div class="beat-tags">
-                  <span class="beat-bpm">${beat.bpm} BPM</span>
                   ${beat.genre.split(',').map(g => `<span class="beat-tag">${g.trim()}</span>`).join('')}
                 </div>
                 <button class="buy-btn" onclick="buyBeat('${beat.id}')">$${beat.price}</button>
