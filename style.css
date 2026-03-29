@@ -170,6 +170,10 @@ html, body {
   align-items: center;
   gap: .6rem;
   flex-shrink: 0;
+  background: #0d0d0d;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 6px;
+  padding: .8rem 1.4rem;
 }
 
 .player-title {
@@ -182,6 +186,7 @@ html, body {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+  width: 100%;
 }
 
 .player-controls {
@@ -384,13 +389,10 @@ html, body {
 }
 .sort-spc { visibility: hidden; }
 .sort-num-header {
-  font-size: clamp(.52rem, .75vw, .67rem);
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: #3a3a3a;
   width: 1.6em;
   text-align: right;
   flex-shrink: 0;
+  padding: 0;
 }
 .sort-spc-play {
   font-size: .85rem;
