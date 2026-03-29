@@ -140,6 +140,17 @@
       <h2 class="section-title">BEATS</h2>
       <div class="title-rule"></div>
       <div class="beats-body">
+        <div class="beats-lease-box">
+          <p class="lease-heading">Leasing</p>
+          <p class="lease-price">.WAV &nbsp;$50</p>
+          <ul class="lease-terms">
+            <li>250k Audio Streams</li>
+            <li>250K Video Streams</li>
+            <li>1 Music Video</li>
+            <li>MUST credit Producer</li>
+            <li>50% Publishing Rights</li>
+          </ul>
+        </div>
         <div class="beats-grid" id="beats-grid"></div>
       </div>
       <div class="page-socials">
@@ -303,8 +314,8 @@
     function getSortedBeats() {
       if (!sortState.col) return BEATS;
       return [...BEATS].sort((a, b) => {
-        const va = sortState.col === 'bpm' ? a.bpm : sortState.col === 'genre' ? a.genre : a.title;
-        const vb = sortState.col === 'bpm' ? b.bpm : sortState.col === 'genre' ? b.genre : b.title;
+        const va = sortState.col === 'bpm' ? a.bpm : sortState.col === 'genre' ? a.genre : sortState.col === 'date' ? a.date : a.title;
+        const vb = sortState.col === 'bpm' ? b.bpm : sortState.col === 'genre' ? b.genre : sortState.col === 'date' ? b.date : b.title;
         if (va < vb) return sortState.dir === 'asc' ? -1 : 1;
         if (va > vb) return sortState.dir === 'asc' ? 1 : -1;
         return 0;
@@ -333,6 +344,7 @@
             <span class="beat-num sort-spc" aria-hidden="true"></span>
             <span class="sort-spc-play" aria-hidden="true">&#9654;</span>
             <button class="sort-col${active('title')}" data-sort="title" onclick="sortBy('title')">TITLE${arrow('title')}</button>
+            <button class="sort-col${active('date')}" data-sort="date" onclick="sortBy('date')">DATE${arrow('date')}</button>
             <button class="sort-col${active('bpm')}" data-sort="bpm" onclick="sortBy('bpm')">BPM${arrow('bpm')}</button>
             <span class="sort-spc-wave"></span>
             <div class="beat-tags">
@@ -346,6 +358,7 @@
                 <span class="beat-num">${i + 1}</span>
                 <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
                 <span class="beat-title">${beat.title}</span>
+                <span class="beat-date">${beat.date}</span>
                 <span class="beat-bpm">${beat.bpm} BPM</span>
                 <div class="waveform-wrap" id="wave-wrap-${beat.id}" onclick="waveformSeek(event,'${beat.id}')">
                   <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>
