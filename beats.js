@@ -16,7 +16,7 @@
 const BEATS = [
   {
     id: 'gig',
-    title: "GIG 155BPM",
+    title: "GIG",
     bpm: 155,
     genre: 'HARD TRAP',
     price: 50,
@@ -24,7 +24,7 @@ const BEATS = [
   },
   {
     id: 'slowlanelarry1',
-    title: "SLOWLANELARRY LEFTOVERS 1 120BPM",
+    title: "SLOWLANELARRY LEFTOVERS 1",
     bpm: 120,
     genre: 'SMOOTH, TRAP, RXKNEPHEW',
     price: 50,
@@ -32,7 +32,7 @@ const BEATS = [
   },
   {
     id: 'slowlanelarry2',
-    title: "SLOWLANELARRY LEFTOVERS 2 130BPM",
+    title: "SLOWLANELARRY LEFTOVERS 2",
     bpm: 130,
     genre: 'SMOOTH, TRAP, RXKNEPHEW',
     price: 50,
@@ -40,7 +40,7 @@ const BEATS = [
   },
   {
     id: 'slowlanelarry3',
-    title: "SLOWLANELARRY LEFTOVERS 3 78BPM",
+    title: "SLOWLANELARRY LEFTOVERS 3",
     bpm: 78,
     genre: 'SMOOTH, BOOM BAP, RXKNEPHEW',
     price: 50,
@@ -48,7 +48,7 @@ const BEATS = [
   },
   {
     id: 'slowlanelarry4',
-    title: "SLOWLANELARRY LEFTOVERS 4 120BPM",
+    title: "SLOWLANELARRY LEFTOVERS 4",
     bpm: 120,
     genre: 'SMOOTH, TRAP, RXKNEPHEW',
     price: 50,
@@ -56,7 +56,7 @@ const BEATS = [
   },
   {
     id: 'slowlanelarry5',
-    title: "SLOWLANELARRY LEFTOVERS 5 81BPM",
+    title: "SLOWLANELARRY LEFTOVERS 5",
     bpm: 81,
     genre: 'SOUL, BOOM BAP, RXKNEPHEW',
     price: 50,
@@ -64,7 +64,7 @@ const BEATS = [
   },
   {
     id: 'slowlanelarry6',
-    title: "SLOWLANELARRY LEFTOVERS 6 145BPM",
+    title: "SLOWLANELARRY LEFTOVERS 6",
     bpm: 145,
     genre: 'SMOOTH, BOOM BAP, RXKNEPHEW',
     price: 50,
