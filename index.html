@@ -298,16 +298,50 @@
       return sharedAudioCtx;
     }
 
+    let sortState = { col: null, dir: 'asc' };
+
+    function getSortedBeats() {
+      if (!sortState.col) return BEATS;
+      return [...BEATS].sort((a, b) => {
+        const va = sortState.col === 'bpm' ? a.bpm : sortState.col === 'genre' ? a.genre : a.title;
+        const vb = sortState.col === 'bpm' ? b.bpm : sortState.col === 'genre' ? b.genre : b.title;
+        if (va < vb) return sortState.dir === 'asc' ? -1 : 1;
+        if (va > vb) return sortState.dir === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    function sortBy(col) {
+      if (!audioEl.paused) { audioEl.pause(); activeRow = null; }
+      sortState.dir = sortState.col === col && sortState.dir === 'asc' ? 'desc' : 'asc';
+      sortState.col = col;
+      renderBeats();
+    }
+
     function renderBeats() {
       if (!beatsGrid || !BEATS || BEATS.length === 0) return;
+      const beats  = getSortedBeats();
+      const arrow  = col => sortState.col !== col ? '' : sortState.dir === 'asc' ? ' ▲' : ' ▼';
+      const active = col => sortState.col === col ? ' sort-active' : '';
       beatsGrid.innerHTML = `
         <div class="beats-window">
           <div class="beats-window-bar">
             <span class="beats-window-title">BEAT STORE</span>
             <span class="beats-window-count">${BEATS.length} BEAT${BEATS.length !== 1 ? 'S' : ''}</span>
           </div>
+          <div class="beats-sort-bar">
+            <span class="beat-num sort-spc" aria-hidden="true"></span>
+            <span class="sort-spc-play" aria-hidden="true">&#9654;</span>
+            <button class="sort-col${active('title')}" data-sort="title" onclick="sortBy('title')">TITLE${arrow('title')}</button>
+            <span class="sort-spc-wave"></span>
+            <div class="beat-tags">
+              <button class="sort-col${active('bpm')}" data-sort="bpm" onclick="sortBy('bpm')">BPM${arrow('bpm')}</button>
+              <button class="sort-col${active('genre')}" data-sort="genre" onclick="sortBy('genre')">GENRE${arrow('genre')}</button>
+            </div>
+            <span class="sort-spc-buy" aria-hidden="true">$50</span>
+          </div>
           <div class="beats-table" id="beats-table">
-            ${BEATS.map((beat, i) => `
+            ${beats.map((beat, i) => `
               <div class="beat-row" data-id="${beat.id}">
                 <span class="beat-num">${i + 1}</span>
                 <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
