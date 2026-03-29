@@ -12,6 +12,10 @@ const BEAT_REGISTRY = {
     blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/09-01-22%20%27Gig%27%20155BPM%20%28Prod.%20Lukiebaby%29.wav',
     title: 'GIG 155BPM',
   },
+  'slowlanelarry1': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/10-29-25%20%27wastemytime%27%20120BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'SLOWLANELARRY LEFTOVERS 1 120BPM',
+  },
 };
 
 function downloadPage(title, downloadUrl) {

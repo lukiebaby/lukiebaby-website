@@ -22,4 +22,12 @@ const BEATS = [
     price: 50,
     previewUrl: 'https://cxa7wmzv0q3bmgo7.public.blob.vercel-storage.com/09-01-22%20%27Gig%27%20155BPM%20%28Prod.%20Lukiebaby%29SNIPPET.wav',
   },
+  {
+    id: 'slowlanelarry1',
+    title: "SLOWLANELARRY LEFTOVERS 1 120BPM",
+    bpm: 120,
+    genre: 'SMOOTH, TRAP, RXKNEPHEW',
+    price: 50,
+    previewUrl: 'https://cxa7wmzv0q3bmgo7.public.blob.vercel-storage.com/10-29-25%20%27wastemytime%27%20120BPM%20%28Prod.%20Lukiebaby%29-%5BAudioTrimmer.com%5D.wav',
+  },
 ];

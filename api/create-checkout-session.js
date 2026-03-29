@@ -11,6 +11,10 @@ const BEAT_REGISTRY = {
     priceId: 'price_1TFSdWChI2JOxZ4RBGVBc9Wc',
     title: 'GIG 155BPM',
   },
+  'slowlanelarry1': {
+    priceId: 'price_1TFlGkChI2JOxZ4RwgoggvUF',
+    title: 'SLOWLANELARRY LEFTOVERS 1 120BPM',
+  },
 };
 
 module.exports = async function handler(req, res) {
