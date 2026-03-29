@@ -15,6 +15,26 @@ const BEAT_REGISTRY = {
     priceId: 'price_1TFlGkChI2JOxZ4RwgoggvUF',
     title: 'SLOWLANELARRY LEFTOVERS 1 120BPM',
   },
+  'slowlanelarry2': {
+    priceId: 'price_1TFlIqChI2JOxZ4RQ0yfW0Q4',
+    title: 'SLOWLANELARRY LEFTOVERS 2 130BPM',
+  },
+  'slowlanelarry3': {
+    priceId: 'price_1TFlKVChI2JOxZ4RWHetKmWd',
+    title: 'SLOWLANELARRY LEFTOVERS 3 78BPM',
+  },
+  'slowlanelarry4': {
+    priceId: 'price_1TFlLwChI2JOxZ4RlCdciJ2F',
+    title: 'SLOWLANELARRY LEFTOVERS 4 120BPM',
+  },
+  'slowlanelarry5': {
+    priceId: 'price_1TFlNoChI2JOxZ4RUBK6aK9i',
+    title: 'SLOWLANELARRY LEFTOVERS 5 81BPM',
+  },
+  'slowlanelarry6': {
+    priceId: 'price_1TFlP2ChI2JOxZ4Rtkp3Bxxm',
+    title: 'SLOWLANELARRY LEFTOVERS 6 145BPM',
+  },
 };
 
 module.exports = async function handler(req, res) {

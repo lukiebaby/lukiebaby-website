@@ -16,6 +16,26 @@ const BEAT_REGISTRY = {
     blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/10-29-25%20%27wastemytime%27%20120BPM%20%28Prod.%20Lukiebaby%29.wav',
     title: 'SLOWLANELARRY LEFTOVERS 1 120BPM',
   },
+  'slowlanelarry2': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/09-23-24%20%27cry%27%20130BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'SLOWLANELARRY LEFTOVERS 2 130BPM',
+  },
+  'slowlanelarry3': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/08-15-23%20%27Rx%2090mg%27%2078BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'SLOWLANELARRY LEFTOVERS 3 78BPM',
+  },
+  'slowlanelarry4': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/08-15-23%20%27Rx%2080mg%27%2084BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'SLOWLANELARRY LEFTOVERS 4 120BPM',
+  },
+  'slowlanelarry5': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/08-15-23%20%2730mg%27%2081BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'SLOWLANELARRY LEFTOVERS 5 81BPM',
+  },
+  'slowlanelarry6': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/08-02-24%20%27Higha%27%20145BPM%20%28Prod%20Lukiebaby%29.wav',
+    title: 'SLOWLANELARRY LEFTOVERS 6 145BPM',
+  },
 };
 
 function downloadPage(title, downloadUrl) {
