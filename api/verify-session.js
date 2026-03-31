@@ -68,6 +68,22 @@ const BEAT_REGISTRY = {
     blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/01-10-26%20%27Groovy%27%20118BPM%20%28Prod.%20Lukiebaby%29.wav',
     title: 'SLOWLANELARRY LEFTOVERS 7 120BPM',
   },
+  'backtrack': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/03-07-25%20%27bt%27%20175BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'BACK TRACK 175BPM',
+  },
+  'pocketsempty': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/03-18-25%20%274PE%27%20150BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'POCKETS EMPTY 150BPM',
+  },
+  'heartless': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/03-27-25%20%27heartless%27%20182BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'HEARTLESS 182BPM',
+  },
+  'gothatway': {
+    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/03-28-25%20%27Thatway%27%20178BPM%20%28Prod.%20Lukiebaby%29.wav',
+    title: 'GO THAT WAY 178BPM',
+  },
 };
 
 function downloadPage(title, downloadUrl) {

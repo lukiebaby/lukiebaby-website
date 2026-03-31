@@ -67,6 +67,22 @@ const BEAT_REGISTRY = {
     priceId: 'price_1TGBY6ChI2JOxZ4RbVkkv9gr',
     title: 'SLOWLANELARRY LEFTOVERS 7 120BPM',
   },
+  'backtrack': {
+    priceId: 'price_1TGuLnChI2JOxZ4RGEwFoK14',
+    title: 'BACK TRACK 175BPM',
+  },
+  'pocketsempty': {
+    priceId: 'price_1TGuMoChI2JOxZ4RY1Ldgs9W',
+    title: 'POCKETS EMPTY 150BPM',
+  },
+  'heartless': {
+    priceId: 'price_1TGuNUChI2JOxZ4RQ9ksceY4',
+    title: 'HEARTLESS 182BPM',
+  },
+  'gothatway': {
+    priceId: 'price_1TGuOZChI2JOxZ4R31UG8zCn',
+    title: 'GO THAT WAY 178BPM',
+  },
 };
 
 module.exports = async function handler(req, res) {
