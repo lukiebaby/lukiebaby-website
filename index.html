@@ -229,20 +229,30 @@
 
     function updateSharedBanner() {
       if (!sharedBanner || !container) return;
-      const vh = container.clientHeight;
-      const st = container.scrollTop;
-
-      if (st > vh) {
-        sharedBanner.classList.add('is-hidden');
-        return;
-      }
-      sharedBanner.classList.remove('is-hidden');
+      const vh     = container.clientHeight;
+      const st     = container.scrollTop;
+      const spacer = document.querySelector('.credits-banner-spacer');
 
       const creditsTop = parseFloat(getComputedStyle(document.documentElement).fontSize) * 5;
       const homeY      = vh - BANNER_H;
-      const t          = Math.min(1, Math.max(0, st / vh));
-      const y          = homeY + (creditsTop - homeY) * t;
-      sharedBanner.style.transform = `translateY(${y}px)`;
+
+      let y;
+      if (st >= vh && spacer) {
+        // Past home — lock banner to credits spacer so it scrolls off with the page
+        y = spacer.getBoundingClientRect().top;
+      } else {
+        const t = Math.min(1, Math.max(0, st / vh));
+        y = homeY + (creditsTop - homeY) * t;
+      }
+
+      // Only hide once fully above the viewport (no opacity fade)
+      if (y + BANNER_H < 0) {
+        sharedBanner.classList.add('is-hidden');
+        return;
+      }
+
+      sharedBanner.classList.remove('is-hidden');
+      sharedBanner.style.transform = `translateY(${Math.round(y)}px)`;
     }
 
     let current   = 0;
