@@ -281,6 +281,31 @@ html, body {
   overflow: hidden;
   position: relative;
 }
+
+.banner-shared {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  will-change: transform;
+  transition: opacity .2s ease;
+}
+
+.banner-shared.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.banner-spacer {
+  height: 364px;
+  flex-shrink: 0;
+}
+
+.credits-banner-spacer {
+  margin-top: 5rem;
+}
 .banner-track {
   display: flex;
   height: 100%;
@@ -302,11 +327,6 @@ html, body {
 }
 
 /* ── CREDITS ────────────────────────────────────────── */
-.credits-banner {
-  height: 364px;
-  margin-top: 5rem;
-}
-
 .credits-title {
   padding-top: 1rem;
 }
