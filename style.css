@@ -629,6 +629,7 @@ html, body {
   letter-spacing: .12em;
   text-transform: uppercase;
   padding: .4rem 1rem;
+  font-weight: normal;
   cursor: pointer;
   transition: background .2s;
   border-radius: 2px;
