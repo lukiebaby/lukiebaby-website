@@ -393,7 +393,7 @@
                 <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
                 <span class="beat-title">${beat.title}</span>
                 <span class="beat-bpm">${beat.bpm} BPM</span>
-                <div class="waveform-wrap" id="wave-wrap-${beat.id}" onclick="waveformSeek(event,'${beat.id}')">
+                <div class="waveform-wrap" id="wave-wrap-${beat.id}" onmousedown="startWaveformSeek(event,'${beat.id}')">
                   <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>
                 </div>
                 <div class="beat-tags">
@@ -608,13 +608,29 @@
       playerUpdateUI();
     });
 
-    function waveformSeek(e, beatId) {
-      if (!activeRow || activeRow.dataset.id !== beatId || !audioEl.duration) return;
+    let _seekDragId = null;
+
+    function _doSeek(clientX, beatId) {
+      if (!audioEl.duration) return;
       const wrap  = document.getElementById(`wave-wrap-${beatId}`);
+      if (!wrap) return;
       const rect  = wrap.getBoundingClientRect();
-      const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
       audioEl.currentTime = ratio * audioEl.duration;
     }
+
+    function startWaveformSeek(e, beatId) {
+      if (!activeRow || activeRow.dataset.id !== beatId) return;
+      e.preventDefault();
+      _seekDragId = beatId;
+      _doSeek(e.clientX, beatId);
+    }
+
+    document.addEventListener('mousemove', e => {
+      if (_seekDragId) _doSeek(e.clientX, _seekDragId);
+    });
+
+    document.addEventListener('mouseup', () => { _seekDragId = null; });
 
     async function buyBeat(beatId) {
       const row = beatsGrid.querySelector(`[data-id="${beatId}"]`);
