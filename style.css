@@ -167,7 +167,7 @@ html, body {
 .beats-player {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: .55rem;
   flex-shrink: 0;
   align-self: center;
