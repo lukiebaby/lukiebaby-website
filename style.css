@@ -346,6 +346,10 @@ html, body {
 }
 
 /* ── BEATS ──────────────────────────────────────────── */
+.beats-title-row {
+  position: relative;
+  flex-shrink: 0;
+}
 #beats .section-title { padding-top: 5rem; }
 
 .beats-body {
@@ -355,7 +359,6 @@ html, body {
   flex-direction: column;
   align-items: stretch;
   padding: .4rem 0.3rem 1.2rem;
-  gap: .6rem;
   overflow: hidden;
 }
 
@@ -369,34 +372,34 @@ html, body {
 
 /* ── Leasing info box ── */
 .beats-lease-box {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
   background: #0d0d0d;
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: 8px;
   color: #d8d8d8;
   font-family: system-ui, -apple-system, sans-serif;
-  flex-shrink: 0;
-  width: 100%;
-  padding: .7rem 1.4rem;
+  width: clamp(130px, 14vw, 190px);
+  padding: 1.2rem 1rem;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1.8rem;
+  flex-direction: column;
+  gap: .5rem;
 }
 
 .lease-heading {
   font-size: clamp(.75rem, 1.1vw, 1rem);
   letter-spacing: .1em;
   text-transform: uppercase;
-  margin: 0;
-  flex-shrink: 0;
+  margin: 0 0 .2rem;
 }
 
 .lease-price {
   font-size: clamp(.7rem, 1vw, .9rem);
   letter-spacing: .08em;
   color: #d8d8d8;
-  margin: 0;
-  flex-shrink: 0;
+  margin: 0 0 .4rem;
 }
 
 .lease-terms {
@@ -404,9 +407,8 @@ html, body {
   padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: .2rem 1.4rem;
+  flex-direction: column;
+  gap: .35rem;
 }
 
 .lease-terms li {
@@ -415,7 +417,6 @@ html, body {
   color: #e8e8e8;
   padding-left: .9rem;
   position: relative;
-  white-space: nowrap;
 }
 
 .lease-terms li::before {
