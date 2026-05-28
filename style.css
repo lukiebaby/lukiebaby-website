@@ -446,7 +446,7 @@ html, body {
   flex-shrink: 0;
 }
 .beats-window-title {
-  font-size: clamp(.7rem, 1.2vw, 1rem);
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
   letter-spacing: .25em;
   color: #d8d8d8;
   text-transform: uppercase;
