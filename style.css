@@ -93,6 +93,35 @@ html, body {
 .nav-link:hover  { color: var(--text-bright); }
 .nav-link.active { color: var(--text-title); }
 
+/* ── Page nav (below section titles) ────────────────── */
+.page-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  flex-shrink: 0;
+  padding: .5rem 0;
+}
+.page-nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-body);
+  font-family: inherit;
+  font-size: clamp(.6rem, 1vw, .85rem);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+  transition: color .15s;
+}
+.page-nav-btn:hover { color: var(--text-bright); }
+.page-nav-sep {
+  color: var(--text-body);
+  font-size: clamp(.6rem, 1vw, .85rem);
+  opacity: .45;
+  user-select: none;
+}
+
 /* ── HOME ──────────────────────────────────────────── */
 #home .home-main {
   flex: 1;
