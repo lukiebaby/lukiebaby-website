@@ -540,7 +540,7 @@
         const beat = activeRow ? BEATS.find(b => b.id === activeRow.dataset.id) : null;
         titleEl.textContent = beat ? beat.title : '—';
       }
-      if (ppBtn) ppBtn.innerHTML = (!audioEl.paused) ? '&#9646;&#9646;' : '&#9654;';
+      if (ppBtn) ppBtn.innerHTML = (!audioEl.paused) ? '||' : '&#9654;';
       if (shfBtn) shfBtn.classList.toggle('shuffle-active', shuffleMode);
       if (scrubber && audioEl.duration) {
         scrubber.value = (audioEl.currentTime / audioEl.duration) * 100;
