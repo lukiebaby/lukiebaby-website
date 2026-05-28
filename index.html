@@ -620,10 +620,21 @@
     }
 
     function startWaveformSeek(e, beatId) {
-      if (!activeRow || activeRow.dataset.id !== beatId) return;
       e.preventDefault();
       _seekDragId = beatId;
-      _doSeek(e.clientX, beatId);
+      if (!activeRow || activeRow.dataset.id !== beatId) {
+        const clientX = e.clientX;
+        const wrap = document.getElementById(`wave-wrap-${beatId}`);
+        const rect = wrap.getBoundingClientRect();
+        const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        togglePlay(beatId);
+        audioEl.addEventListener('canplay', function seekOnce() {
+          audioEl.currentTime = ratio * audioEl.duration;
+          audioEl.removeEventListener('canplay', seekOnce);
+        });
+      } else {
+        _doSeek(e.clientX, beatId);
+      }
     }
 
     document.addEventListener('mousemove', e => {
