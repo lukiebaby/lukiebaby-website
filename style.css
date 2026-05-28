@@ -626,7 +626,7 @@ html, body {
   background: #2d6e38;
   border: none;
   color: #c2e1c2;
-  font-family: inherit;
+  font-family: system-ui, -apple-system, sans-serif;
   font-size: clamp(.6rem, .85vw, .8rem);
   letter-spacing: .12em;
   text-transform: uppercase;
