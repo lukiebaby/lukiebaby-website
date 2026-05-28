@@ -386,7 +386,7 @@ html, body {
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: 8px;
   color: #d8d8d8;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Rajdhani', sans-serif;
   width: clamp(130px, 14vw, 190px);
   padding: 1.2rem 1rem;
   display: flex;
@@ -499,7 +499,7 @@ html, body {
 .sort-col {
   background: none;
   border: none;
-  color: #3a3a3a;
+  color: #777777;
   font-family: inherit;
   font-size: clamp(.52rem, .75vw, .67rem);
   letter-spacing: .2em;
