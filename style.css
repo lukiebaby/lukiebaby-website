@@ -570,10 +570,10 @@ html, body {
 .beat-row.playing .play-btn { color: #ffffff; }
 
 .beat-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(.8rem, 1.1vw, 1.05rem);
-  font-weight: 400;
-  letter-spacing: .08em;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(.7rem, .95vw, .88rem);
+  font-weight: 500;
+  letter-spacing: .1em;
   color: #d8d8d8;
   text-transform: uppercase;
   white-space: nowrap;
