@@ -554,6 +554,8 @@
 
     function playerToggle() {
       if (activeRow) { togglePlay(activeRow.dataset.id); return; }
+      const beats = getSortedBeats();
+      if (beats.length) playBeat(beats[Math.floor(Math.random() * beats.length)].id);
     }
 
     function playerPrev() {
