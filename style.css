@@ -166,46 +166,27 @@ html, body {
 /* ── Beats Page Player ───────────────────────────────── */
 .beats-player {
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: .55rem;
-  flex-shrink: 0;
-  align-self: center;
-  background: #0d0d0d;
-  border: 1px solid rgba(255, 255, 255, .08);
-  border-radius: 6px;
-  padding: .9rem 1.6rem .9rem;
-  min-width: clamp(200px, 26vw, 360px);
-}
-
-.player-title {
-  font-size: clamp(.55rem, .9vw, .78rem);
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: #888888;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  align-self: center;
-}
-
-.player-scrubber-row {
-  display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: .5rem;
+  gap: 1rem;
+  flex-shrink: 0;
   width: 100%;
+  background: #111111;
+  border-top: 1px solid rgba(255, 255, 255, .07);
+  padding: .55rem 1.4rem;
+  box-sizing: border-box;
 }
 
 .player-time {
-  font-size: clamp(.48rem, .72vw, .62rem);
-  letter-spacing: .04em;
-  color: #555555;
+  font-size: clamp(.55rem, .85vw, .72rem);
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: .08em;
+  color: #888888;
   white-space: nowrap;
   flex-shrink: 0;
-  min-width: 2.4em;
+  min-width: 2.8em;
+  text-align: right;
 }
-
-#player-remaining { text-align: right; }
 
 .player-scrubber {
   -webkit-appearance: none;
@@ -225,12 +206,12 @@ html, body {
 }
 .player-scrubber::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
-  margin-top: -4px;
+  margin-top: -5px;
 }
 .player-scrubber::-moz-range-track {
   height: 2px;
@@ -238,19 +219,12 @@ html, body {
   border-radius: 1px;
 }
 .player-scrubber::-moz-range-thumb {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: #ffffff;
   border: none;
   cursor: pointer;
-}
-
-.player-controls {
-  display: flex;
-  gap: 1.4rem;
-  align-items: center;
-  align-self: center;
 }
 
 .player-btn {
@@ -258,26 +232,25 @@ html, body {
   border: none;
   cursor: pointer;
   font-family: inherit;
-  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  font-size: clamp(.9rem, 1.4vw, 1.2rem);
   color: #666666;
-  padding: .2rem .3rem;
+  padding: .15rem .25rem;
   transition: color .2s;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .player-btn:hover { color: #ffffff; }
 
 .player-btn-skip {
-  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
 }
 
 .player-btn-main {
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
   font-weight: bold;
   color: #ffffff;
 }
-
-.shuffle-active { color: #ffffff !important; }
 
 /* ── Infinite Banner ────────────────────────────────── */
 .banner-wrapper {
