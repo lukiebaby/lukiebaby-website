@@ -269,6 +269,10 @@ html, body {
 
 .player-btn:hover { color: #ffffff; }
 
+.player-btn-skip {
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+}
+
 .player-btn-main {
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: bold;
