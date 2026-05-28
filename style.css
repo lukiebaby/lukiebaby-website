@@ -186,8 +186,7 @@ html, body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: center;
-  width: 100%;
+  align-self: center;
 }
 
 .player-scrubber-row {
