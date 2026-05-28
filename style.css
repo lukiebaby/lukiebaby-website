@@ -173,8 +173,9 @@ html, body {
   width: 100%;
   background: #111111;
   border-top: 1px solid rgba(255, 255, 255, .07);
-  padding: .55rem 1.4rem;
+  padding: .5rem 1.4rem;
   box-sizing: border-box;
+  border-radius: 0 0 8px 8px;
 }
 
 .player-time {

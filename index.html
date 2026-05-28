@@ -160,15 +160,6 @@
       <div class="beats-body">
         <div class="beats-grid" id="beats-grid"></div>
       </div>
-      <div id="beats-player" class="beats-player" hidden>
-        <button class="player-btn player-btn-skip" onclick="playerPrev()" aria-label="Previous">&#9198;</button>
-        <button class="player-btn player-btn-skip" onclick="playerSeekBack()" aria-label="Rewind">&#9194;</button>
-        <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" aria-label="Play">&#9654;</button>
-        <button class="player-btn player-btn-skip" onclick="playerSeekForward()" aria-label="Fast Forward">&#9193;</button>
-        <button class="player-btn player-btn-skip" onclick="playerNext()" aria-label="Next">&#9197;</button>
-        <input type="range" id="player-scrubber" class="player-scrubber" min="0" max="100" value="0" step="0.1" oninput="playerSeek(this)">
-        <span class="player-time" id="player-remaining">-0:00</span>
-      </div>
       <div class="page-socials">
         <a class="social-block"
            href="https://www.instagram.com/lukiebabybeats/"
@@ -341,6 +332,7 @@
     function filterByStyle(style) {
       filterStyle = filterStyle === style ? null : style;
       renderBeats();
+      if (!audioEl.paused) playerUpdateUI();
     }
 
     function getSortedBeats() {
@@ -402,6 +394,13 @@
                 <button class="buy-btn" onclick="buyBeat('${beat.id}')">$${beat.price}</button>
               </div>
             `).join('')}
+          </div>
+          <div id="beats-player" class="beats-player" hidden>
+            <button class="player-btn player-btn-skip" onclick="playerPrev()" aria-label="Previous">&#9198;</button>
+            <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" aria-label="Play">&#9654;</button>
+            <button class="player-btn player-btn-skip" onclick="playerNext()" aria-label="Next">&#9197;</button>
+            <input type="range" id="player-scrubber" class="player-scrubber" min="0" max="100" value="0" step="0.1" oninput="playerSeek(this)">
+            <span class="player-time" id="player-remaining">0:00</span>
           </div>
         </div>
       `;
