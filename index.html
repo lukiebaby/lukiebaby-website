@@ -391,7 +391,7 @@
                 <div class="beat-tags">
                   ${beat.genre.split(',').map(g => { const s = g.trim(); return `<button class="beat-tag${filterStyle === s ? ' beat-tag-active' : ''}" onclick="filterByStyle('${s}')">${s}</button>`; }).join('')}
                 </div>
-                <button class="buy-btn" onclick="buyBeat('${beat.id}')">$${beat.price}</button>
+                <button class="buy-btn" onclick="buyBeat('${beat.id}')">BUY</button>
               </div>
             `).join('')}
           </div>
