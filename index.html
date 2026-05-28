@@ -16,6 +16,8 @@
   <nav id="nav">
     <a class="nav-logo" onclick="goTo(0)">LUKIEBABY</a>
     <div class="nav-links">
+      <button class="nav-link" onclick="goTo(0)">HOME</button>
+      <span class="nav-sep">|</span>
       <button class="nav-link" onclick="goTo(1)">CREDITS</button>
       <span class="nav-sep">|</span>
       <button class="nav-link" onclick="goTo(2)">MIXING &amp; SERVICES</button>
@@ -64,15 +66,6 @@
       <div class="home-main">
         <h1 class="home-title">LUKIEBABY</h1>
         <div class="title-rule"></div>
-        <nav class="page-nav">
-          <button class="page-nav-btn" onclick="goTo(0)">Home</button>
-          <span class="page-nav-sep">|</span>
-          <button class="page-nav-btn" onclick="goTo(1)">Credits</button>
-          <span class="page-nav-sep">|</span>
-          <button class="page-nav-btn" onclick="goTo(2)">Mixing &amp; Services</button>
-          <span class="page-nav-sep">|</span>
-          <button class="page-nav-btn" onclick="goTo(3)">Beatstore</button>
-        </nav>
         <p class="home-role">TRACKING ENGINEER</p>
         <p class="home-role">MIX ENGINEER</p>
         <p class="home-role">PRODUCER</p>
@@ -101,15 +94,6 @@
       <div class="banner-spacer credits-banner-spacer" aria-hidden="true"></div>
       <h2 class="section-title credits-title">CREDITS</h2>
       <div class="title-rule"></div>
-      <nav class="page-nav">
-        <button class="page-nav-btn" onclick="goTo(0)">Home</button>
-        <span class="page-nav-sep">|</span>
-        <button class="page-nav-btn" onclick="goTo(1)">Credits</button>
-        <span class="page-nav-sep">|</span>
-        <button class="page-nav-btn" onclick="goTo(2)">Mixing &amp; Services</button>
-        <span class="page-nav-sep">|</span>
-        <button class="page-nav-btn" onclick="goTo(3)">Beatstore</button>
-      </nav>
       <div class="credits-list">
         <p class="credits-line">RXKNEPHEW &nbsp;&nbsp;&nbsp; NATENUMBAEIGHT &nbsp;&nbsp;&nbsp; RETCH</p>
         <p class="credits-line">KENNYSSR &nbsp;&nbsp;&nbsp; DANNY G BEATS &nbsp;&nbsp;&nbsp; GEEOHHS</p>
@@ -136,15 +120,6 @@
       <div class="mixing-body">
         <h2 class="mixing-title">MIXING &amp;<br>SERVICES</h2>
         <div class="title-rule"></div>
-        <nav class="page-nav">
-          <button class="page-nav-btn" onclick="goTo(0)">Home</button>
-          <span class="page-nav-sep">|</span>
-          <button class="page-nav-btn" onclick="goTo(1)">Credits</button>
-          <span class="page-nav-sep">|</span>
-          <button class="page-nav-btn" onclick="goTo(2)">Mixing &amp; Services</button>
-          <span class="page-nav-sep">|</span>
-          <button class="page-nav-btn" onclick="goTo(3)">Beatstore</button>
-        </nav>
         <p class="mixing-price">$75 MIX &amp; MASTER</p>
         <p class="mixing-price">$50 LEASES</p>
         <p class="mixing-price">$40 SONG RESTORATION</p>
@@ -173,15 +148,6 @@
       <div class="beats-title-row">
         <h2 class="section-title">BEATSTORE</h2>
         <div class="title-rule"></div>
-        <nav class="page-nav">
-          <button class="page-nav-btn" onclick="goTo(0)">Home</button>
-          <span class="page-nav-sep">|</span>
-          <button class="page-nav-btn" onclick="goTo(1)">Credits</button>
-          <span class="page-nav-sep">|</span>
-          <button class="page-nav-btn" onclick="goTo(2)">Mixing &amp; Services</button>
-          <span class="page-nav-sep">|</span>
-          <button class="page-nav-btn" onclick="goTo(3)">Beatstore</button>
-        </nav>
         <div class="beats-lease-box">
           <p class="lease-heading">Leasing</p>
           <p class="lease-price">.WAV &nbsp;$50</p>
@@ -306,7 +272,7 @@
       }
       requestAnimationFrame(step);
 
-      navLinks.forEach((link, i) => link.classList.toggle('active', i === index - 1));
+      navLinks.forEach((link, i) => link.classList.toggle('active', i === index));
     }
 
     updateSharedBanner();
