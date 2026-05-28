@@ -298,13 +298,24 @@
     updateSharedBanner();
     window.addEventListener('resize', updateSharedBanner);
 
-    // Mouse wheel — allow internal scroll inside beats table before switching sections
+    // Mouse wheel — lock page scroll when cursor is over the beats window
     container.addEventListener('wheel', (e) => {
+      const win = document.querySelector('.beats-window');
       const tbl = document.getElementById('beats-table');
-      if (tbl && tbl.contains(e.target)) {
-        const atTop    = tbl.scrollTop === 0;
-        const atBottom = tbl.scrollTop + tbl.clientHeight >= tbl.scrollHeight - 1;
-        if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) return;
+      if (win && win.contains(e.target)) {
+        // Inside beats-table: let it scroll internally; only pass through at boundaries
+        if (tbl && tbl.contains(e.target)) {
+          const atTop    = tbl.scrollTop === 0;
+          const atBottom = tbl.scrollTop + tbl.clientHeight >= tbl.scrollHeight - 1;
+          if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) {
+            e.preventDefault();
+            return;
+          }
+        } else {
+          // Anywhere else in the window — block page change entirely
+          e.preventDefault();
+          return;
+        }
       }
       e.preventDefault();
       if (scrolling) return;
