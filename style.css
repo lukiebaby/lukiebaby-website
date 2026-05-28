@@ -371,7 +371,7 @@ html, body {
   background: #0d0d0d;
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: 8px;
-  color: #ffffff;
+  color: #d8d8d8;
   font-family: system-ui, -apple-system, sans-serif;
   flex-shrink: 0;
   width: clamp(130px, 14vw, 190px);
@@ -443,7 +443,7 @@ html, body {
 .beats-window-title {
   font-size: clamp(.7rem, 1.2vw, 1rem);
   letter-spacing: .25em;
-  color: #ffffff;
+  color: #d8d8d8;
   text-transform: uppercase;
 }
 .beats-window-count {
@@ -562,7 +562,7 @@ html, body {
   font-size: clamp(.7rem, 1vw, .95rem);
   font-weight: 300;
   letter-spacing: .06em;
-  color: #ffffff;
+  color: #d8d8d8;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
@@ -623,9 +623,9 @@ html, body {
 .buy-btn {
   width: auto;
   flex-shrink: 0;
-  background: #1a6fff;
+  background: #2d6e38;
   border: none;
-  color: #ffffff;
+  color: #c2e1c2;
   font-family: inherit;
   font-size: clamp(.6rem, .85vw, .8rem);
   letter-spacing: .12em;
@@ -636,7 +636,7 @@ html, body {
   transition: background .2s;
   border-radius: 2px;
 }
-.buy-btn:hover { background: #3d85ff; }
+.buy-btn:hover { background: #366040; }
 .buy-btn:disabled { opacity: .4; cursor: not-allowed; }
 
 /* ── MIXING & SERVICES ──────────────────────────────── */
