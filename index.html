@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LUKIEBABY</title>
+  <link rel="preload" href="ChunkFive-Regular.ttf" as="font" type="font/truetype" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
@@ -26,9 +27,9 @@
   <!-- Shared banner (one instance — moves between home bottom and credits top) -->
   <div id="shared-banner" class="banner-wrapper banner-shared">
     <div class="banner-track">
-      <a class="banner-item" href="https://linktr.ee/GamblingWithMyLife" target="_blank" rel="noopener noreferrer"><img src="WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 1.jpg" alt=""></a>
-      <a class="banner-item" href="https://linktr.ee/DriveSlowNateAndLukie" target="_blank" rel="noopener noreferrer"><img src="WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 2.PNG" alt=""></a>
-      <a class="banner-item" href="https://linktr.ee/GoblinSong" target="_blank" rel="noopener noreferrer"><img src="WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 3.PNG" alt=""></a>
+      <a class="banner-item" href="https://linktr.ee/GamblingWithMyLife" target="_blank" rel="noopener noreferrer"><img src="WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 1.jpg" alt="" fetchpriority="high"></a>
+      <a class="banner-item" href="https://linktr.ee/DriveSlowNateAndLukie" target="_blank" rel="noopener noreferrer"><img src="WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 2.PNG" alt="" fetchpriority="high"></a>
+      <a class="banner-item" href="https://linktr.ee/GoblinSong" target="_blank" rel="noopener noreferrer"><img src="WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 3.PNG" alt="" fetchpriority="high"></a>
       <a class="banner-item" href="https://linktr.ee/130MPH" target="_blank" rel="noopener noreferrer"><img src="WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 4.PNG" alt=""></a>
       <a class="banner-item" href="https://linktr.ee/FuckMakingFriendsDieSliding" target="_blank" rel="noopener noreferrer"><img src="WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 5.jpg" alt=""></a>
       <a class="banner-item" href="https://linktr.ee/ChancletasArcRaiders" target="_blank" rel="noopener noreferrer"><img src="WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 6.jpg" alt=""></a>
@@ -185,9 +186,10 @@
       const GAP = 20; // must match CSS gap on .banner-track
       const SET_SIZE = 13; // number of unique images
 
-      // Wait for all banner images to load
+      // Wait for only the first set of images — duplicates don't need to be ready before animation starts
       const allImgs = Array.from(document.querySelectorAll('.banner-track img'));
-      await Promise.all(allImgs.map(img =>
+      const firstSet = allImgs.slice(0, SET_SIZE);
+      await Promise.all(firstSet.map(img =>
         img.complete ? Promise.resolve() : new Promise(r => { img.onload = r; img.onerror = r; })
       ));
 
