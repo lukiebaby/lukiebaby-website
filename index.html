@@ -305,6 +305,8 @@
         const atTop    = tbl.scrollTop === 0;
         const atBottom = tbl.scrollTop + tbl.clientHeight >= tbl.scrollHeight - 1;
         if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) return;
+        // At the top of the beat list — block scrolling back to previous page
+        if (e.deltaY < 0 && atTop) { e.preventDefault(); return; }
       }
       e.preventDefault();
       if (scrolling) return;
