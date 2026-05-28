@@ -389,14 +389,14 @@ html, body {
 }
 
 .lease-heading {
-  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+  font-size: clamp(.75rem, 1.1vw, 1rem);
   letter-spacing: .1em;
   text-transform: uppercase;
   margin: 0 0 .2rem;
 }
 
 .lease-price {
-  font-size: clamp(.85rem, 1.3vw, 1.15rem);
+  font-size: clamp(.7rem, 1vw, .9rem);
   letter-spacing: .08em;
   color: #d8d8d8;
   margin: 0 0 .4rem;
