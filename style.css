@@ -357,13 +357,13 @@ html, body {
   top: 60%;
   transform: translateY(-50%);
   text-align: right;
-  font-family: 'Rajdhani', sans-serif;
+  font-family: 'ChunkFive Roman', serif;
 }
 
 .beats-contact-note {
   font-size: clamp(.55rem, .8vw, .72rem);
   letter-spacing: .08em;
-  color: #888888;
+  color: var(--text-body);
   text-transform: uppercase;
   margin: 0 0 .25rem;
 }
@@ -371,7 +371,7 @@ html, body {
 .beats-contact-email {
   font-size: clamp(.6rem, .9vw, .8rem);
   letter-spacing: .06em;
-  color: #c2e1c2;
+  color: var(--text-body);
   text-transform: uppercase;
   margin: 0;
 }
