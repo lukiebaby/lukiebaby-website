@@ -352,16 +352,17 @@ html, body {
   flex: 1;
   min-height: 0;
   display: flex;
+  flex-direction: column;
   align-items: stretch;
-  justify-content: center;
   padding: .4rem 0.3rem 1.2rem;
+  gap: .6rem;
   overflow: hidden;
 }
 
 /* ── Grid container fills beats-body ── */
 .beats-grid {
   flex: 1;
-  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -374,27 +375,28 @@ html, body {
   color: #d8d8d8;
   font-family: system-ui, -apple-system, sans-serif;
   flex-shrink: 0;
-  width: clamp(130px, 14vw, 190px);
-  margin-right: 1rem;
-  padding: 1.2rem 1rem;
+  width: 100%;
+  padding: .7rem 1.4rem;
   display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  align-self: flex-start;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.8rem;
 }
 
 .lease-heading {
   font-size: clamp(.75rem, 1.1vw, 1rem);
   letter-spacing: .1em;
   text-transform: uppercase;
-  margin: 0 0 .2rem;
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .lease-price {
   font-size: clamp(.7rem, 1vw, .9rem);
   letter-spacing: .08em;
   color: #d8d8d8;
-  margin: 0 0 .4rem;
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .lease-terms {
@@ -402,8 +404,9 @@ html, body {
   padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: column;
-  gap: .35rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: .2rem 1.4rem;
 }
 
 .lease-terms li {
@@ -412,6 +415,7 @@ html, body {
   color: #e8e8e8;
   padding-left: .9rem;
   position: relative;
+  white-space: nowrap;
 }
 
 .lease-terms li::before {
