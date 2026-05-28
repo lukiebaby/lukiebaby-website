@@ -130,6 +130,13 @@ html, body {
   align-self: center;
 }
 
+/* ── Beats contact footer ────────────────────────────── */
+.beats-contact {
+  padding: 0 4rem 1.8rem;
+  flex-shrink: 0;
+  text-align: center;
+}
+
 /* ── Social Blocks (shared across all pages) ─────────── */
 .page-socials {
   display: flex;
