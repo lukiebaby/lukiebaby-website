@@ -350,9 +350,23 @@
 
     // Touch swipe
     let touchY = 0;
-    container.addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+    let touchInTable = false;
+    container.addEventListener('touchstart', (e) => {
+      touchY = e.touches[0].clientY;
+      const tbl = document.getElementById('beats-table');
+      touchInTable = !!(tbl && tbl.contains(e.target));
+    }, { passive: true });
     container.addEventListener('touchend',   (e) => {
       const delta = touchY - e.changedTouches[0].clientY;
+      // Inside the beat list: let it scroll internally unless swiping past an edge
+      if (touchInTable) {
+        const tbl = document.getElementById('beats-table');
+        if (tbl) {
+          const atTop    = tbl.scrollTop <= 0;
+          const atBottom = tbl.scrollTop + tbl.clientHeight >= tbl.scrollHeight - 1;
+          if ((delta > 0 && !atBottom) || (delta < 0 && !atTop)) return;
+        }
+      }
       if (Math.abs(delta) > 50) goTo(delta > 0 ? current + 1 : current - 1);
     }, { passive: true });
 
