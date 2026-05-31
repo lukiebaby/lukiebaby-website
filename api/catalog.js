@@ -135,4 +135,10 @@ module.exports = {
     mp3Product: 'prod_UcWDMs4qSWtcMP',
     wavProduct: 'prod_UcWEZ3TldfKvZF',
   },
+  holidayszn: {
+    title: 'HOLIDAY SZN 124BPM',
+    file: "12-17-24 'hldyszn' 124BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UcWWkr4oLDC7he',
+    wavProduct: 'prod_UcWXEQuRHtWJ4G',
+  },
 };
