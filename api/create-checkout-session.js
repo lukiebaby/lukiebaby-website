@@ -7,10 +7,16 @@ const CATALOG = require('./catalog');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
     return res.status(405).end();
   }
 
-  const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+  let body;
+  try {
+    body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+  } catch {
+    return res.status(400).json({ error: 'Invalid request body' });
+  }
   const { beatId, format } = body || {};
   const beat = CATALOG[beatId];
 
@@ -37,13 +43,19 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'No default price set for product' });
   }
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${process.env.SITE_URL}/api/verify-session?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: process.env.SITE_URL,
-    metadata: { beatId, format },
-  });
+  let session;
+  try {
+    session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: `${process.env.SITE_URL}/api/verify-session?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: process.env.SITE_URL,
+      metadata: { beatId, format },
+    });
+  } catch (e) {
+    console.error('Stripe session create failed', e.message);
+    return res.status(502).json({ error: 'Could not create checkout session' });
+  }
 
   res.json({ url: session.url });
 };
