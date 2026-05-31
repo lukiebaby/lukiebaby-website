@@ -129,4 +129,10 @@ module.exports = {
     mp3Product: 'prod_UcCdeALMHyC7IB',
     wavProduct: 'prod_UcCc1DbctBXmGA',
   },
+  inmymind: {
+    title: 'IN MY MIND 150BPM',
+    file: "05-17-26 'IN MY MIND' (Prod. Lukiebaby)",
+    mp3Product: 'prod_UcWDMs4qSWtcMP',
+    wavProduct: 'prod_UcWEZ3TldfKvZF',
+  },
 };

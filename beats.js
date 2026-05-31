@@ -205,6 +205,15 @@ const BEATS = [
     file: "03-30-26 'RESAFEROOM' 130BPM (Prod. Lukiebaby)",
     snippet: "03-30-26 'RESAFEROOM' 130BPM snippet (Prod. Lukiebaby).wav",
   },
+  {
+    id: 'inmymind',
+    num: 21,
+    title: "IN MY MIND",
+    bpm: 150,
+    genre: 'SMOOTH, RXKNEPHEW, SAMPLED, TRAP',
+    file: "05-17-26 'IN MY MIND' (Prod. Lukiebaby)",
+    snippet: "05-17-26 'IN MY MIND' (Prod. Lukiebaby) snippet.wav",
+  },
 ];
 
 // Derive preview URLs from the exact snippet object names in the public bucket.
