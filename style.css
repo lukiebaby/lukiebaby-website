@@ -755,6 +755,15 @@ html, body {
   left: 0;
 }
 
+.buy-modal-error {
+  margin: 1.1rem 0 0;
+  text-align: center;
+  font-size: clamp(.75rem, 1.6vw, .9rem);
+  letter-spacing: .03em;
+  color: #ffb4b4;
+}
+.buy-modal-error[hidden] { display: none; }
+
 @media (max-width: 480px) {
   .buy-options { flex-direction: column; align-items: center; }
   .buy-option-wrap { max-width: 320px; width: 100%; }

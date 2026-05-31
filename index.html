@@ -204,6 +204,7 @@
           </button>
         </div>
       </div>
+      <p class="buy-modal-error" id="buy-modal-error" hidden></p>
     </div>
   </div>
 
@@ -665,6 +666,7 @@
     const buyModalTitle = document.getElementById('buy-modal-title');
     const buyOptionMp3 = document.getElementById('buy-option-mp3');
     const buyOptionWav = document.getElementById('buy-option-wav');
+    const buyModalError = document.getElementById('buy-modal-error');
     let buyBeatId = null;
 
     function buyBeat(beatId) {
@@ -680,6 +682,7 @@
       buyModal.classList.remove('is-open');
       buyBeatId = null;
       setBuyOptionsDisabled(false);
+      hideBuyError();
       buyModal.hidden = true;
     }
 
@@ -688,9 +691,19 @@
       buyOptionWav.disabled = disabled;
     }
 
+    function showBuyError(msg) {
+      buyModalError.textContent = msg;
+      buyModalError.hidden = false;
+    }
+    function hideBuyError() {
+      buyModalError.textContent = '';
+      buyModalError.hidden = true;
+    }
+
     async function checkout(format) {
       if (!buyBeatId) return;
       const beatId = buyBeatId;
+      hideBuyError();
       setBuyOptionsDisabled(true);
       try {
         const res  = await fetch('/api/create-checkout-session', {
@@ -698,10 +711,15 @@
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify({ beatId, format }),
         });
-        const data = await res.json();
-        if (data.url) { window.location.href = data.url; return; }
-        throw new Error();
-      } catch {
+        let data = {};
+        try { data = await res.json(); } catch {}
+        if (res.ok && data.url) { window.location.href = data.url; return; }
+        showBuyError(data.error
+          ? `Checkout error: ${data.error}`
+          : `Checkout failed (HTTP ${res.status}). The /api endpoint must run on Vercel with Stripe + Supabase env vars set.`);
+        setBuyOptionsDisabled(false);
+      } catch (e) {
+        showBuyError('Could not reach checkout. If you opened the page from a file, test it on the deployed Vercel site instead.');
         setBuyOptionsDisabled(false);
       }
     }
