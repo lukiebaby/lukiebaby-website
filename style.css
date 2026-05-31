@@ -683,6 +683,19 @@ html, body {
 .buy-btn:hover { background: #366040; }
 .buy-btn:disabled { opacity: .4; cursor: not-allowed; }
 
+/* ── Beat list: mobile reflow ── */
+@media (max-width: 768px) {
+  .beats-sort-bar { gap: .5rem; padding: .3rem .9rem; }
+  .sort-spc-wave { display: none; }
+  .sort-col[data-sort="title"] { width: auto; flex: 1; }
+
+  .beat-row { gap: .55rem; padding: .55rem .9rem; }
+  .waveform-wrap { display: none; }   /* seek via the bottom player scrubber instead */
+  .beat-tags { display: none; }       /* hides genre pills + STYLE sort header */
+  .beat-title { width: auto; flex: 1; min-width: 0; }
+  .buy-btn { padding: .4rem .9rem; }
+}
+
 /* ── Buy modal ── */
 .buy-modal-overlay {
   position: fixed;
