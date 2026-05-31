@@ -11,3 +11,11 @@ desktop.ini
 
 # Claude
 .claude/
+
+# Dependencies
+node_modules/
+
+# Secrets / env — keys belong in Vercel env vars, never committed
+.env
+.env.*
+*.local
