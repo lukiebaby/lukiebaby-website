@@ -1,90 +1,14 @@
 const Stripe = require('stripe');
-const { head } = require('@vercel/blob');
+const { createClient } = require('@supabase/supabase-js');
+const CATALOG = require('./catalog');
 
-// ── Server-side beat registry ─────────────────────────────────────────────────
-// Maps beatId → private Vercel Blob URL and title.
-// The blobUrl is the private blob URL — never sent to the browser directly.
-// After payment, the Vercel Blob SDK generates a signed download URL from it.
-// BLOB_READ_WRITE_TOKEN must be set in Vercel Environment Variables.
+// After Stripe confirms payment, mint a short-lived signed download URL for the
+// purchased file from the matching private Supabase bucket (mp3 or wav).
+// SUPABASE_URL + SUPABASE_SECRET_KEY must be set in Vercel Environment Variables.
 
-const BEAT_REGISTRY = {
-  'gig': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/09-01-22%20%27Gig%27%20155BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'GIG 155BPM',
-  },
-  'slowlanelarry1': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/10-29-25%20%27wastemytime%27%20120BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'SLOWLANELARRY LEFTOVERS 1 120BPM',
-  },
-  'slowlanelarry2': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/09-23-24%20%27cry%27%20130BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'SLOWLANELARRY LEFTOVERS 2 130BPM',
-  },
-  'slowlanelarry3': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/08-15-23%20%27Rx%2090mg%27%2078BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'SLOWLANELARRY LEFTOVERS 3 78BPM',
-  },
-  'slowlanelarry4': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/08-15-23%20%27Rx%2080mg%27%2084BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'SLOWLANELARRY LEFTOVERS 4 120BPM',
-  },
-  'slowlanelarry5': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/08-15-23%20%2730mg%27%2081BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'SLOWLANELARRY LEFTOVERS 5 81BPM',
-  },
-  'slowlanelarry6': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/08-02-24%20%27Higha%27%20145BPM%20%28Prod%20Lukiebaby%29.wav',
-    title: 'SLOWLANELARRY LEFTOVERS 6 145BPM',
-  },
-  'residentevil': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/07-22-24%20%27re2%27%20158BPM%20%28Prod%20Lukiebaby%29.wav',
-    title: 'RESIDENT EVIL 158BPM',
-  },
-  'powder': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/06-14-25%20%27Powder%27%20130BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'POWDER 130BPM',
-  },
-  'benzo': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/06-14-25%20%27BENZO%27%20131BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'BENZO 131BPM',
-  },
-  'fthis': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/04-29-23%20%27f%27%20143BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'F THIS 143BPM',
-  },
-  'wicked': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/02-20-26%20%27Wicked%27%20151BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'WICKED 151BPM',
-  },
-  'finesse': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/02-05-25%20%27Finesse%27%20150BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'FINESSE 150BPM',
-  },
-  'poppin': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/01-11-23%20%27Poppin%27%20131BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'POPPIN 131BPM',
-  },
-  'slowlanelarry7': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/01-10-26%20%27Groovy%27%20118BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'SLOWLANELARRY LEFTOVERS 7 120BPM',
-  },
-  'backtrack': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/03-07-25%20%27bt%27%20175BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'BACK TRACK 175BPM',
-  },
-  'pocketsempty': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/03-18-25%20%274PE%27%20150BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'POCKETS EMPTY 150BPM',
-  },
-  'heartless': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/03-27-25%20%27heartless%27%20182BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'HEARTLESS 182BPM',
-  },
-  'gothatway': {
-    blobUrl: 'https://py22fzsbhchjervh.private.blob.vercel-storage.com/03-28-25%20%27Thatway%27%20178BPM%20%28Prod.%20Lukiebaby%29.wav',
-    title: 'GO THAT WAY 178BPM',
-  },
-};
+const MP3_BUCKET = 'mp3';
+const WAV_BUCKET = 'wav';
+const SIGNED_URL_TTL = 60 * 30; // 30 minutes
 
 function downloadPage(title, downloadUrl) {
   return `<!DOCTYPE html>
@@ -188,15 +112,27 @@ module.exports = async function handler(req, res) {
     return res.status(402).send('Payment not completed');
   }
 
-  const beat = BEAT_REGISTRY[session.metadata && session.metadata.beatId];
+  const meta = session.metadata || {};
+  const beat = CATALOG[meta.beatId];
+  const format = meta.format === 'wav' ? 'wav' : 'mp3';
   if (!beat) {
     return res.status(400).send('Beat not found');
   }
 
-  // Generate a signed download URL from the private Vercel Blob
-  const blobInfo = await head(beat.blobUrl, { token: process.env.BLOB_READ_WRITE_TOKEN });
-  const downloadUrl = blobInfo.downloadUrl;
+  // Generate a signed download URL from the matching private Supabase bucket.
+  const bucket = format === 'wav' ? WAV_BUCKET : MP3_BUCKET;
+  const key = `${beat.file}.${format}`;
+
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SECRET_KEY);
+  const { data, error } = await supabase
+    .storage
+    .from(bucket)
+    .createSignedUrl(key, SIGNED_URL_TTL, { download: true });
+
+  if (error || !data) {
+    return res.status(500).send('Could not generate download');
+  }
 
   res.setHeader('Content-Type', 'text/html');
-  res.send(downloadPage(beat.title, downloadUrl));
+  res.send(downloadPage(`${beat.title} — ${format.toUpperCase()}`, data.signedUrl));
 };
