@@ -150,7 +150,7 @@
         <div class="title-rule"></div>
         <div class="beats-lease-box">
           <p class="lease-heading">Leasing</p>
-          <p class="lease-price">.WAV &nbsp;$50</p>
+          <p class="lease-price">MP3 $30 &nbsp;&middot;&nbsp; WAV $50</p>
           <ul class="lease-terms">
             <li>250k Audio Streams</li>
             <li>250K Video Streams</li>
@@ -169,6 +169,42 @@
       </div>
     </section>
 
+  </div>
+
+  <!-- Buy modal: choose MP3 ($30) or WAV ($50) -->
+  <div class="buy-modal-overlay" id="buy-modal" hidden>
+    <div class="buy-modal" role="dialog" aria-modal="true" aria-labelledby="buy-modal-title">
+      <button class="buy-modal-close" onclick="closeBuyModal()" aria-label="Close">&times;</button>
+      <p class="buy-modal-title" id="buy-modal-title"></p>
+      <div class="buy-options">
+        <div class="buy-option-wrap">
+          <p class="buy-option-price">$30</p>
+          <button class="buy-option" id="buy-option-mp3" type="button">
+            <span class="buy-option-format">MP3</span>
+            <ul class="buy-option-terms">
+              <li>250k Audio Streams</li>
+              <li>250k Video Streams</li>
+              <li>1 Music Video</li>
+              <li>MUST credit Producer</li>
+              <li>50% Publishing Rights</li>
+            </ul>
+          </button>
+        </div>
+        <div class="buy-option-wrap">
+          <p class="buy-option-price">$50</p>
+          <button class="buy-option" id="buy-option-wav" type="button">
+            <span class="buy-option-format">WAV</span>
+            <ul class="buy-option-terms">
+              <li>250k Audio Streams</li>
+              <li>250k Video Streams</li>
+              <li>1 Music Video</li>
+              <li>MUST credit Producer</li>
+              <li>50% Publishing Rights</li>
+            </ul>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="beats.js"></script>
@@ -370,7 +406,7 @@
             <div class="beat-tags">
               <button class="sort-col${active('genre')}" data-sort="genre" onclick="sortBy('genre')">STYLE${arrow('genre')}</button>
             </div>
-            <span class="sort-spc-buy" aria-hidden="true">$50</span>
+            <span class="sort-spc-buy" aria-hidden="true">$30 / $50</span>
           </div>
           <div class="beats-table" id="beats-table">
             ${beats.map((beat, i) => `
@@ -624,25 +660,56 @@
 
     document.addEventListener('mouseup', () => { _seekDragId = null; });
 
-    async function buyBeat(beatId) {
-      const row = beatsGrid.querySelector(`[data-id="${beatId}"]`);
-      const btn = row.querySelector('.buy-btn');
-      btn.textContent = '...';
-      btn.disabled = true;
+    // ── Buy modal ─────────────────────────────────────
+    const buyModal     = document.getElementById('buy-modal');
+    const buyModalTitle = document.getElementById('buy-modal-title');
+    const buyOptionMp3 = document.getElementById('buy-option-mp3');
+    const buyOptionWav = document.getElementById('buy-option-wav');
+    let buyBeatId = null;
+
+    function buyBeat(beatId) {
+      const beat = BEATS.find(b => b.id === beatId);
+      if (!beat) return;
+      buyBeatId = beatId;
+      buyModalTitle.textContent = `${beat.title} — ${beat.bpm} BPM`;
+      buyModal.hidden = false;
+      requestAnimationFrame(() => buyModal.classList.add('is-open'));
+    }
+
+    function closeBuyModal() {
+      buyModal.classList.remove('is-open');
+      buyBeatId = null;
+      setBuyOptionsDisabled(false);
+      buyModal.hidden = true;
+    }
+
+    function setBuyOptionsDisabled(disabled) {
+      buyOptionMp3.disabled = disabled;
+      buyOptionWav.disabled = disabled;
+    }
+
+    async function checkout(format) {
+      if (!buyBeatId) return;
+      const beatId = buyBeatId;
+      setBuyOptionsDisabled(true);
       try {
         const res  = await fetch('/api/create-checkout-session', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ beatId }),
+          body:    JSON.stringify({ beatId, format }),
         });
         const data = await res.json();
         if (data.url) { window.location.href = data.url; return; }
         throw new Error();
       } catch {
-        btn.textContent = 'BUY';
-        btn.disabled = false;
+        setBuyOptionsDisabled(false);
       }
     }
+
+    buyOptionMp3.addEventListener('click', () => checkout('mp3'));
+    buyOptionWav.addEventListener('click', () => checkout('wav'));
+    buyModal.addEventListener('click', e => { if (e.target === buyModal) closeBuyModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !buyModal.hidden) closeBuyModal(); });
 
     renderBeats();
   </script>
