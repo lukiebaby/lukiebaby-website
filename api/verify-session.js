@@ -6,8 +6,8 @@ const CATALOG = require('./catalog');
 // purchased file from the matching private Supabase bucket (mp3 or wav).
 // SUPABASE_URL + SUPABASE_SECRET_KEY must be set in Vercel Environment Variables.
 
-const MP3_BUCKET = 'mp3';
-const WAV_BUCKET = 'wav';
+const MP3_BUCKET = 'beats mp3';
+const WAV_BUCKET = 'beats wav';
 const SIGNED_URL_TTL = 60 * 30; // 30 minutes
 
 function downloadPage(title, downloadUrl) {
