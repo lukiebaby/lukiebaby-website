@@ -101,7 +101,7 @@ const BEATS = [
     title: "BENZOS",
     bpm: 130,
     genre: 'SMOOTH, TRAP, RXKNEPHEW, SAMPLED',
-    file: "06-14-25 'Powder' 130BPM (Prod. Lukiebaby)",
+    file: "06-14-25 'BENZO' 131BPM (Prod. Lukiebaby)",
   },
   {
     id: 'fuckallat',

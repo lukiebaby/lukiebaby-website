@@ -65,7 +65,7 @@ module.exports = {
   },
   benzos: {
     title: 'BENZOS 130BPM',
-    file: "06-14-25 'Powder' 130BPM (Prod. Lukiebaby)",
+    file: "06-14-25 'BENZO' 131BPM (Prod. Lukiebaby)",
     mp3Product: 'prod_UcCDc3BYYceOcy',
     wavProduct: 'prod_UEefA7aQmsNEQp',
   },
