@@ -502,6 +502,18 @@
 
     let shuffleMode = false;
 
+    // Nudge the beats table (not the page) so an off-screen row becomes visible.
+    function scrollRowIntoView(row) {
+      const table = document.getElementById('beats-table');
+      if (!table || !row) return;
+      const r = row.getBoundingClientRect();
+      const t = table.getBoundingClientRect();
+      let delta = 0;
+      if (r.top < t.top)            delta = r.top - t.top;        // row above view → scroll up
+      else if (r.bottom > t.bottom) delta = r.bottom - t.bottom;  // row below view → scroll down
+      if (delta !== 0) table.scrollBy({ top: delta, behavior: 'smooth' });
+    }
+
     function playBeat(beatId) {
       const beat = BEATS.find(b => b.id === beatId);
       if (!beat || !beat.previewUrl) return;
@@ -518,6 +530,7 @@
         row.classList.add('playing');
       }
       activeRow = row;
+      if (row) scrollRowIntoView(row);
       playerUpdateUI();
     }
 
