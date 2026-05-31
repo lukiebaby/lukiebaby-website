@@ -56,15 +56,14 @@ module.exports = async function handler(req, res) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const mode = process.env.STRIPE_SECRET_KEY.startsWith('sk_live') ? 'live' : 'test';
 
-  const beats = await Promise.all(
-    Object.entries(CATALOG).map(async ([id, beat]) => {
-      const [mp3, wav] = await Promise.all([
-        checkProduct(stripe, beat.mp3Product, EXPECTED_MP3_CENTS),
-        checkProduct(stripe, beat.wavProduct, EXPECTED_WAV_CENTS),
-      ]);
-      return { id, title: beat.title, mp3, wav };
-    })
-  );
+  // Sequential (not parallel) to avoid Stripe rate-limiting, which would show
+  // up as false "retrieve-failed" results.
+  const beats = [];
+  for (const [id, beat] of Object.entries(CATALOG)) {
+    const mp3 = await checkProduct(stripe, beat.mp3Product, EXPECTED_MP3_CENTS);
+    const wav = await checkProduct(stripe, beat.wavProduct, EXPECTED_WAV_CENTS);
+    beats.push({ id, title: beat.title, mp3, wav });
+  }
 
   const problems = [];
   for (const b of beats) {
