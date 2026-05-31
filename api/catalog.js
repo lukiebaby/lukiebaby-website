@@ -23,7 +23,7 @@ module.exports = {
   },
   slowlanelarry3: {
     title: 'SLOWLANELARRY LEFTOVERS 3 78BPM',
-    file: "08-15-23 'Rx 90mg' 78BPM (Prod. Lukiebaby)",
+    file: "08-15-23 'Rx 90mg' 78BPM  (Prod. Lukiebaby)",
     mp3Product: 'prod_UcBrHAKoCoScVp',
     wavProduct: 'prod_UEDmW3H8ADwwK6',
   },

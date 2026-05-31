@@ -49,7 +49,7 @@ const BEATS = [
     title: "SLOWLANELARRY LEFTOVERS 3",
     bpm: 78,
     genre: 'SMOOTH, BOOM BAP, RXKNEPHEW, SAMPLED',
-    file: "08-15-23 'Rx 90mg' 78BPM (Prod. Lukiebaby)",
+    file: "08-15-23 'Rx 90mg' 78BPM  (Prod. Lukiebaby)",
     snippet: "08-15-23 'Rx 90mg' 78BPM SNIPPET (Prod. Lukiebaby).wav",
   },
   {
