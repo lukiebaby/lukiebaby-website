@@ -10,13 +10,25 @@ const MP3_BUCKET = 'beats mp3';
 const WAV_BUCKET = 'beats wav';
 const SIGNED_URL_TTL = 60 * 30; // 30 minutes
 
+// Escape values interpolated into the HTML response (defense-in-depth).
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function downloadPage(title, downloadUrl) {
+  const safeTitle = escapeHtml(title);
+  const safeUrl   = escapeHtml(downloadUrl);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DOWNLOAD — ${title} — LUKIEBABY</title>
+  <title>DOWNLOAD — ${safeTitle} — LUKIEBABY</title>
   <style>
     @font-face {
       font-family: 'ChunkFive Roman';
@@ -87,8 +99,8 @@ function downloadPage(title, downloadUrl) {
 </head>
 <body>
   <h1>THANK YOU</h1>
-  <p class="beat-name">${title}</p>
-  <a class="download-btn" href="${downloadUrl}" download>DOWNLOAD BEAT</a>
+  <p class="beat-name">${safeTitle}</p>
+  <a class="download-btn" href="${safeUrl}" download>DOWNLOAD BEAT</a>
   <a class="back-link" href="/">← BACK TO LUKIEBABY</a>
 </body>
 </html>`;
