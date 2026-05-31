@@ -250,6 +250,8 @@ html, body {
 
 .player-btn:hover { color: #ffffff; }
 
+.player-btn-active { color: #ffffff; }
+
 .player-btn-skip {
   font-size: clamp(1rem, 1.5vw, 1.3rem);
 }
