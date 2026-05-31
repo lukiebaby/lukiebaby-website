@@ -29,6 +29,7 @@ html, body {
 /* ── Scroll container — JS controls scrollTop ───────── */
 #scroll-container {
   height: 100vh;
+  height: 100dvh;   /* track the dynamic viewport so mobile URL bars don't clip content */
   overflow: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -38,6 +39,7 @@ html, body {
 /* ── Sections ───────────────────────────────────────── */
 .section {
   height: 100vh;
+  height: 100dvh;
   background: var(--bg);
   display: flex;
   flex-direction: column;
