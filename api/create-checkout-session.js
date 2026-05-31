@@ -30,7 +30,8 @@ module.exports = async function handler(req, res) {
     const product = await stripe.products.retrieve(productId, { expand: ['default_price'] });
     priceId = product.default_price && product.default_price.id;
   } catch (e) {
-    return res.status(400).json({ error: 'Price lookup failed', detail: e.message, productId });
+    console.error('Stripe price lookup failed', productId, e.message);
+    return res.status(400).json({ error: 'Price lookup failed' });
   }
   if (!priceId) {
     return res.status(400).json({ error: 'No default price set for product' });
