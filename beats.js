@@ -1,26 +1,28 @@
 // ── Beat Catalog ─────────────────────────────────────────────────────────────
 // Add your beats here. Each entry needs:
-//   id     — unique identifier (must match keys in api/catalog.js)
-//   num    — fixed catalog number (stays with the beat regardless of sort)
-//   title  — beat name (uppercase)
-//   bpm    — tempo (number)
-//   genre  — comma-separated style tags (uppercase)
-//   file   — base object name in Supabase Storage, WITHOUT extension.
-//            Preview = "<file>.wav" in the public SNIPPET_BUCKET.
-//            Purchase = "<file>.mp3" / "<file>.wav" in the private buckets
-//            (see api/catalog.js + api/verify-session.js).
+//   id      — unique identifier (must match keys in api/catalog.js)
+//   num     — fixed catalog number (stays with the beat regardless of sort)
+//   title   — beat name (uppercase)
+//   bpm     — tempo (number)
+//   genre   — comma-separated style tags (uppercase)
+//   file    — base object name in Supabase Storage for the PURCHASE files, WITHOUT
+//             extension: "<file>.mp3" (mp3 bucket) / "<file>.wav" (wav bucket).
+//             See api/catalog.js + api/verify-session.js.
+//   snippet — EXACT object name of the preview clip in the public previews bucket.
+//             (Snippet names are inconsistent, so they're stored verbatim rather
+//             than derived.)
 //
 // Every beat sells for $30 (MP3) or $50 (WAV) — see PRICE_MP3 / PRICE_WAV below.
-// previewUrl is derived automatically from `file` at the bottom of this file.
+// previewUrl is derived from `snippet` at the bottom of this file.
 
-// ── Supabase storage (client-safe: public snippet bucket only, no secrets) ────
-const SUPABASE_URL   = 'https://ygtkvracitxoblhofrcx.supabase.co';
-const SNIPPET_BUCKET = 'snippets';
+// ── Supabase storage (client-safe: public previews bucket only, no secrets) ───
+const SUPABASE_URL    = 'https://ygtkvracitxoblhofrcx.supabase.co';
+const PREVIEW_BUCKET  = 'previews';
 const PRICE_MP3 = 30;
 const PRICE_WAV = 50;
 
-const snippetUrl = file =>
-  `${SUPABASE_URL}/storage/v1/object/public/${SNIPPET_BUCKET}/${encodeURIComponent(file + '.wav')}`;
+const snippetUrl = name =>
+  `${SUPABASE_URL}/storage/v1/object/public/${PREVIEW_BUCKET}/${encodeURIComponent(name)}`;
 
 const BEATS = [
   {
@@ -30,6 +32,7 @@ const BEATS = [
     bpm: 120,
     genre: 'SMOOTH, TRAP, RXKNEPHEW, SAMPLED',
     file: "10-29-25 'wastemytime' 120BPM (Prod. Lukiebaby)",
+    snippet: "10-29-25 'wastemytime' 120BPM (Prod. Lukiebaby) SNIPPET.wav",
   },
   {
     id: 'slowlanelarry2',
@@ -38,6 +41,7 @@ const BEATS = [
     bpm: 130,
     genre: 'SMOOTH, TRAP, RXKNEPHEW, PAIN, SAMPLED',
     file: "09-23-24 'cry' 130BPM (Prod. Lukiebaby)",
+    snippet: "09-23-24 'cry' 130BPM (Prod. Lukiebaby) SNIPPET.wav",
   },
   {
     id: 'slowlanelarry3',
@@ -46,6 +50,7 @@ const BEATS = [
     bpm: 78,
     genre: 'SMOOTH, BOOM BAP, RXKNEPHEW, SAMPLED',
     file: "08-15-23 'Rx 90mg' 78BPM (Prod. Lukiebaby)",
+    snippet: "08-15-23 'Rx 90mg' 78BPM SNIPPET (Prod. Lukiebaby).wav",
   },
   {
     id: 'slowlanelarry4',
@@ -54,6 +59,7 @@ const BEATS = [
     bpm: 84,
     genre: 'SMOOTH, TRAP, RXKNEPHEW, SAMPLED',
     file: "08-15-23 'Rx 80mg' 84BPM (Prod. Lukiebaby)",
+    snippet: "08-15-23 'Rx 80mg' 84BPM (Prod. Lukiebaby) snippet.wav",
   },
   {
     id: 'slowlanelarry5',
@@ -62,6 +68,7 @@ const BEATS = [
     bpm: 81,
     genre: 'SMOOTH, BOOM BAP, RXKNEPHEW, SAMPLED',
     file: "08-15-23 'Rx 30mg' 81BPM (Prod. Lukiebaby)",
+    snippet: "08-15-23 'Rx 30mg' 81BPM (Prod. Lukiebaby)snippet.wav",
   },
   {
     id: 'slowlanelarry6',
@@ -70,6 +77,7 @@ const BEATS = [
     bpm: 145,
     genre: 'SMOOTH, BOOM BAP, RXKNEPHEW, SAMPLED',
     file: "08-02-24 'Higha' 145BPM (Prod Lukiebaby)",
+    snippet: "08-02-24 'Higha' 145BPM (Prod Lukiebaby)snippet.wav",
   },
   {
     id: 'gigs',
@@ -78,6 +86,7 @@ const BEATS = [
     bpm: 155,
     genre: 'ETHNIC, TRAP, FUTURE, 808 MAFIA',
     file: "09-01-22-26 'Gig' 155BPM (Prod. Lukiebaby)",
+    snippet: "09-01-22-26 'Gig' 155BPM (Prod. Lukiebaby) SNIPPET.wav",
   },
   {
     id: 'residentevil',
@@ -86,6 +95,7 @@ const BEATS = [
     bpm: 158,
     genre: 'TRAP, DARK, EXPERIMENTAL, VALEE',
     file: "07-22-24 're2' 158BPM (Prod Lukiebaby)",
+    snippet: "07-22-24 're2' 158BPM (Prod Lukiebaby)snippet.wav",
   },
   {
     id: 'powder',
@@ -94,6 +104,7 @@ const BEATS = [
     bpm: 130,
     genre: 'TRAP, DARK, EXPERIMENTAL, VALEE',
     file: "06-14-25 'Powder' 130BPM (Prod. Lukiebaby)",
+    snippet: "06-14-25 'Powder' 130BPM (Prod. Lukiebaby)snippet.wav",
   },
   {
     id: 'benzos',
@@ -102,6 +113,7 @@ const BEATS = [
     bpm: 130,
     genre: 'SMOOTH, TRAP, RXKNEPHEW, SAMPLED',
     file: "06-14-25 'BENZO' 131BPM (Prod. Lukiebaby)",
+    snippet: "06-14-25 'BENZO' 131BPM (Prod. Lukiebaby)snippet.wav",
   },
   {
     id: 'fuckallat',
@@ -110,6 +122,7 @@ const BEATS = [
     bpm: 143,
     genre: 'TRAP, DARK, EXPERIMENTAL, CHASETHEMONEY',
     file: "04-29-23 'f' 143BPM (Prod. Lukiebaby)",
+    snippet: "04-29-23 'f' 143BPM (Prod. Lukiebaby)snippet.wav",
   },
   {
     id: 'wicked',
@@ -118,6 +131,7 @@ const BEATS = [
     bpm: 151,
     genre: 'TRAP, DARK, EXPERIMENTAL, CHASETHEMONEY',
     file: "02-20-26 'Wicked' 151BPM (Prod. Lukiebaby)",
+    snippet: "02-20-26 'Wicked' 151BPM (Prod. Lukiebaby)snippet.wav",
   },
   {
     id: 'finesse',
@@ -126,6 +140,7 @@ const BEATS = [
     bpm: 150,
     genre: 'SMOOTH, BOOM BAP, RXKNEPHEW, SAMPLED',
     file: "02-05-25 'Finesse' 150BPM (Prod. Lukiebaby)",
+    snippet: "02-05-25 'Finesse' 150BPM (Prod. Lukiebaby)snippet.wav",
   },
   {
     id: 'poppin',
@@ -134,6 +149,7 @@ const BEATS = [
     bpm: 131,
     genre: 'TRAP, CHASETHEMONEY, VALEE, SAMPLED',
     file: "01-11-23 'Poppin' 131BPM (Prod. Lukiebaby)",
+    snippet: "01-11-23 'Poppin' 131BPM (Prod. Lukiebaby)snippet.wav",
   },
   {
     id: 'slowlanelarry7',
@@ -142,6 +158,7 @@ const BEATS = [
     bpm: 118,
     genre: 'SMOOTH, BOOM BAP, RXKNEPHEW, SAMPLED',
     file: "01-10-26 'Groovy' 118BPM (Prod. Lukiebaby)",
+    snippet: "01-10-26 'Groovy' 118BPM (Prod. Lukiebaby)snippet.wav",
   },
   {
     id: 'gothatway',
@@ -150,6 +167,7 @@ const BEATS = [
     bpm: 178,
     genre: 'TRAP, PAIN, POLO G, TWOTIIME',
     file: "03-28-25 'Thatway' 178BPM (Prod. Lukiebaby)",
+    snippet: "03-28-25 'Thatway' 178BPM SNIPPET (Prod. Lukiebaby).wav",
   },
   {
     id: 'heartless',
@@ -158,6 +176,7 @@ const BEATS = [
     bpm: 182,
     genre: 'TRAP, PAIN, POLO G, TWOTIIME',
     file: "03-27-25 'heartless' 182BPM (Prod. Lukiebaby)",
+    snippet: "03-27-25 'heartless' 182BPM SNIPPET (Prod. Lukiebaby).wav",
   },
   {
     id: 'pocketsemptied',
@@ -166,6 +185,7 @@ const BEATS = [
     bpm: 150,
     genre: 'TRAP, DARK, EXPERIMENTAL, CHASETHEMONEY',
     file: "03-18-25 '4PE' 150BPM (Prod. Lukiebaby)",
+    snippet: "03-18-25 '4PE' 150BPM SNIPPET (Prod. Lukiebaby).wav",
   },
   {
     id: 'backtrack',
@@ -174,6 +194,7 @@ const BEATS = [
     bpm: 175,
     genre: 'TRAP, DARK, EXPERIMENTAL, 808 MAFIA',
     file: "03-07-25 'bt' 175BPM (Prod. Lukiebaby)",
+    snippet: "03-07-25 'bt' 175BPM snippet (Prod. Lukiebaby).wav",
   },
   {
     id: 'resaferoom',
@@ -182,8 +203,9 @@ const BEATS = [
     bpm: 130,
     genre: 'TRAP, CHASETHEMONEY, VALEE, SAMPLED',
     file: "03-30-26 'RESAFEROOM' 130BPM (Prod. Lukiebaby)",
+    snippet: "03-30-26 'RESAFEROOM' 130BPM snippet (Prod. Lukiebaby).wav",
   },
 ];
 
-// Derive preview URLs from the public snippet bucket.
-BEATS.forEach(b => { b.previewUrl = snippetUrl(b.file); });
+// Derive preview URLs from the exact snippet object names in the public bucket.
+BEATS.forEach(b => { b.previewUrl = snippetUrl(b.snippet); });
