@@ -16,6 +16,7 @@
   --text-title:  #2D2D2A;   /* page title headings */
   --text-active: #e8f5e8;   /* active nav tab */
   --text-bright: #f5fdf5;   /* hover */
+  --banner-h:    364px;     /* banner/spacer height — JS reads this too */
 }
 
 html, body {
@@ -311,10 +312,21 @@ html, body {
   color: #ffffff;
 }
 
+/* SVG control glyphs — render identically across platforms (no emoji fallback) */
+.player-btn svg,
+.play-btn svg,
+.sort-spc-play svg {
+  width: 1.15em;
+  height: 1.15em;
+  fill: currentColor;
+  display: block;
+  pointer-events: none;
+}
+
 /* ── Infinite Banner ────────────────────────────────── */
 .banner-wrapper {
   width: 100%;
-  height: 364px;
+  height: var(--banner-h);
   flex-shrink: 0;
   overflow: hidden;
   position: relative;
@@ -335,7 +347,7 @@ html, body {
 }
 
 .banner-spacer {
-  height: 364px;
+  height: var(--banner-h);
   flex-shrink: 0;
 }
 
@@ -881,4 +893,33 @@ html, body {
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
+}
+
+/* ── Mobile layout: shrink banner + fit oversized type on phones ── */
+@media (max-width: 768px) {
+  /* Scale the banner down so it stops dominating the screen and crowding content */
+  :root { --banner-h: 200px; }
+
+  /* Home title/roles: lower the minimums so long words don't overflow narrow screens */
+  #home .home-main { padding-top: 4rem; gap: .4rem; }
+  .home-title { font-size: clamp(2.8rem, 13vw, 5rem); letter-spacing: .04em; }
+  .home-role  { font-size: clamp(1.1rem, 4.4vw, 2rem); letter-spacing: .18em; }
+
+  /* Social blocks: smaller type + tighter side padding so handles stay on-screen */
+  .page-socials { padding: 0 1.3rem 1.3rem; gap: .8rem; }
+  .social-platform { font-size: clamp(.9rem, 3.4vw, 1.4rem); letter-spacing: .12em; }
+  .social-handle   { font-size: clamp(1.05rem, 4.6vw, 2rem); letter-spacing: .04em; }
+
+  /* Credits lines */
+  .credits-line { font-size: clamp(1.2rem, 4.6vw, 2.4rem); letter-spacing: .12em; }
+
+  /* Mixing & Services: tighten spacing and shrink the long email/price lines */
+  #mixing .mixing-body { padding: 4rem 1rem .8rem; gap: .9rem; }
+  .mixing-title { font-size: clamp(2.6rem, 11vw, 5rem); }
+  .mixing-price,
+  .mixing-note { font-size: clamp(1rem, 3.6vw, 1.6rem); letter-spacing: .1em; }
+  .mixing-email { font-size: clamp(.8rem, 3.2vw, 1.3rem); letter-spacing: .06em; }
+
+  /* Beats contact footer */
+  .beats-contact { padding: 0 1.3rem 1.3rem; }
 }

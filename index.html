@@ -245,18 +245,30 @@
       updateSharedBanner();
     })();
 
+    // ── Control icons (inline SVG — avoids iOS rendering them as color emoji) ──
+    const ICON_PLAY    = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+    const ICON_PAUSE   = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h3.5v14H6zM14.5 5H18v14h-3.5z"/></svg>';
+    const ICON_PREV    = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>';
+    const ICON_NEXT    = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18l8.5-6L6 6v12zM16 6h2v12h-2z"/></svg>';
+    const ICON_SHUFFLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.66 6.83l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>';
+
     // ── Section Scroll ────────────────────────────────
     const container    = document.getElementById('scroll-container');
     const sections     = Array.from(document.querySelectorAll('.section'));
     const navLinks     = Array.from(document.querySelectorAll('.nav-link'));
     const sharedBanner = document.getElementById('shared-banner');
-    const BANNER_H     = 364;
+
+    // Banner height is driven by the --banner-h CSS var (smaller on mobile) — read it live.
+    function bannerH() {
+      return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--banner-h')) || 364;
+    }
 
     function updateSharedBanner() {
       if (!sharedBanner || !container) return;
       const vh     = container.clientHeight;
       const st     = container.scrollTop;
       const spacer = document.querySelector('.credits-banner-spacer');
+      const BANNER_H = bannerH();
 
       const creditsTop = parseFloat(getComputedStyle(document.documentElement).fontSize) * 5;
       const homeY      = vh - BANNER_H - 16;
@@ -432,7 +444,7 @@
           </div>
           <div class="beats-sort-bar">
             <button class="sort-col sort-num-header${active('num')}" data-sort="num" onclick="sortBy('num')">#${arrow('num')}</button>
-            <span class="sort-spc-play" aria-hidden="true">&#9654;</span>
+            <span class="sort-spc-play" aria-hidden="true">${ICON_PLAY}</span>
             <button class="sort-col${active('title')}" data-sort="title" onclick="sortBy('title')">TITLE${arrow('title')}</button>
             <button class="sort-col${active('bpm')}" data-sort="bpm" onclick="sortBy('bpm')">BPM${arrow('bpm')}</button>
             <span class="sort-spc-wave"></span>
@@ -445,7 +457,7 @@
             ${beats.map((beat, i) => `
               <div class="beat-row" data-id="${beat.id}">
                 <span class="beat-num">${beat.num}</span>
-                <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
+                <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">${ICON_PLAY}</button>
                 <span class="beat-title">${beat.title}</span>
                 <span class="beat-bpm">${beat.bpm} BPM</span>
                 <div class="waveform-wrap" id="wave-wrap-${beat.id}" onmousedown="startWaveformSeek(event,'${beat.id}')" ontouchstart="startWaveformSeek(event,'${beat.id}')">
@@ -459,10 +471,10 @@
             `).join('')}
           </div>
           <div id="beats-player" class="beats-player" hidden>
-            <button class="player-btn player-btn-shuffle${shuffleMode ? ' player-btn-active' : ''}" id="player-shuffle" onclick="playerToggleShuffle()" aria-label="Shuffle" aria-pressed="${shuffleMode}">&#128256;&#xFE0E;</button>
-            <button class="player-btn player-btn-skip" onclick="playerPrev()" aria-label="Previous">&#9198;</button>
-            <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" aria-label="Play">&#9654;</button>
-            <button class="player-btn player-btn-skip" onclick="playerNext()" aria-label="Next">&#9197;</button>
+            <button class="player-btn player-btn-shuffle${shuffleMode ? ' player-btn-active' : ''}" id="player-shuffle" onclick="playerToggleShuffle()" aria-label="Shuffle" aria-pressed="${shuffleMode}">${ICON_SHUFFLE}</button>
+            <button class="player-btn player-btn-skip" onclick="playerPrev()" aria-label="Previous">${ICON_PREV}</button>
+            <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" aria-label="Play">${ICON_PLAY}</button>
+            <button class="player-btn player-btn-skip" onclick="playerNext()" aria-label="Next">${ICON_NEXT}</button>
             <input type="range" id="player-scrubber" class="player-scrubber" min="0" max="100" value="0" step="0.1" oninput="playerSeek(this)">
             <span class="player-time" id="player-remaining">0:00</span>
           </div>
@@ -550,7 +562,7 @@
       const beat = BEATS.find(b => b.id === beatId);
       if (!beat || !beat.previewUrl) return;
       if (activeRow) {
-        activeRow.querySelector('.play-btn').innerHTML = '&#9654;';
+        activeRow.querySelector('.play-btn').innerHTML = ICON_PLAY;
         activeRow.classList.remove('playing');
         drawWaveform(activeRow.dataset.id, 0);
       }
@@ -558,7 +570,7 @@
       audioEl.src = beat.previewUrl;
       audioEl.play();
       if (row) {
-        row.querySelector('.play-btn').innerHTML = '&#9646;&#9646;';
+        row.querySelector('.play-btn').innerHTML = ICON_PAUSE;
         row.classList.add('playing');
       }
       activeRow = row;
@@ -572,19 +584,19 @@
       const row = beatsGrid.querySelector(`[data-id="${beatId}"]`);
       const btn = row ? row.querySelector('.play-btn') : null;
       if (activeRow && activeRow !== row) {
-        activeRow.querySelector('.play-btn').innerHTML = '&#9654;';
+        activeRow.querySelector('.play-btn').innerHTML = ICON_PLAY;
         activeRow.classList.remove('playing');
         drawWaveform(activeRow.dataset.id, 0);
         activeRow = null;
       }
       if (!audioEl.paused && activeRow === row) {
         audioEl.pause();
-        if (btn) btn.innerHTML = '&#9654;';
+        if (btn) btn.innerHTML = ICON_PLAY;
         if (row) row.classList.remove('playing');
       } else {
         if (audioEl.src !== beat.previewUrl) audioEl.src = beat.previewUrl;
         audioEl.play();
-        if (btn) btn.innerHTML = '&#9646;&#9646;';
+        if (btn) btn.innerHTML = ICON_PAUSE;
         if (row) row.classList.add('playing');
         activeRow = row;
       }
@@ -609,7 +621,7 @@
       const remainEl = document.getElementById('player-remaining');
       if (!player) return;
       player.hidden = false;
-      if (ppBtn) ppBtn.innerHTML = (!audioEl.paused) ? '||' : '&#9654;';
+      if (ppBtn) ppBtn.innerHTML = (!audioEl.paused) ? ICON_PAUSE : ICON_PLAY;
       if (scrubber && audioEl.duration) scrubber.value = (audioEl.currentTime / audioEl.duration) * 100;
       if (remainEl) {
         const rem = audioEl.duration ? audioEl.duration - audioEl.currentTime : 0;
@@ -678,7 +690,7 @@
 
     audioEl.addEventListener('ended', () => {
       if (!activeRow) return;
-      activeRow.querySelector('.play-btn').innerHTML = '&#9654;';
+      activeRow.querySelector('.play-btn').innerHTML = ICON_PLAY;
       activeRow.classList.remove('playing');
       drawWaveform(activeRow.dataset.id, 0);
       const prevRow = activeRow;
