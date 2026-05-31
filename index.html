@@ -459,7 +459,7 @@
             `).join('')}
           </div>
           <div id="beats-player" class="beats-player" hidden>
-            <button class="player-btn player-btn-shuffle" id="player-shuffle" onclick="playerToggleShuffle()" aria-label="Shuffle" aria-pressed="false">&#128256;&#xFE0E;</button>
+            <button class="player-btn player-btn-shuffle${shuffleMode ? ' player-btn-active' : ''}" id="player-shuffle" onclick="playerToggleShuffle()" aria-label="Shuffle" aria-pressed="${shuffleMode}">&#128256;&#xFE0E;</button>
             <button class="player-btn player-btn-skip" onclick="playerPrev()" aria-label="Previous">&#9198;</button>
             <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" aria-label="Play">&#9654;</button>
             <button class="player-btn player-btn-skip" onclick="playerNext()" aria-label="Next">&#9197;</button>
