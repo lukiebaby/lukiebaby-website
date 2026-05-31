@@ -639,9 +639,21 @@
       if (idx > 0) playBeat(beats[idx - 1].id);
     }
 
+    // Pick a random beat other than the one currently playing (falls back to any).
+    function randomBeatId(beats, excludeId) {
+      const pool = beats.filter(b => b.id !== excludeId);
+      const list = pool.length ? pool : beats;
+      return list.length ? list[Math.floor(Math.random() * list.length)].id : null;
+    }
+
     function playerNext() {
       const beats = getSortedBeats();
       if (!activeRow) return;
+      if (shuffleMode) {
+        const id = randomBeatId(beats, activeRow.dataset.id);
+        if (id) playBeat(id);
+        return;
+      }
       const idx = beats.findIndex(b => b.id === activeRow.dataset.id);
       if (idx >= 0 && idx < beats.length - 1) playBeat(beats[idx + 1].id);
     }
@@ -673,7 +685,8 @@
       activeRow = null;
       const beats = getSortedBeats();
       if (shuffleMode) {
-        playBeat(beats[Math.floor(Math.random() * beats.length)].id);
+        const id = randomBeatId(beats, prevRow.dataset.id);
+        if (id) playBeat(id);
         return;
       }
       const idx = beats.findIndex(b => b.id === prevRow.dataset.id);
