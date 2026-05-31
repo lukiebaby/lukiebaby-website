@@ -434,7 +434,7 @@
                 <button class="play-btn" onclick="togglePlay('${beat.id}')" aria-label="Play">&#9654;</button>
                 <span class="beat-title">${beat.title}</span>
                 <span class="beat-bpm">${beat.bpm} BPM</span>
-                <div class="waveform-wrap" id="wave-wrap-${beat.id}" onmousedown="startWaveformSeek(event,'${beat.id}')">
+                <div class="waveform-wrap" id="wave-wrap-${beat.id}" onmousedown="startWaveformSeek(event,'${beat.id}')" ontouchstart="startWaveformSeek(event,'${beat.id}')">
                   <canvas class="waveform-canvas" id="wave-${beat.id}"></canvas>
                 </div>
                 <div class="beat-tags">
@@ -669,6 +669,13 @@
 
     let _seekDragId = null;
 
+    // Works for both mouse and touch events.
+    function _seekClientX(e) {
+      if (e.touches && e.touches.length)            return e.touches[0].clientX;
+      if (e.changedTouches && e.changedTouches.length) return e.changedTouches[0].clientX;
+      return e.clientX;
+    }
+
     function _doSeek(clientX, beatId) {
       if (!audioEl.duration) return;
       const wrap  = document.getElementById(`wave-wrap-${beatId}`);
@@ -682,7 +689,7 @@
       e.preventDefault();
       _seekDragId = beatId;
       if (!activeRow || activeRow.dataset.id !== beatId) {
-        const clientX = e.clientX;
+        const clientX = _seekClientX(e);
         const wrap = document.getElementById(`wave-wrap-${beatId}`);
         const rect = wrap.getBoundingClientRect();
         const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
@@ -692,7 +699,7 @@
           audioEl.removeEventListener('canplay', seekOnce);
         });
       } else {
-        _doSeek(e.clientX, beatId);
+        _doSeek(_seekClientX(e), beatId);
       }
     }
 
@@ -701,6 +708,13 @@
     });
 
     document.addEventListener('mouseup', () => { _seekDragId = null; });
+
+    document.addEventListener('touchmove', e => {
+      if (_seekDragId) { _doSeek(_seekClientX(e), _seekDragId); e.preventDefault(); }
+    }, { passive: false });
+
+    document.addEventListener('touchend',   () => { _seekDragId = null; });
+    document.addEventListener('touchcancel', () => { _seekDragId = null; });
 
     // ── Buy modal ─────────────────────────────────────
     const buyModal     = document.getElementById('buy-modal');
