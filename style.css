@@ -420,61 +420,6 @@ html, body {
   flex-direction: column;
 }
 
-/* ── Leasing info box ── */
-.beats-lease-box {
-  position: absolute;
-  left: 2rem;
-  top: 60%;
-  transform: translateY(-50%);
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 8px;
-  color: #d8d8d8;
-  font-family: 'Rajdhani', sans-serif;
-  width: clamp(130px, 14vw, 190px);
-  padding: 1.2rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-}
-
-.lease-heading {
-  font-size: clamp(.75rem, 1.1vw, 1rem);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  margin: 0 0 .2rem;
-}
-
-.lease-price {
-  font-size: clamp(.7rem, 1vw, .9rem);
-  letter-spacing: .08em;
-  color: #d8d8d8;
-  margin: 0 0 .4rem;
-}
-
-.lease-terms {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: .35rem;
-}
-
-.lease-terms li {
-  font-size: clamp(.65rem, .9vw, .8rem);
-  letter-spacing: .03em;
-  color: #e8e8e8;
-  padding-left: .9rem;
-  position: relative;
-}
-
-.lease-terms li::before {
-  content: '-';
-  position: absolute;
-  left: 0;
-}
-
 /* ── Window ── */
 .beats-window {
   width: 100%;
