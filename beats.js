@@ -6,7 +6,7 @@
 //   bpm    — tempo (number)
 //   genre  — comma-separated style tags (uppercase)
 //   file   — base object name in Supabase Storage, WITHOUT extension.
-//            Preview = "<file>.mp3" in the public SNIPPET_BUCKET.
+//            Preview = "<file>.wav" in the public SNIPPET_BUCKET.
 //            Purchase = "<file>.mp3" / "<file>.wav" in the private buckets
 //            (see api/catalog.js + api/verify-session.js).
 //
@@ -20,7 +20,7 @@ const PRICE_MP3 = 30;
 const PRICE_WAV = 50;
 
 const snippetUrl = file =>
-  `${SUPABASE_URL}/storage/v1/object/public/${SNIPPET_BUCKET}/${encodeURIComponent(file + '.mp3')}`;
+  `${SUPABASE_URL}/storage/v1/object/public/${SNIPPET_BUCKET}/${encodeURIComponent(file + '.wav')}`;
 
 const BEATS = [
   {
