@@ -15,7 +15,10 @@
   <!-- ── Fixed Navigation ── -->
   <nav id="nav">
     <a class="nav-logo" onclick="goTo(0)">LUKIEBABY</a>
-    <div class="nav-links">
+    <button class="nav-toggle" id="nav-toggle" onclick="toggleNav()" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
       <button class="nav-link" onclick="goTo(0)">HOME</button>
       <span class="nav-sep">|</span>
       <button class="nav-link" onclick="goTo(1)">CREDITS</button>
@@ -285,7 +288,22 @@
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
+    function toggleNav() {
+      const links = document.getElementById('nav-links');
+      const btn   = document.getElementById('nav-toggle');
+      const open  = links.classList.toggle('open');
+      if (btn) { btn.classList.toggle('open', open); btn.setAttribute('aria-expanded', String(open)); }
+    }
+
+    function closeNav() {
+      const links = document.getElementById('nav-links');
+      const btn   = document.getElementById('nav-toggle');
+      if (links) links.classList.remove('open');
+      if (btn) { btn.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+    }
+
     function goTo(index) {
+      closeNav();
       if (index < 0 || index >= sections.length || scrolling) return;
       scrolling = true;
       current   = index;
