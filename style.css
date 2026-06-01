@@ -169,6 +169,10 @@ html, body {
   text-transform: uppercase;
 }
 
+/* ── Combined Home + Credits (mobile only; hidden on desktop) ── */
+.home-banner-slot { display: none; height: var(--banner-h); flex-shrink: 0; }
+.home-credits     { display: none; }
+
 /* ── Title Rule ─────────────────────────────────────── */
 .title-rule {
   width: 70%;
@@ -846,9 +850,26 @@ html, body {
   :root { --banner-h: 200px; }
 
   /* Home title/roles: lower the minimums so long words don't overflow narrow screens */
-  #home .home-main { padding-top: 4rem; gap: .4rem; }
+  #home .home-main { flex: 1 1 0; padding-top: 4rem; gap: .4rem; }
   .home-title { font-size: clamp(2.8rem, 13vw, 5rem); letter-spacing: .04em; }
   .home-role  { font-size: clamp(1.1rem, 4.4vw, 2rem); letter-spacing: .18em; }
+
+  /* Merge credits into the home screen: roles on top, banner in the middle slot,
+     credits below, socials pinned at the bottom. Hide the standalone credits screen. */
+  #home .home-banner-slot { display: block; }
+  #home .banner-spacer    { display: none; }   /* desktop's bottom slot — unused here */
+  #credits.section        { display: none; }   /* folded into home on mobile */
+
+  .home-credits {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+  }
+  .home-credits .credits-list { flex: 0 0 auto; padding: .3rem 1rem; gap: .4rem; }
+  .home-credits-title { font-size: clamp(2rem, 9vw, 3.2rem); padding-top: .2rem; }
 
   /* Social blocks: smaller type + tighter side padding so handles stay on-screen */
   .page-socials { padding: 0 1.3rem 1.3rem; gap: .8rem; }

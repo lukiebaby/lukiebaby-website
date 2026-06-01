@@ -19,13 +19,13 @@
       <span></span><span></span><span></span>
     </button>
     <div class="nav-links" id="nav-links">
-      <button class="nav-link" onclick="goTo(0)">HOME</button>
+      <button class="nav-link" data-target="home" onclick="goToId('home')">HOME</button>
       <span class="nav-sep">|</span>
-      <button class="nav-link" onclick="goTo(1)">CREDITS</button>
+      <button class="nav-link" data-target="credits" onclick="goToId('credits')">CREDITS</button>
       <span class="nav-sep">|</span>
-      <button class="nav-link" onclick="goTo(2)">MIXING &amp; SERVICES</button>
+      <button class="nav-link" data-target="mixing" onclick="goToId('mixing')">MIXING &amp; SERVICES</button>
       <span class="nav-sep">|</span>
-      <button class="nav-link" onclick="goTo(3)">BEATSTORE</button>
+      <button class="nav-link" data-target="beats" onclick="goToId('beats')">BEATSTORE</button>
     </div>
   </nav>
 
@@ -72,6 +72,20 @@
         <p class="home-role">TRACKING ENGINEER</p>
         <p class="home-role">MIX ENGINEER</p>
         <p class="home-role">PRODUCER</p>
+      </div>
+
+      <!-- Mobile only: the shared banner is locked over this middle slot -->
+      <div class="home-banner-slot" aria-hidden="true"></div>
+
+      <!-- Mobile only: credits merged in below the banner -->
+      <div class="home-credits">
+        <h2 class="section-title credits-title home-credits-title">CREDITS</h2>
+        <div class="title-rule"></div>
+        <div class="credits-list">
+          <p class="credits-line">RXKNEPHEW &nbsp;&nbsp;&nbsp; NATENUMBAEIGHT &nbsp;&nbsp;&nbsp; RETCH</p>
+          <p class="credits-line">KENNYSSR &nbsp;&nbsp;&nbsp; DANNY G BEATS &nbsp;&nbsp;&nbsp; GEEOHHS</p>
+          <p class="credits-line">&amp; MANY MORE...</p>
+        </div>
       </div>
 
       <div class="page-socials">
@@ -243,9 +257,21 @@
 
     // ── Section Scroll ────────────────────────────────
     const container    = document.getElementById('scroll-container');
-    const sections     = Array.from(document.querySelectorAll('.section'));
     const navLinks     = Array.from(document.querySelectorAll('.nav-link'));
     const sharedBanner = document.getElementById('shared-banner');
+
+    // True when the mobile layout is active (home + credits merged into one screen).
+    function isMobileLayout() {
+      return window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    // The scrollable screens depend on viewport: on mobile #credits is folded into
+    // #home and hidden, so it drops out of the sequence. Recomputed on resize.
+    function getSections() {
+      return Array.from(document.querySelectorAll('.section'))
+        .filter(s => getComputedStyle(s).display !== 'none');
+    }
+    let sections = getSections();
 
     // Banner height is driven by the --banner-h CSS var (smaller on mobile) — read it live.
     function bannerH() {
@@ -254,10 +280,25 @@
 
     function updateSharedBanner() {
       if (!sharedBanner || !container) return;
+      const BANNER_H = bannerH();
+
+      // Mobile: home and credits share one screen. Lock the banner over the middle
+      // slot so it sits between the roles and the credits, and scrolls off (hides)
+      // naturally as the page swipes to the next section.
+      if (isMobileLayout()) {
+        const slot = document.querySelector('.home-banner-slot');
+        if (slot) {
+          const y = slot.getBoundingClientRect().top;
+          if (y + BANNER_H < 0) { sharedBanner.classList.add('is-hidden'); return; }
+          sharedBanner.classList.remove('is-hidden');
+          sharedBanner.style.transform = `translateY(${Math.round(y)}px)`;
+          return;
+        }
+      }
+
       const vh     = container.clientHeight;
       const st     = container.scrollTop;
       const spacer = document.querySelector('.credits-banner-spacer');
-      const BANNER_H = bannerH();
 
       const creditsTop = parseFloat(getComputedStyle(document.documentElement).fontSize) * 5;
       const homeY      = vh - BANNER_H - 16;
@@ -328,11 +369,25 @@
       }
       requestAnimationFrame(step);
 
-      navLinks.forEach((link, i) => link.classList.toggle('active', i === index));
+      const activeId = sections[index] ? sections[index].id : null;
+      navLinks.forEach(link => link.classList.toggle('active', link.dataset.target === activeId));
+    }
+
+    // Navigate by section id so nav links work regardless of which screens are
+    // present. On mobile, CREDITS is merged into HOME, so it routes there.
+    function goToId(id) {
+      let idx = sections.findIndex(s => s.id === id);
+      if (idx === -1 && id === 'credits') idx = sections.findIndex(s => s.id === 'home');
+      if (idx >= 0) goTo(idx);
     }
 
     updateSharedBanner();
-    window.addEventListener('resize', updateSharedBanner);
+    window.addEventListener('resize', () => {
+      sections = getSections();
+      if (current >= sections.length) current = sections.length - 1;
+      container.scrollTop = current * container.clientHeight;  // re-snap; avoids landing on a hidden screen
+      updateSharedBanner();
+    });
 
     // Mouse wheel — allow internal scroll inside beats table before switching sections
     container.addEventListener('wheel', (e) => {
