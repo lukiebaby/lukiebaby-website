@@ -43,7 +43,9 @@ Deployed to Vercel as a static site via `vercel.json`.
 |------|---------|
 | `index.html` | All page markup and scroll JS |
 | `style.css` | All styles, colors, fonts, animations |
-| `banner.png` | Scrolling album art strip |
+| `beats.js` | Client-side beat catalog (preview metadata; public bucket only) |
+| `api/` | Vercel serverless functions: Stripe checkout + Supabase signed downloads |
+| `WEBSITE PAGES/BANNER INDIVIDUAL/IMAGE 1-13` | Scrolling album-art strip images |
 | `ChunkFive-Regular.ttf` | Custom font loaded via @font-face |
 | `vercel.json` | Tells Vercel to serve as static site (no build) |
 
