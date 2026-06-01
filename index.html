@@ -398,11 +398,15 @@
       setActiveNav(sections[index] ? sections[index].id : null);
     }
 
-    // Scroll Y that brings the (mobile) merged credits block to the top of the screen.
+    // Scroll Y that brings the (mobile) merged credits block just below the fixed
+    // nav bar (so the CREDITS heading doesn't slide under the logo).
     function creditsPeekTarget() {
       const credits = document.querySelector('.home-credits');
       if (!credits) return null;
-      return container.scrollTop + (credits.getBoundingClientRect().top - container.getBoundingClientRect().top);
+      const nav   = document.getElementById('nav');
+      const navH  = nav ? nav.getBoundingClientRect().height : 0;
+      const top   = credits.getBoundingClientRect().top - container.getBoundingClientRect().top;
+      return container.scrollTop + top - navH - 12;
     }
 
     // Mobile CREDITS tab: slide the credits to the top while Mixing & Services
