@@ -936,6 +936,9 @@ html, body {
   }
   .beats-below .below-arrow { width: clamp(1.6rem, 7.5vw, 3rem); height: auto; }
 
+  /* Beats: shrink the oversized BEATSTORE title so it fits the screen width */
+  #beats .section-title { font-size: clamp(2.2rem, 10vw, 4rem); letter-spacing: .04em; padding-top: 4rem; }
+
   /* Beats contact footer */
   .beats-contact { padding: 0 1.3rem 1.3rem; }
 }
