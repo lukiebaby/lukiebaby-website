@@ -845,6 +845,7 @@ html, body {
   letter-spacing: .18em;
   color: var(--text-title);
   text-transform: uppercase;
+  text-align: center;
   margin-top: .2rem;
 }
 
