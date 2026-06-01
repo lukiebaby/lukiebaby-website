@@ -173,6 +173,20 @@ html, body {
 .home-banner-slot { display: none; height: var(--banner-h); flex-shrink: 0; }
 .home-credits     { display: none; }
 
+/* ── "BEATSTORE BELOW" prompt (mobile only; hidden on desktop) ── */
+.beats-below { display: none; }
+.below-arrow {
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: block;
+  flex-shrink: 0;
+}
+
 /* ── Title Rule ─────────────────────────────────────── */
 .title-rule {
   width: 70%;
@@ -880,12 +894,46 @@ html, body {
   /* Credits lines */
   .credits-line { font-size: clamp(1.2rem, 4.6vw, 2.4rem); letter-spacing: .12em; }
 
-  /* Mixing & Services: tighten spacing and shrink the long email/price lines */
-  #mixing .mixing-body { padding: 4rem 1rem .8rem; gap: .9rem; }
+  /* Mixing & Services: tighten spacing and shrink the long email/price lines.
+     Body sits at the top; the BEATSTORE prompt fills the leftover space below. */
+  #mixing .mixing-body { flex: 0 0 auto; padding: 4rem 1rem .8rem; gap: .9rem; }
   .mixing-title { font-size: clamp(2.6rem, 11vw, 5rem); }
   .mixing-price,
   .mixing-note { font-size: clamp(1rem, 3.6vw, 1.6rem); letter-spacing: .1em; }
   .mixing-email { font-size: clamp(.8rem, 3.2vw, 1.3rem); letter-spacing: .06em; }
+
+  /* BEATSTORE \/ BELOW \/ prompt — centered in the empty space, taps to the store */
+  .beats-below {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    padding: .5rem 1rem;
+    cursor: pointer;
+  }
+  .beats-below-store {
+    font-size: clamp(1.5rem, 6.5vw, 2.6rem);
+    letter-spacing: .14em;
+    color: var(--text-title);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .beats-below-row {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    color: var(--text-body);
+  }
+  .beats-below-word {
+    font-size: clamp(1rem, 4.2vw, 1.7rem);
+    letter-spacing: .32em;
+    text-indent: .32em;   /* balance the trailing letter-spacing so the word stays centered */
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .beats-below .below-arrow { width: clamp(1.1rem, 5vw, 1.8rem); height: auto; }
 
   /* Beats contact footer */
   .beats-contact { padding: 0 1.3rem 1.3rem; }

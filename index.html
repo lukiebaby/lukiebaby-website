@@ -148,6 +148,18 @@
         <p class="mixing-note">*EMAIL FOR MIXING BUNDLES, EXCLUSIVES &amp; CUSTOM BEATS</p>
         <p class="mixing-email">LUKIEBABY@CAVERECORDINGSTUDIOS.COM</p>
       </div>
+
+      <!-- Mobile only: fills the empty space and points down to the beat store -->
+      <div class="beats-below" role="button" tabindex="0" onclick="goToId('beats')"
+           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goToId('beats');}">
+        <span class="beats-below-store">BEATSTORE</span>
+        <span class="beats-below-row">
+          <svg class="below-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          <span class="beats-below-word">BELOW</span>
+          <svg class="below-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </div>
+
       <div class="page-socials">
         <a class="social-block"
            href="https://www.instagram.com/lukiebabybeats/"
