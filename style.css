@@ -893,14 +893,18 @@ html, body {
   .mixing-email { font-size: clamp(.8rem, 3.2vw, 1.3rem); letter-spacing: .06em; }
 
   /* BEATSTORE \/ BELOW \/ prompt — centered in the empty space, taps to the store */
+  /* Socials grow to fill the gap below the divider and center within it, so they
+     sit in the middle of the blank space; the BEATSTORE prompt stays at the bottom. */
+  #mixing .page-socials { flex: 1 1 auto; align-items: center; }
+
   .beats-below {
     display: flex;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: .35rem;
-    padding: .5rem 1rem;
+    padding: .5rem 1rem 1.5rem;
     cursor: pointer;
   }
   .beats-below-store {
