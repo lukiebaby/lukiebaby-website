@@ -915,8 +915,8 @@ html, body {
     cursor: pointer;
   }
   .beats-below-store {
-    font-size: clamp(1.5rem, 6.5vw, 2.6rem);
-    letter-spacing: .14em;
+    font-size: clamp(2.6rem, 13vw, 5rem);
+    letter-spacing: .1em;
     color: var(--text-title);
     text-transform: uppercase;
     line-height: 1;
@@ -924,17 +924,17 @@ html, body {
   .beats-below-row {
     display: flex;
     align-items: center;
-    gap: .6rem;
+    gap: .7rem;
     color: var(--text-body);
   }
   .beats-below-word {
-    font-size: clamp(1rem, 4.2vw, 1.7rem);
-    letter-spacing: .32em;
-    text-indent: .32em;   /* balance the trailing letter-spacing so the word stays centered */
+    font-size: clamp(1.7rem, 8vw, 3.2rem);
+    letter-spacing: .3em;
+    text-indent: .3em;   /* balance the trailing letter-spacing so the word stays centered */
     text-transform: uppercase;
     line-height: 1;
   }
-  .beats-below .below-arrow { width: clamp(1.1rem, 5vw, 1.8rem); height: auto; }
+  .beats-below .below-arrow { width: clamp(1.6rem, 7.5vw, 3rem); height: auto; }
 
   /* Beats contact footer */
   .beats-contact { padding: 0 1.3rem 1.3rem; }
