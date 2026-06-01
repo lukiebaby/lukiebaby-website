@@ -340,6 +340,7 @@
 
     let current   = 0;
     let scrolling = false;
+    let peeking   = false;   // true while in the half-way "credits peek" view (mobile)
     const DURATION = 950;
 
     function ease(t) {
@@ -360,14 +361,10 @@
       if (btn) { btn.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
     }
 
-    function goTo(index) {
-      closeNav();
-      if (index < 0 || index >= sections.length || scrolling) return;
+    // Animate container.scrollTop to an arbitrary Y with the shared easing.
+    function animateScrollTo(endY) {
       scrolling = true;
-      current   = index;
-
       const startY = container.scrollTop;
-      const endY   = index * container.clientHeight;
       const diff   = endY - startY;
       let   start  = null;
 
@@ -384,14 +381,45 @@
         }
       }
       requestAnimationFrame(step);
+    }
 
-      const activeId = sections[index] ? sections[index].id : null;
-      navLinks.forEach(link => link.classList.toggle('active', link.dataset.target === activeId));
+    function setActiveNav(targetId) {
+      navLinks.forEach(link => link.classList.toggle('active', link.dataset.target === targetId));
+    }
+
+    function goTo(index) {
+      closeNav();
+      if (index < 0 || index >= sections.length || scrolling) return;
+      current = index;
+      peeking = false;
+      animateScrollTo(index * container.clientHeight);
+      setActiveNav(sections[index] ? sections[index].id : null);
+    }
+
+    // Scroll Y that brings the (mobile) merged credits block to the top of the screen.
+    function creditsPeekTarget() {
+      const credits = document.querySelector('.home-credits');
+      if (!credits) return null;
+      return container.scrollTop + (credits.getBoundingClientRect().top - container.getBoundingClientRect().top);
+    }
+
+    // Mobile CREDITS tab: slide the credits to the top while Mixing & Services
+    // peeks in from the lower half of the screen.
+    function peekCredits() {
+      closeNav();
+      if (scrolling) return;
+      const target = creditsPeekTarget();
+      if (target == null) { goTo(0); return; }
+      current = 0;        // still anchored in the home screen
+      peeking = true;
+      animateScrollTo(target);
+      setActiveNav('credits');
     }
 
     // Navigate by section id so nav links work regardless of which screens are
-    // present. On mobile, CREDITS is merged into HOME, so it routes there.
+    // present. On mobile, CREDITS is merged into HOME and uses the peek view.
     function goToId(id) {
+      if (id === 'credits' && isMobileLayout()) { peekCredits(); return; }
       let idx = sections.findIndex(s => s.id === id);
       if (idx === -1 && id === 'credits') idx = sections.findIndex(s => s.id === 'home');
       if (idx >= 0) goTo(idx);
@@ -400,6 +428,7 @@
     updateSharedBanner();
     window.addEventListener('resize', () => {
       sections = getSections();
+      peeking = false;
       if (current >= sections.length) current = sections.length - 1;
       container.scrollTop = current * container.clientHeight;  // re-snap; avoids landing on a hidden screen
       updateSharedBanner();
@@ -417,6 +446,8 @@
       }
       e.preventDefault();
       if (scrolling) return;
+      // From the credits peek: down snaps to Mixing, up returns to Home top.
+      if (peeking) { peeking = false; goTo(e.deltaY > 0 ? current + 1 : current); return; }
       goTo(e.deltaY > 0 ? current + 1 : current - 1);
     }, { passive: false });
 
@@ -439,13 +470,20 @@
           if ((delta > 0 && !atBottom) || (delta < 0 && !atTop)) return;
         }
       }
-      if (Math.abs(delta) > 50) goTo(delta > 0 ? current + 1 : current - 1);
+      if (Math.abs(delta) > 50) {
+        // From the credits peek: swipe up snaps to Mixing, swipe down back to Home top.
+        if (peeking) { peeking = false; goTo(delta > 0 ? current + 1 : current); }
+        else goTo(delta > 0 ? current + 1 : current - 1);
+      }
     }, { passive: true });
 
     // Keyboard
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown' || e.key === 'PageDown') goTo(current + 1);
-      if (e.key === 'ArrowUp'   || e.key === 'PageUp'  ) goTo(current - 1);
+      const down = e.key === 'ArrowDown' || e.key === 'PageDown';
+      const up   = e.key === 'ArrowUp'   || e.key === 'PageUp';
+      if (!down && !up) return;
+      if (peeking) { peeking = false; goTo(down ? current + 1 : current); return; }
+      goTo(down ? current + 1 : current - 1);
     });
 
     // ── Beat Store ────────────────────────────────────
