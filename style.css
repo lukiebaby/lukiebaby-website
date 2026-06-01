@@ -52,22 +52,12 @@ html, body {
   top: 0; left: 0; right: 0;
   z-index: 100;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 1.2rem 2rem;
   pointer-events: none;
 }
 #nav > * { pointer-events: all; }
-
-.nav-logo {
-  font-size: 2.1rem;
-  letter-spacing: .2em;
-  color: var(--text-body);
-  text-decoration: none;
-  cursor: pointer;
-  transition: color .25s;
-}
-.nav-logo:hover { color: var(--text-bright); }
 
 .nav-links {
   display: flex;
@@ -123,7 +113,6 @@ html, body {
 
 @media (max-width: 768px) {
   #nav { padding: 1rem 1.3rem; }
-  .nav-logo { font-size: 1.5rem; }
   .nav-toggle { display: flex; }
   .nav-links {
     position: absolute;
