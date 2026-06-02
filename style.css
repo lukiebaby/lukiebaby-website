@@ -886,16 +886,16 @@ html, body {
 
   /* Mixing & Services: tighten spacing and shrink the long email/price lines.
      Body sits at the top; the BEATSTORE prompt fills the leftover space below. */
-  #mixing .mixing-body { flex: 0 0 auto; padding: 4rem 1rem .8rem; gap: .9rem; }
+  #mixing .mixing-body { flex: 1 1 auto; justify-content: space-evenly; padding: 4rem 1rem 1rem; gap: 1rem; }
   .mixing-title { font-size: clamp(2.6rem, 11vw, 5rem); }
   .mixing-price,
-  .mixing-note { font-size: clamp(1rem, 3.6vw, 1.6rem); letter-spacing: .1em; }
+  .mixing-note { font-size: clamp(1.1rem, 4vw, 1.8rem); letter-spacing: .1em; }
   .mixing-email { font-size: clamp(.8rem, 3.2vw, 1.3rem); letter-spacing: .06em; }
 
-  /* BEATSTORE \/ BELOW \/ prompt — centered in the empty space, taps to the store */
-  /* Socials grow to fill the gap below the divider and center within it, so they
-     sit in the middle of the blank space; the BEATSTORE prompt stays at the bottom. */
-  #mixing .page-socials { flex: 1 1 auto; align-items: center; }
+  /* BEATSTORE \/ BELOW \/ prompt — taps to the store. The services list above grows to
+     fill the upper space, so the socials sit at their natural height and drop down to
+     cluster with the BEATSTORE prompt at the bottom (minimal gap around them). */
+  #mixing .page-socials { flex: 0 0 auto; align-items: center; padding: 0 1.3rem .4rem; }
 
   .beats-below {
     display: flex;
@@ -904,7 +904,7 @@ html, body {
     align-items: center;
     justify-content: center;
     gap: .35rem;
-    padding: .5rem 1rem 1.5rem;
+    padding: .25rem 1rem 1.5rem;
     cursor: pointer;
   }
   .beats-below-store {
