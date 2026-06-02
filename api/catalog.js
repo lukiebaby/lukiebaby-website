@@ -141,4 +141,10 @@ module.exports = {
     mp3Product: 'prod_UcWWkr4oLDC7he',
     wavProduct: 'prod_UcWXEQuRHtWJ4G',
   },
+  strongodors: {
+    title: 'STRONG ODORS 150BPM',
+    file: "02-14-26 'StrongOdors' 150BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UcyeXLdrBF3GaN',
+    wavProduct: 'prod_UcydJbAOZd2WNI',
+  },
 };
