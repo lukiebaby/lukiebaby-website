@@ -905,7 +905,7 @@ html, body {
   /* BEATSTORE \/ BELOW \/ prompt — taps to the store. The services list above grows to
      fill the upper space, so the socials sit at their natural height and drop down to
      cluster with the BEATSTORE prompt at the bottom (minimal gap around them). */
-  #mixing .page-socials { flex: 0 0 auto; align-items: center; padding: 0 1.3rem .4rem; }
+  #mixing .page-socials { flex: 0 0 auto; align-items: center; padding: 0 1.3rem .4rem; margin-top: 1.4rem; }
 
   .beats-below {
     display: flex;
