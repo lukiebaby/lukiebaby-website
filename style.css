@@ -368,17 +368,24 @@ html, body {
   top: 0;
   left: 0;
   gap: 20px;
+  touch-action: none;        /* we drive horizontal drag ourselves (see initBannerDrag) */
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
 }
+.banner-track.dragging { cursor: grabbing; }
 .banner-item {
   height: 100%;
   flex-shrink: 0;
   display: block;
-  cursor: pointer;
+  cursor: inherit;
 }
 .banner-item img {
   height: 100%;
   width: auto;
   display: block;
+  -webkit-user-drag: none;   /* stop the native image ghost-drag while sliding */
+  user-drag: none;
 }
 
 /* ── CREDITS ────────────────────────────────────────── */

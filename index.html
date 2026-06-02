@@ -235,6 +235,11 @@
   <script src="beats.js"></script>
   <script>
     // ── Seamless Banner ───────────────────────────────
+    // Geometry + duration are shared with the drag-to-slide handler below so it can
+    // pause the auto-scroll and later resume from the exact same phase.
+    let bannerSetWidth = 0;
+    const BANNER_DURATION = 30; // seconds — must match the injected keyframe duration
+
     (async function initBanner() {
       const GAP = 20; // must match CSS gap on .banner-track
       const SET_SIZE = 13; // number of unique images
@@ -251,19 +256,96 @@
       const items = Array.from(track.children);
       const first = items[0].getBoundingClientRect();
       const last  = items[SET_SIZE - 1].getBoundingClientRect();
-      const setWidth = Math.round(last.right - first.left + GAP);
+      bannerSetWidth = Math.round(last.right - first.left + GAP);
 
       // Inject scroll animation
       const style = document.createElement('style');
       style.textContent = `
         @keyframes banner-scroll {
           from { transform: translateX(0px); }
-          to   { transform: translateX(-${setWidth}px); }
+          to   { transform: translateX(-${bannerSetWidth}px); }
         }
-        #shared-banner .banner-track { animation: banner-scroll 30s linear infinite; }
+        #shared-banner .banner-track { animation: banner-scroll ${BANNER_DURATION}s linear infinite; }
       `;
       document.head.appendChild(style);
       updateSharedBanner();
+    })();
+
+    // ── Banner drag-to-slide ──────────────────────────
+    // Grab the banner to pause the auto-scroll and slide it by hand; on release it
+    // resumes scrolling from the same spot. A genuine tap still opens the image link —
+    // only a press-and-drag past the threshold counts as a slide and is not navigated.
+    (function initBannerDrag() {
+      const track = document.querySelector('#shared-banner .banner-track');
+      if (!track) return;
+
+      const DRAG_THRESHOLD = 6;   // px of movement before a press becomes a drag
+      let dragging  = false;
+      let moved     = false;
+      let startX    = 0;
+      let baseX     = 0;          // track translateX captured at grab time
+      let pointerId = null;
+
+      // Live translateX of the track (works whether the animation or our inline
+      // transform is currently driving it).
+      function currentTrackX() {
+        const t = getComputedStyle(track).transform;
+        if (!t || t === 'none') return 0;
+        try { return new DOMMatrixReadOnly(t).m41; } catch { return 0; }
+      }
+
+      // Keep the offset within one set width so the loop stays seamless.
+      function wrapX(x) {
+        if (!bannerSetWidth) return x;
+        x = x % bannerSetWidth;
+        if (x > 0) x -= bannerSetWidth;   // normalize into (-setWidth, 0]
+        return x;
+      }
+
+      function onDown(e) {
+        if (pointerId !== null) return;
+        pointerId = e.pointerId;
+        dragging  = true;
+        moved     = false;
+        startX    = e.clientX;
+        baseX     = wrapX(currentTrackX());
+        // Take the transform over from the animation and freeze in place
+        track.style.animation = 'none';
+        track.style.transform = `translateX(${baseX}px)`;
+        track.classList.add('dragging');
+        try { track.setPointerCapture(e.pointerId); } catch {}
+      }
+
+      function onMove(e) {
+        if (!dragging || e.pointerId !== pointerId) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > DRAG_THRESHOLD) moved = true;
+        track.style.transform = `translateX(${wrapX(baseX + dx)}px)`;
+      }
+
+      function endDrag(e) {
+        if (!dragging || (e && e.pointerId !== pointerId)) return;
+        dragging  = false;
+        pointerId = null;
+        track.classList.remove('dragging');
+        // Resume the auto-scroll, picking up from the current position
+        const x    = wrapX(currentTrackX());
+        const frac = bannerSetWidth ? (-x / bannerSetWidth) : 0;   // 0..1 through the loop
+        track.style.transform = '';
+        track.style.animation = '';                                // revert to the injected rule
+        track.style.animationDelay = `${-frac * BANNER_DURATION}s`; // start mid-loop where we left off
+      }
+
+      track.addEventListener('pointerdown', onDown);
+      track.addEventListener('pointermove', onMove);
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+      track.addEventListener('dragstart', e => e.preventDefault()); // belt-and-suspenders for Firefox
+
+      // Swallow the click that follows a drag so sliding never opens a link.
+      track.addEventListener('click', e => {
+        if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+      }, true);
     })();
 
     // ── Control icons (inline SVG — avoids iOS rendering them as color emoji) ──
