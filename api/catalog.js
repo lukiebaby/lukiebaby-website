@@ -147,4 +147,10 @@ module.exports = {
     mp3Product: 'prod_UcyeXLdrBF3GaN',
     wavProduct: 'prod_UcydJbAOZd2WNI',
   },
+  wonky: {
+    title: 'WONKY 125BPM',
+    file: "03-18-25 'wonky' 125BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UcysrDNmU1Lf2G',
+    wavProduct: 'prod_UcysJnJxRZ6mug',
+  },
 };
