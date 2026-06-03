@@ -171,4 +171,10 @@ module.exports = {
     mp3Product: 'prod_UdLCU88c4N5cLn',
     wavProduct: 'prod_UdLCzd8Uv87H3w',
   },
+  twoshots: {
+    title: '2 SHOTS 170BPM',
+    file: "01-31-26 '2 shots' 170BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UdLOOVtfh1WnUm',
+    wavProduct: 'prod_UdLO0XjyvYrS2n',
+  },
 };
