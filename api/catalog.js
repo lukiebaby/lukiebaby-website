@@ -153,4 +153,16 @@ module.exports = {
     mp3Product: 'prod_UcysrDNmU1Lf2G',
     wavProduct: 'prod_UcysJnJxRZ6mug',
   },
+  fiveam: {
+    title: '5AM 131BPM',
+    file: "07-28-24 '5AM' 131BPM (Prod Lukiebaby)",
+    mp3Product: 'prod_UdIxg7exfee53q',
+    wavProduct: 'prod_UdIxamh2HYLnmx',
+  },
+  sincewayback: {
+    title: 'SINCE WAY BACK 150BPM',
+    file: "05-09-26 'SinceWayBack' 150BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UdIywCru9PgmPT',
+    wavProduct: 'prod_UdIyMFST7kga3y',
+  },
 };
