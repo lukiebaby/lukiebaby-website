@@ -177,4 +177,10 @@ module.exports = {
     mp3Product: 'prod_UdLOOVtfh1WnUm',
     wavProduct: 'prod_UdLO0XjyvYrS2n',
   },
+  stovetopsorcery: {
+    title: 'STOVETOP SORCERY 150BPM',
+    file: "02-08-26 'Sorcery' 150BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UdMUU6nfqylf94',
+    wavProduct: 'prod_UdMUEZmXULfy2Q',
+  },
 };
