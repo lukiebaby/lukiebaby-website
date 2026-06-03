@@ -165,4 +165,10 @@ module.exports = {
     mp3Product: 'prod_UdIywCru9PgmPT',
     wavProduct: 'prod_UdIyMFST7kga3y',
   },
+  smackers: {
+    title: 'SMACKERS 112BPM',
+    file: "03-07-25 'pent' 112BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UdLCU88c4N5cLn',
+    wavProduct: 'prod_UdLCzd8Uv87H3w',
+  },
 };
