@@ -183,4 +183,10 @@ module.exports = {
     mp3Product: 'prod_UdMUU6nfqylf94',
     wavProduct: 'prod_UdMUEZmXULfy2Q',
   },
+  echoes: {
+    title: 'ECHOES 146BPM',
+    file: "04-02-26 'echoes' 143BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UdMlYr2meCUdcE',
+    wavProduct: 'prod_UdMk7GD3RCsJvZ',
+  },
 };

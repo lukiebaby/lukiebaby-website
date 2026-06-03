@@ -286,6 +286,15 @@ const BEATS = [
     file: "02-08-26 'Sorcery' 150BPM (Prod. Lukiebaby)",
     snippet: "02-08-26 'Sorcery' 150BPM (Prod. Lukiebaby)snippet.wav",
   },
+  {
+    id: 'echoes',
+    num: 30,
+    title: "ECHOES",
+    bpm: 146,
+    genre: 'BOOM BAP, SAMPLED, RETCH, DARK',
+    file: "04-02-26 'echoes' 143BPM (Prod. Lukiebaby)",
+    snippet: "04-02-26 'echoes' 143BPM (Prod. Lukiebaby)snippet.wav",
+  },
 ];
 
 // Derive preview URLs from the exact snippet object names in the public bucket.
