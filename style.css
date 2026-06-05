@@ -690,7 +690,7 @@ html, body {
     flex-wrap: wrap;
     flex-basis: 100%;
     gap: .25rem;
-    padding-left: 2.4rem;             /* indent so pills sit roughly under the title */
+    padding-left: 3.5rem;             /* indent so pills line up under the title */
     margin-top: -.15rem;              /* pull pills up tight under the title */
     order: 10;                        /* keep BUY on line 1; tags wrap below it */
   }
