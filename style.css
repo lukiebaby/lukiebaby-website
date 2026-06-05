@@ -467,6 +467,26 @@ html, body {
   color: #888888;
   text-transform: uppercase;
 }
+.beats-window-right {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+}
+.filter-clear-chip {
+  font-family: inherit;
+  font-size: clamp(.55rem, .8vw, .72rem);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #d8e8d8;
+  background: rgba(45, 110, 56, .55);
+  border: none;
+  border-radius: 3px;
+  padding: .22rem .55rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.filter-clear-chip:hover { background: rgba(45, 110, 56, .85); }
 
 /* ── Sort bar ── */
 .beats-sort-bar {
@@ -662,9 +682,25 @@ html, body {
   .sort-spc-wave { display: none; }
   .sort-col[data-sort="title"] { width: auto; flex: 1; }
 
-  .beat-row { gap: .55rem; padding: .55rem .9rem; }
+  .beat-row { gap: .55rem; padding: .55rem .9rem; flex-wrap: wrap; }
   .waveform-wrap { display: none; }   /* seek via the bottom player scrubber instead */
-  .beat-tags { display: none; }       /* hides genre pills + STYLE sort header */
+  .beat-tags { display: none; }       /* hides the STYLE sort header in the sort bar */
+  .beat-row .beat-tags {              /* but show genre pills on a 2nd line under the title */
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 100%;
+    gap: .3rem;
+    padding-left: 2.4rem;             /* indent so pills sit roughly under the title */
+    margin-top: .15rem;
+    order: 10;                        /* keep BUY on line 1; tags wrap below it */
+  }
+  .beat-row .beat-tag {               /* small & muted so the 2nd line stays subordinate */
+    font-size: .58rem;
+    padding: .12rem .4rem;
+    letter-spacing: .08em;
+    color: #9a9a9a;
+    background: rgba(255, 255, 255, .06);
+  }
   .beat-title { width: auto; flex: 1; min-width: 0; }
   .buy-btn { padding: .4rem .9rem; }
 }
