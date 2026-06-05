@@ -682,27 +682,27 @@ html, body {
   .sort-spc-wave { display: none; }
   .sort-col[data-sort="title"] { width: auto; flex: 1; }
 
-  .beat-row { gap: .55rem; padding: .55rem .9rem; flex-wrap: wrap; }
+  .beat-row { gap: .5rem; padding: .35rem .9rem; flex-wrap: wrap; }
   .waveform-wrap { display: none; }   /* seek via the bottom player scrubber instead */
   .beat-tags { display: none; }       /* hides the STYLE sort header in the sort bar */
   .beat-row .beat-tags {              /* but show genre pills on a 2nd line under the title */
     display: flex;
     flex-wrap: wrap;
     flex-basis: 100%;
-    gap: .3rem;
+    gap: .25rem;
     padding-left: 2.4rem;             /* indent so pills sit roughly under the title */
-    margin-top: .15rem;
+    margin-top: .05rem;
     order: 10;                        /* keep BUY on line 1; tags wrap below it */
   }
   .beat-row .beat-tag {               /* small & muted so the 2nd line stays subordinate */
-    font-size: .58rem;
-    padding: .12rem .4rem;
+    font-size: .55rem;
+    padding: .08rem .35rem;
     letter-spacing: .08em;
     color: #9a9a9a;
     background: rgba(255, 255, 255, .06);
   }
   .beat-title { width: auto; flex: 1; min-width: 0; }
-  .buy-btn { padding: .4rem .9rem; }
+  .buy-btn { padding: .3rem .9rem; }
 }
 
 /* ── Buy modal ── */
