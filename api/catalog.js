@@ -202,7 +202,7 @@ module.exports = {
     wavProduct: 'prod_Ue8FbpRumKfcKa',
   },
   trapordie: {
-    title: 'TRAP OR DIE 150BPM',
+    title: 'TRAPORDIE 150BPM',
     file: "04-06-25 'trapordie' 150BPM (Prod. Lukiebaby)",
     mp3Product: 'prod_Ue8p8figtFSQ1O',
     wavProduct: 'prod_Ue8pjwMIqa9Or6',

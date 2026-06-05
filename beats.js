@@ -316,7 +316,7 @@ const BEATS = [
   {
     id: 'trapordie',
     num: 33,
-    title: "TRAP OR DIE",
+    title: "TRAPORDIE",
     bpm: 150,
     genre: 'CHASETHEMONEY, BOUNCE, CARDO, TRAP',
     file: "04-06-25 'trapordie' 150BPM (Prod. Lukiebaby)",
