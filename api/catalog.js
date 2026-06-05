@@ -195,4 +195,10 @@ module.exports = {
     mp3Product: 'prod_Ue5LDdDeIIwNm9',
     wavProduct: 'prod_Ue5KUKP2XkWRfr',
   },
+  ds3: {
+    title: 'DS3 154BPM',
+    file: "03-28-25 'DS3' 154BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_Ue8GDPLdr3bmZG',
+    wavProduct: 'prod_Ue8FbpRumKfcKa',
+  },
 };
