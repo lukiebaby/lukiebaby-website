@@ -189,4 +189,10 @@ module.exports = {
     mp3Product: 'prod_UdMlYr2meCUdcE',
     wavProduct: 'prod_UdMk7GD3RCsJvZ',
   },
+  peachice: {
+    title: 'PEACH ICE 131BPM',
+    file: "06-20-25 'GR8CAR' 131BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_Ue5LDdDeIIwNm9',
+    wavProduct: 'prod_Ue5KUKP2XkWRfr',
+  },
 };
