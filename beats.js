@@ -313,6 +313,15 @@ const BEATS = [
     file: "03-28-25 'DS3' 154BPM (Prod. Lukiebaby)",
     snippet: "03-28-25 'DS3' 154BPM (Prod. Lukiebaby)snippet.wav",
   },
+  {
+    id: 'trapordie',
+    num: 33,
+    title: "TRAP OR DIE",
+    bpm: 150,
+    genre: 'CHASETHEMONEY, BOUNCE, CARDO, TRAP',
+    file: "04-06-25 'trapordie' 150BPM (Prod. Lukiebaby)",
+    snippet: "04-06-25 'trapordie' 150BPM snippet(Prod. Lukiebaby).wav",
+  },
 ];
 
 // Derive preview URLs from the exact snippet object names in the public bucket.
