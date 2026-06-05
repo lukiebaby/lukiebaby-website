@@ -682,7 +682,7 @@ html, body {
   .sort-spc-wave { display: none; }
   .sort-col[data-sort="title"] { width: auto; flex: 1; }
 
-  .beat-row { gap: .5rem; padding: .35rem .9rem; flex-wrap: wrap; }
+  .beat-row { gap: .5rem; padding: .25rem .9rem; flex-wrap: wrap; }
   .waveform-wrap { display: none; }   /* seek via the bottom player scrubber instead */
   .beat-tags { display: none; }       /* hides the STYLE sort header in the sort bar */
   .beat-row .beat-tags {              /* but show genre pills on a 2nd line under the title */
@@ -691,7 +691,7 @@ html, body {
     flex-basis: 100%;
     gap: .25rem;
     padding-left: 2.4rem;             /* indent so pills sit roughly under the title */
-    margin-top: .05rem;
+    margin-top: -.15rem;              /* pull pills up tight under the title */
     order: 10;                        /* keep BUY on line 1; tags wrap below it */
   }
   .beat-row .beat-tag {               /* small & muted so the 2nd line stays subordinate */
