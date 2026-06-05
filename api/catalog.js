@@ -207,4 +207,10 @@ module.exports = {
     mp3Product: 'prod_Ue8p8figtFSQ1O',
     wavProduct: 'prod_Ue8pjwMIqa9Or6',
   },
+  threefor5: {
+    title: '3 FOR 5 135BPM',
+    file: "01-18-26 '3for5' 135BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_Ue90qF9sNnu0iL',
+    wavProduct: 'prod_Ue90ynzZR96bAq',
+  },
 };
