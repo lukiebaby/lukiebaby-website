@@ -709,6 +709,7 @@ html, body {
 .buy-modal-overlay {
   position: fixed;
   inset: 0;
+  top: 0; right: 0; bottom: 0; left: 0;   /* explicit offsets for Safari ≤14 (no `inset`) */
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -980,4 +981,32 @@ html, body {
 
   /* Beats contact footer */
   .beats-contact { padding: 0 1.3rem 1.3rem; }
+}
+
+/* ── Flexbox `gap` fallback (Safari ≤14, where flex `gap` is unsupported) ──────
+   `@supports` can't detect flex-gap (grid-gap masks it), so the inline JS runs a
+   feature test and adds `.no-flexgap` to <html> when needed. These rules mirror the
+   existing gap values with child margins so spacing holds and nothing overlaps.
+   Modern browsers never match this class, so the normal `gap` rules are unaffected. */
+.no-flexgap .banner-track > .banner-item { margin-right: 20px; }
+
+.no-flexgap .nav-links > * { margin-left: 1.8rem; }
+.no-flexgap .nav-links > *:first-child { margin-left: 0; }
+
+.no-flexgap #home .home-main > * { margin-bottom: .6rem; }
+.no-flexgap #home .home-main > *:last-child { margin-bottom: 0; }
+
+.no-flexgap .social-block > * { margin-bottom: .15rem; }
+.no-flexgap .social-block > *:last-child { margin-bottom: 0; }
+
+.no-flexgap .beats-sort-bar > * { margin-right: .9rem; }
+.no-flexgap .beats-player > *   { margin-right: 1rem; }
+.no-flexgap .beat-row > *       { margin-right: .9rem; }
+.no-flexgap .beat-tags > *      { margin-right: .35rem; }
+
+@media (max-width: 768px) {
+  .no-flexgap .nav-links > * { margin-left: 0; margin-bottom: 1rem; }
+  .no-flexgap .nav-links > *:last-child { margin-bottom: 0; }
+  .no-flexgap #home .home-main > * { margin-bottom: .4rem; }
+  .no-flexgap .beat-row > * { margin-right: .5rem; }
 }

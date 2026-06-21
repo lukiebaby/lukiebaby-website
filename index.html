@@ -236,6 +236,23 @@
 
   <script src="beats.js"></script>
   <script>
+    // ── Flex `gap` feature test ───────────────────────
+    // Safari ≤14 doesn't support `gap` in flex containers (and `@supports` can't tell,
+    // since grid-gap masks it). Detect it directly and flag <html> so the CSS margin
+    // fallbacks (.no-flexgap …) kick in. Without this the gap-heavy layout collapses.
+    (function detectFlexGap() {
+      try {
+        const f = document.createElement('div');
+        f.style.cssText = 'display:flex;flex-direction:column;gap:1px;position:absolute;visibility:hidden';
+        f.appendChild(document.createElement('div'));
+        f.appendChild(document.createElement('div'));
+        document.body.appendChild(f);
+        const supported = f.scrollHeight === 1;   // 1px gap between the two children
+        f.remove();
+        if (!supported) document.documentElement.classList.add('no-flexgap');
+      } catch { document.documentElement.classList.add('no-flexgap'); }
+    })();
+
     // ── Seamless Banner ───────────────────────────────
     // Geometry + duration are shared with the drag-to-slide handler below so it can
     // pause the auto-scroll and later resume from the exact same phase.
@@ -271,13 +288,14 @@
       `;
       document.head.appendChild(style);
       updateSharedBanner();
-    })();
+    })().catch(() => {});   // a banner failure must not stop the rest of the script
 
     // ── Banner drag-to-slide ──────────────────────────
     // Grab the banner to pause the auto-scroll and slide it by hand; on release it
     // resumes scrolling from the same spot. A genuine tap still opens the image link —
     // only a press-and-drag past the threshold counts as a slide and is not navigated.
     (function initBannerDrag() {
+      try {
       const track = document.querySelector('#shared-banner .banner-track');
       if (!track) return;
 
@@ -348,6 +366,7 @@
       track.addEventListener('click', e => {
         if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
       }, true);
+      } catch {}   // drag is an enhancement — never let it break page setup
     })();
 
     // ── Control icons (inline SVG — avoids iOS rendering them as color emoji) ──
@@ -476,6 +495,9 @@
     function goTo(index) {
       closeNav();
       if (index < 0 || index >= sections.length || scrolling) return;
+      // If the viewport hasn't been measured yet (layout/font timing on Safari),
+      // every target would compute to ~0 — wait a frame and retry instead.
+      if (container.clientHeight === 0) { requestAnimationFrame(() => goTo(index)); return; }
       current = index;
       peeking = false;
       animateScrollTo(index * container.clientHeight);
@@ -515,16 +537,28 @@
       if (idx >= 0) goTo(idx);
     }
 
-    updateSharedBanner();
-    window.addEventListener('resize', () => {
+    // Recompute screens and re-snap the scroll position to the current section.
+    // Also run after load / fonts / orientation changes: if the viewport was
+    // mis-measured at first paint (a Safari layout/font timing quirk), this corrects
+    // it — the same reason entering fullscreen previously "unstuck" navigation.
+    function resnap() {
       sections = getSections();
       peeking = false;
       if (current >= sections.length) current = sections.length - 1;
+      if (current < 0) current = 0;
       container.scrollTop = current * container.clientHeight;  // re-snap; avoids landing on a hidden screen
       updateSharedBanner();
-    });
+    }
+
+    updateSharedBanner();
+    window.addEventListener('resize', resnap);
+    window.addEventListener('orientationchange', resnap);
+    window.addEventListener('load', resnap);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(resnap).catch(() => {});
 
     // Mouse wheel — allow internal scroll inside beats table before switching sections
+    let wheelLock  = false;   // true while a single (momentum) wheel gesture is in flight
+    let wheelTimer = null;
     container.addEventListener('wheel', (e) => {
       const tbl = document.getElementById('beats-table');
       if (tbl && tbl.contains(e.target)) {
@@ -535,7 +569,17 @@
         if (e.deltaY < 0 && atTop) { e.preventDefault(); return; }
       }
       e.preventDefault();
-      if (scrolling) return;
+      // A Mac trackpad emits a long momentum stream of wheel events per swipe; ignore
+      // the tail so one gesture advances exactly one section. The timer keeps resetting
+      // while events arrive and only releases the lock ~120ms after they stop.
+      if (scrolling || wheelLock) {
+        clearTimeout(wheelTimer);
+        wheelTimer = setTimeout(() => { wheelLock = false; }, 120);
+        return;
+      }
+      wheelLock = true;
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => { wheelLock = false; }, 120);
       // From the credits peek: down snaps to Mixing, up returns to Home top.
       if (peeking) { peeking = false; goTo(e.deltaY > 0 ? current + 1 : current); return; }
       goTo(e.deltaY > 0 ? current + 1 : current - 1);
@@ -690,7 +734,12 @@
         const res     = await fetch(url);
         const buf     = await res.arrayBuffer();
         const actx    = getAudioCtx();
-        const decoded = await actx.decodeAudioData(buf);
+        // Support both the modern promise form and Safari's older callback form.
+        const decoded = await new Promise((resolve, reject) => {
+          let p;
+          try { p = actx.decodeAudioData(buf, resolve, reject); } catch (e) { reject(e); return; }
+          if (p && typeof p.then === 'function') p.then(resolve, reject);
+        });
         const data    = decoded.getChannelData(0);
         const step    = Math.ceil(data.length / w);
         const peaks   = [];
@@ -759,7 +808,7 @@
       }
       const row = beatsGrid.querySelector(`[data-id="${beatId}"]`);
       audioEl.src = beat.previewUrl;
-      audioEl.play();
+      audioEl.play().catch(() => {});   // Safari can reject play(); don't throw
       if (row) {
         row.querySelector('.play-btn').innerHTML = ICON_PAUSE;
         row.classList.add('playing');
@@ -786,7 +835,7 @@
         if (row) row.classList.remove('playing');
       } else {
         if (audioEl.src !== beat.previewUrl) audioEl.src = beat.previewUrl;
-        audioEl.play();
+        audioEl.play().catch(() => {});   // Safari can reject play(); don't throw
         if (btn) btn.innerHTML = ICON_PAUSE;
         if (row) row.classList.add('playing');
         activeRow = row;
