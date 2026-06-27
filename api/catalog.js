@@ -213,4 +213,10 @@ module.exports = {
     mp3Product: 'prod_Ue90qF9sNnu0iL',
     wavProduct: 'prod_Ue90ynzZR96bAq',
   },
+  dumpgawd: {
+    title: 'DUMP GAWD 155BPM',
+    file: "06-24-26 'Shogun' 155BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UmMyOi7ZK0xmr8',
+    wavProduct: 'prod_UmMz8vwi8GOEJ8',
+  },
 };
