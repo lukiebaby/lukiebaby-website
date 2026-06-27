@@ -219,4 +219,10 @@ module.exports = {
     mp3Product: 'prod_UmMyOi7ZK0xmr8',
     wavProduct: 'prod_UmMz8vwi8GOEJ8',
   },
+  smokebreaks: {
+    title: 'SMOKE BREAKS 125BPM',
+    file: "06-24-26 'smokebreaks' 125BPM (Prod. Lukiebaby)",
+    mp3Product: 'prod_UmN0a005d82iCa',
+    wavProduct: 'prod_UmMzTfBCb5BF3q',
+  },
 };

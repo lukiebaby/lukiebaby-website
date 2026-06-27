@@ -340,6 +340,15 @@ const BEATS = [
     file: "06-24-26 'Shogun' 155BPM (Prod. Lukiebaby)",
     snippet: "06-24-26 'Shogun' 155BPM (Prod. Lukiebaby) SNIPPET.wav",
   },
+  {
+    id: 'smokebreaks',
+    num: 36,
+    title: "SMOKE BREAKS",
+    bpm: 125,
+    genre: 'BOOM BAP, NICHOLAS CRAVEN, THA GOD FAHIM, SAMPLED',
+    file: "06-24-26 'smokebreaks' 125BPM (Prod. Lukiebaby)",
+    snippet: "06-24-26 'smokebreaks' 125BPM (Prod. Lukiebaby)snippet.wav",
+  },
 ];
 
 // Derive preview URLs from the exact snippet object names in the public bucket.
